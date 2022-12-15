@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+
+<head>
+<meta charset="UTF-8">
+<title>Khuyến mãi</title>
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            
+                            <li class="breadcrumb-item active" aria-current="page">Khuyến mãi</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Danh sách Khuyến mãi</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a  th:href = "@{'/admin/TaoKM'}"  class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        Tạo Khuyến Mãi
+                    </a>
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+            <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput"   placeholder="Tìm kiếm theo tên khuyến mãi"></div>
+               
+               <select id="metlamroi" class="form-select fmxw-200 d-none d-md-inline"  aria-label="Message select example 2">
+	               <option  value="2" selected="selected" >Tất cả</option>
+	               <option  value="0">Đang hoạt động</option>
+	               <option value="1">Kết thúc</option>
+               </select></div>
+                    <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
+                        <div class="dataTable-dropdown"><label><select id="showme" class="dataTable-selector"><option value="5">5</option><option value="10" >10</option><option value="15" selected="selected">15</option><option value="20">20</option><option value="25">25</option></select> </label></div>
+                    </div>
+                </div>
+            </div>
+
+   <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+            <th >Mã khuyến mãi</th>
+            <th >Tên khuyến mãi</th>
+             <th>Thời gian bắt đầu</th>
+             <th>Thời gian kết thúc</th>
+              <th>Giảm giá %</th>
+              <th>trạng thái</th>
+              <th>chức năng</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        <tr class="categorys" th:each = "list : ${promontions}">
+            <td class="IdCategory1" id="idne" th:value=${list.Id_Promontion}>[[${list.Id_Promontion}]]</td>
+            <td class="categoryName" id="khangcogi" th:text=${list.Promontion_Name}></td>
+             <td class="categoryName" id="khangcogi" th:text=${list.Start_Time}></td>
+              <td class="categoryName" id="khangcogi" th:text=${list.End_Time}></td>
+              <td class="categoryName" id="khangcogi" > [[${list.Reduced_Price}]] %</td>
+            	<td> <span
+            		th:data-id="${list.Id_Promontion}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" btn badge bg-secondary activeCategory" th:if="${list.status == 0}"  th:value=${list.status}>Hoạt động</span>
+            			<span
+            			th:data-id="${list.Id_Promontion}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" btn badge bg-danger activeCategory" th:if="${list.status == 1}"  th:value=${list.status}>Ngưng hoạt động</span>
+            	</td>
+          		<td><a  th:href="@{'/admin/updateKM/' + ${list.Id_Promontion}}"
+          				
+          		class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.Id_Promontion}"
+          				th:data-name="${list.Promontion_Name}"
+          				onclick="showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+        </tr>
+       
+        </tbody>
+    </table>
+    
+    </div>
+   
+		<div class="dataTable-bottom"><div class="dataTable-info">Hiển thị 1 đến <span id="showtheo">15</span> trên [[${tongsocategory}]] mục</div><nav aria-label="Page navigation example">
+   <nav aria-label="Page navigation example">
+    <ul class="pagination mb-0">
+        <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        </li>
+        <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+         </th:block>
+        <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+                    </div>
+                  
+                </div>
+
+  		
+               
+        
+          
+        
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bạn có muốn xoá khuyến mãi với mã ="<span id="id123"></span>" tên ="<span id="sizeName1"></span>"   ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Huỷ bỏ</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-contentss">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Tạo khuyến mãi</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form id="formproduct" action="#" method="post" class="card border-0 shadow">
+           <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+            <div class="col-12 col-lg-6 khang"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Mã khuyến mãi</label>
+            <input type="email" class="form-control" placeholder="Enter your product name" id="idproduct" name="idproduct" aria-describedby="cartInputEmail1" required=""></div></div>
+           <div class="col-12 "><div class="form-group mb-4">
+           <label for="cartInputEmail1">Tên khuyến mãi</label>
+            <input type="email" class="form-control1" placeholder="Enter your product name" id="tenkm" name="Product_Name" aria-describedby="cartInputEmail1" required=""></div></div>
+           
+ 					  
+ 					 <div class="col-12 col-lg-6">
+ 					 <div class="col-lg-3 col-sm-6 mt-4 mt-md-0"><fieldset>
+   
+    <!-- End of Radio -->
+</fieldset></div>
+  <script>
+                            function chomesFile(fieldInput){
+                                if(fieldInput.files && fieldInput.files[0])
+                                var reader = new FileReader();
+                                reader.onload = function(e){
+                                    $('#image').attr('src', e.target.result);
+                                }
+                                reader.readAsDataURL(fieldInput.files[0]);
+                            }
+    
+                        </script>
+ 	</div>
+ 	<div class="col-12">
+ 					 <div class="mb-3">
+ 					 
+  		<label for="formFile" class="form-label">Image</label>
+  		<img name="oke" id="image" class="img-fluid" src="" alt="">
+  		<input class="form-control" type="file" onchange="chomesFile(this)" id="formFile" name="imageFile">
+</div>
+ 					 </div>
+ 					  <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Import Price</label> <div class="input-group">
+                  
+           <input type="number" class="form-control" id="price1" name="price" placeholder="Nhập số % giảm giá...">
+           
+                                         <span class="input-group-text" id="basic-addon2">
+                                              %
+                                          </span>
+ 					  </div></div></div>
+ 					    <div class="col-sm-3 mb-3"><div class="form-group mb-4"><label for="">Thời bắt đầu</label> 
+         
+          <input type="text" id="datepicker"  class="form-control1"  placeholder="dd-MM-yyyy"  name="Date_Of_Birth" aria-describedby="cartInputAddress1"></div></div>
+          <div class="col-sm-3 mb-3"><div class="form-group mb-4"><label for="">Thời gian kết thúc</label> 
+         
+          <input type="text"id="todatepicker"  class="form-control1"  placeholder="dd-MM-yyyy"  name="Date_Of_Birth" aria-describedby="cartInputAddress1"></div></div>
+
+        
+     <fieldset>
+    <legend class="h6" id="radiocheck">Vị trí</legend>
+    <div class="form-check">
+        <input class="form-check-input option" type="radio" name="options" id="exampleRadios1" value="1" >
+        <label class="form-check-label" for="exampleRadios1">
+           Heder Top
+        </label>
+        </div>
+        <div class="form-check">
+        <input class="form-check-input option" type="radio" name="options" id="exampleRadios1" value="2">
+        <label class="form-check-label" for="exampleRadios1">
+            Heder Body
+        </label>
+        </div>
+         <div class="form-check">
+        <input class="form-check-input option" type="radio" name="options" id="exampleRadios1" value="3" >
+        <label class="form-check-label" for="exampleRadios1">
+            Herder Foodter
+        </label>
+        </div>
+    <!-- End of Radio -->
+</fieldset>
+               <div id="okeroiload" class="col-12 ">
+ <div id="loadtable" class="card card-body border-0 shadow mb-4">  
+    <div class="table-responsive py-4">
+    <table class="table table-flush" id="tableproduct">
+        <thead class="thead-light">
+        <tr>
+        
+            <th >Tên SP</th>
+             <th >Hình ảnh</th>
+              <th>Tồn kho</th>
+             <th>Giá bán</th>
+            
+             <th>Chức năng</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="products" th:each = "list : ${details}">
+ 
+            <td class="productName" id="khangcogi" th:value="${list.Id_Product_Details}" >[[${list.product.Product_Name}]], [[${list.product_Color.Color_Name}]], [[${list.size.Size_Name}]]</td>
+            <td class="image" >
+             <img  width="10%" th:src="@{'/view/images/' + ${list.product.Image}}" alt="&#193;o Thun Cổ Tr&#242;n Tối Giản Ver12" />
+             </td>
+  		 <td class="categoryName"  th:text="${list.Quantity}"></td>
+  		<td class="productName"  th:text="${#numbers.formatDecimal(list.product.retail_Price, 0, 'COMMA', 0, 'POINT') + 'đ'}"></td>
+          		<td>
+<input class="form-check-input" type="checkbox" th:value="${list.Id_Product_Details}" id="mailCheck11"> <label class="form-check-label" for="mailCheck11"></label>
+          			
+          		</td>
+        </tr>
+       
+        </tbody>
+        
+    </table>
+    </div>
+    	<div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to <span id="showtheo">15</span> of [[${sumproductcolor}]] entries</div><nav aria-label="Page navigation example">
+  	 <nav aria-label="Page navigation example">
+    	<ul class="pagination mb-0">
+       	 <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        	</li>
+        	<th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+        	 </th:block>
+       	 <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+		
+                    </div>
+                  
+                </div>
+            
+ 				   <div class="modal-footer">
+                <button type="button" id="btnsave" class="btn btn-secondary">Save</button>
+                 <button type="button" id="btnupdate" class="btn btn-secondary">Update</button>
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+            </div></div></div>
+            </form>
+            
+                
+         	
+
+             
+              
+            </div>
+           
+        </div>
+        
+    </div>
+   
+
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+ $( function() {
+            $( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' }).val();
+          
+          } );
+         $( function() {
+            $( "#todatepicker" ).datepicker({ dateFormat: 'dd-mm-yy' }).val();
+          
+          } ); 
+
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+         //function yesOption(id){
+        	 
+        //	 console.log(id)
+	//}
+         
+       function activeCategory1(){
+    	   alert("oke")
+       }
+
+       function showactive(){
+    	   alert("oke")
+       }
+
+    </script>    
+ 
+ <script>
+ 
+function nhanjson(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		if(data[i].status == 0){
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Promontion +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].promontion_Name  +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].start_Time  +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].end_Time  +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].reduced_Price  +'% </td>'
+			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Promontion +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Hoạt động</span> </td>\r\n"
+			+"<td><a href=/admin/updateKM/" +  data[i].id_Promontion +"\r\n"
+			
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Promontion+"\r\n"
+			+ "data-name=" + data[i].promontion_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+		}
+		else{
+			tablecategory.append('<tr class="categorys">'
+					+ '<td class="IdCategory1"> '+ data[i].id_Promontion +' </td>'
+					+'<td class="categoryName" id="khangcogi"> ' + data[i].promontion_Name  +' </td>'
+					+'<td class="categoryName" id="khangcogi"> ' + data[i].start_Time  +' </td>'
+					+'<td class="categoryName" id="khangcogi"> ' + data[i].end_Time  +' </td>'
+					+'<td class="categoryName" id="khangcogi"> ' + data[i].reduced_Price  +'% </td>'
+					+"<td> <span class=\" btn badge bg-danger\" data-id= " + data[i].id_Promontion +" data-name= " + data[i].status +"  " 
+					+ "  onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Ngưng hoạt động</span> </td>\r\n"
+					+"<td><a href=/admin/updateKM/" +  data[i].id_Promontion +"\r\n"
+					
+					+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+					+ "<a data-id= " + data[i].id_Promontion+"\r\n"
+					+ "data-name=" + data[i].promontion_Name +"\r\n"
+					+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+					+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+					+"</tr>")
+		}
+	}
+}
+
+const btn = document.querySelector('#btnsave');        
+const radioButtons = document.querySelectorAll('input[name="options"]');
+ var cheackvalue = 0
+   btn.addEventListener("click", () => {
+       let selectedSize;
+       console.log(radioButtons)
+       for (const radioButton of radioButtons) {
+           if (radioButton.checked) {
+        	   cheackvalue = radioButton.value;
+        	   
+               break;
+           }
+       }
+    
+   });
+
+ $(document).ready(function() {
+	 
+	  var files = []
+      var image = "";
+      $("#formFile").change(function(event){
+		
+		files = event.target.files;
+		image = files[0].name;
+		forms = new FormData();
+		forms.append("file", files[0]);
+})
+	 
+	$("#btnsave").click(function(){
+		var phantram = document.getElementById("price1").value;
+		var tenkm = document.getElementById("tenkm").value;
+		  console.log(cheackvalue)
+		var d = $("#datepicker").val();
+		
+		var dt= $("#todatepicker").val();
+		 var formFile =  document.getElementById("formFile").value;
+		 if(formFile == ""){
+			 const notyf = new Notyf({
+	                position: {
+	                    x: 'right',
+	                    y: 'top',
+	                },
+	                types: [
+	                    {
+	                        type: 'warning',
+	                        background: '#F5B759',
+	                        icon: {
+	                            className: 'fas fa-exclamation-triangle',
+	                            tagName: 'span',
+	                            color: '#fff'
+	                        },
+	                        dismissible: false
+	                    }
+	                ]
+	            });
+			 notyf.open({
+	                type: 'warning',
+	                message: 'Bạn chưa chọn hình ảnh.'
+	            });
+			 return false;
+		 }
+		 if(phantram == "" || phantram <=0){
+			 const notyf = new Notyf({
+	                position: {
+	                    x: 'right',
+	                    y: 'top',
+	                },
+	                types: [
+	                    {
+	                        type: 'warning',
+	                        background: '#F5B759',
+	                        icon: {
+	                            className: 'fas fa-exclamation-triangle',
+	                            tagName: 'span',
+	                            color: '#fff'
+	                        },
+	                        dismissible: false
+	                    }
+	                ]
+	            });
+			 notyf.open({
+	                type: 'warning',
+	                message: 'Phần trăm giảm giá không được để trống vả nhỏ hơn không.'
+	            });
+			 return false;
+		 }
+		if( d >= dt ){
+			 const notyf = new Notyf({
+	                position: {
+	                    x: 'right',
+	                    y: 'top',
+	                },
+	                types: [
+	                    {
+	                        type: 'warning',
+	                        background: '#F5B759',
+	                        icon: {
+	                            className: 'fas fa-exclamation-triangle',
+	                            tagName: 'span',
+	                            color: '#fff'
+	                        },
+	                        dismissible: false
+	                    }
+	                ]
+	            });
+			 notyf.open({
+	                type: 'warning',
+	                message: 'Thời gian kết thúc không được nhỏ hơn thời gian bắt đầu.'
+	            });
+		}else{
+			
+		
+		json = {};
+		arraryDetails = [];
+		$("#tableproduct input:checked").each(function(){
+			objectDetails = {};
+			var idcssp = $(this).val()
+			alert(idcssp)
+			objectDetails["idproductdetails"] = idcssp;
+			arraryDetails.push(objectDetails);
+		})
+
+
+		json["productdetails"] = arraryDetails;
+		$.ajax({
+		url:"/admin/ajaxadd",
+			type: "POST",
+			data:{
+				phantram:phantram,
+				dataJson:JSON.stringify(json),
+				 image:image,
+				 cheackvalue:cheackvalue,
+				thoigianbatdau:d,
+				thoigiankethuc:dt, 
+				tenkm:tenkm,
+			},
+			success: function(value){
+				$('#modalSubscribe').modal('hide');
+				const notyf = new Notyf({
+	                position: {
+	                    x: 'right',
+	                    y: 'top',
+	                },
+	                types: [
+	                    {
+	                        type: 'info',
+	                        background: '#2361ce',
+	                        icon: {
+	                            className: 'fas fa-check',
+	                            tagName: 'span',
+	                            color: '#fff'
+	                        },
+	                        dismissible: false
+	                    }
+	                ]
+	            });
+			 notyf.open({
+	                type: 'info',
+	                message: 'Thêm mới khuyến mãi thành công.'
+	            });
+			}
+		})
+		}
+	})
+	 
+	 $("#showadd").click(function() {
+		 
+		  $('#modalSubscribe').modal('show');
+		  $("#btnupdatesize").hide();
+		  $("#btnsavesize").show();
+		  document.getElementById("formsize").reset()
+		 
+		});
+
+	   
+	   $("body").on("change", "#metlamroi", function(){
+			  var status=document.getElementById("metlamroi").value;  
+			  var solimit=document.getElementById("showme").value;  
+			
+			  $.ajax({
+					url:"/admin/showstatuskm",
+					type: "GET",
+					data:{
+						status:status,
+						solimit:solimit,
+					},
+					success: function(value){
+					nhanjson(value);
+
+					}
+				}) 
+			 
+		
+		  
+	});
+
+
+	  
+	
+	  
+	  $("body").on("change", "#showme", function(){
+		  var sotrang=document.getElementById("showme").value;  
+		  var number=document.getElementById("metlamroi").value; 
+		 
+		  $.ajax({
+				url:"/admin/showCategorykm",
+				type: "GET",
+				data:{
+					sotrang:sotrang,
+					number:number,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+						
+						nhanjson(value);
+						//tablecategory.append(value);	
+						$("#showtheo").html(sotrang);
+				}
+			}) 
+	  })
+	 // phan trang
+	  
+	  $("body").on("click", ".page-item", function(){
+		  $(".page-item").removeClass("active");
+		  $(this).addClass("active");
+		  var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		  
+
+		  var sotrang = $(this).text();
+		  var spbatdau = (sotrang -1)*solimit;
+		  $.ajax({
+				url:"/admin/pagingcategoryss",
+				type: "GET",
+				data:{
+					spbatdau:spbatdau,
+					status:status,
+					solimit:solimit,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+				nhanjson(value);
+				}
+			}) 
+	  })
+
+
+	  // xoa
+	  $("#yesOption").click(function(){
+		var id = document.getElementById("id123").innerHTML;
+		var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		 $.ajax({
+				url:"/admin/deleteKhuyenMai",
+				type: "POST",
+				data:{
+					id:id,
+					status:status,
+					solimit:solimit,
+				},
+				success: function(value){
+
+					 $('#modal-default').modal('hide');
+					nhanjson(value);
+						
+				
+						
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Xoá thành công.'
+			            });
+					
+				}
+			}) 
+	  })
+	  
+  
+	 
+ 
+		$("#yesOption1").click(function(){
+			  var idsize = $(this).closest("div").find(".idsize").attr("value");
+			  
+			 alert(idsize)
+			  var self = $(this);
+			  $.ajax({
+					url:"/admin/size/ajaxdelete",
+					type: "POST",
+					data:{
+						id:idsize,
+											},
+					success: function(value){
+						//self.closest("tr").remove();
+						console.log(value)
+			
+						
+					}
+				}) 
+			
+		})
+	  
+
+	  // reset form
+	  $("#btnreset").click(function(){
+		  $("#btnSaveCategory").show();
+		  $("#btnupdate").hide();
+	  })
+	  // bingding
+    
+  })
+   function activeCategory(id,name){
+		 var solimit=document.getElementById("showme").value; 
+		  var status1=document.getElementById("metlamroi").value;  
+		  $.ajax({
+				url:"/admin/updatestatuskm",
+				type: "POST",
+				data:{
+					id:id,
+					status:name,
+					solimit:solimit,
+					status1:status1,
+				},
+				success: function(value){
+					console.log(value)
+					nhanjson(value);
+					
+				}
+			}) 
+	  }
+   function btninfoaize(id,name){
+    	console.log(id)
+     $('#modal-defaults').modal('show');
+    	  $("#btnupdatesize").show();
+    	  $("#btnsavesize").hide();
+    	  $("div").removeClass("anoinput");
+         
+    	$("#brandName").val(name);
+     	$("#IdCategory").val(id);
+  			$("#addzise").html("Update size")
+      }
+             $(document).ready(function(){
+              $("#close").click(function(){
+            	
+            	  $("#formsize").trigger("reset");
+              })
+	 
+					// save 
+					$("#btnsavesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						 var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value; 
+						const brandName = document.getElementById("brandName").value;
+						
+						console.log(formsize);
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(brandName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your category name.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/brand/ajaxaddbrand",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+								console.log(data);
+				
+								for(var i = 0; i<data.length; i++)
+								if(data[i].brand_Name === null ){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Category name is duplicate !'
+							                
+							            });
+									 
+								}else{
+									if(data){
+										$('#modal-defaults').modal('hide');
+									nhanjson(data);
+								     const notyf = new Notyf({
+							                position: {
+							                    x: 'left',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'info',
+							                        background: '#0948B3',
+							                        icon: {
+							                            className: 'fas fa-check',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });
+							            notyf.open({
+							                type: 'info',
+							                message: 'Your category name has been saved '
+							            });
+							        
+										
+								//		 $(".swal2-container").show();
+								//		 setTimeout(() =>{
+					        	//		 $(".swal2-container").hide();
+								//		},2500);
+								//		 $('#modal-defaults').modal('hide');
+								//	setTimeout(() =>{
+								//			$("#taongcuch").load("http://localhost:8080/admin/category/add");
+								//			},2500);
+										
+									}
+									else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									}
+								}
+						
+							})
+						}
+			
+					   
+		})
+			
+	// update 
+			$("#btnupdatesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						 var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value; 
+						  const brandName = document.getElementById("brandName").value;
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(brandName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your category name.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/brand/ajaxupdatebrand",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+									console.log(data)
+ 							for(var i = 0; i<data.length; i++)
+							if(data[i].brand_Name === null ){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Category name is duplicate !'
+							                
+							            });
+								}else{
+									if(data){
+										$('#modal-defaults').modal('hide');
+										nhanjson(data);
+										 const notyf = new Notyf({
+								                position: {
+								                    x: 'left',
+								                    y: 'top',
+								                },
+								                types: [
+								                    {
+								                        type: 'info',
+								                        background: '#0948B3',
+								                        icon: {
+								                            className: 'fas fa-check',
+								                            tagName: 'span',
+								                            color: '#fff'
+								                        },
+								                        dismissible: false
+								                    }
+								                ]
+								            });
+								            notyf.open({
+								                type: 'info',
+								                message: 'Your category name has been saved '
+								            });
+									//	 $(".swal2-container").show();
+									//	 setTimeout(() =>{
+					        		//	 $(".swal2-container").hide();
+									//	},2500);
+									//	 $('#modal-defaults').modal('hide');
+									//	setTimeout(() =>{
+									//		$("#taongcuch").load("http://localhost:8080/admin/category/add");
+									//		},2400);
+										
+									}
+									else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									}
+								} 
+						
+							})
+						}
+			
+					   
+		})
+})
+
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+	
+<head>
+<meta charset="UTF-8">
+<title>Goods Import Data</title>
+
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                        
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Product</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">All Goods Import Data</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  id="showadd" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        New Goods Import Data
+                    </button>
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+           <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"  placeholder="Search product name"></div>
+               
+               <select id="metlamroi" class="form-select fmxw-200 d-none d-md-inline"  aria-label="Message select example 2">
+	               <option  value="2" selected="selected" >All</option>
+	               <option  value="0">Active</option>
+	               <option value="1">Disbale</option>
+               </select></div>
+                    <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
+                        <div class="dataTable-dropdown"><label><select id="showme" class="dataTable-selector"><option value="5">5</option><option value="10" >10</option><option value="15" selected="selected">15</option><option value="20">20</option><option value="25">25</option></select> </label></div>
+                    </div>
+                </div>
+            </div>
+
+
+<!-- Modal Content -->
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-content">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Add Goods Import Data</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form id="formproduct" action="#" method="post" class="card border-0 shadow">
+           <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+            <div class="col-12 col-lg-6 khang"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Product id *</label>
+            <input type="email" class="form-control" placeholder="Enter your product name" id="idproduct" name="idproduct" aria-describedby="cartInputEmail1" required=""></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Import coupon name *</label>
+            <input type="email" class="form-control" placeholder="Enter your product name" id="productName" name="Product_Name" aria-describedby="cartInputEmail1" required=""></div></div>
+           <div class="col-12 col-lg-6"> 
+           		<label for="country">Porudct *</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+       <div class="col-12 col-lg-6"> 
+           		<label for="country">Supplier *</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+
+ 			 <div class="col-12 col-lg-6"> 
+           		<label for="country">Color *</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>		
+           			 <div class="col-12 col-lg-6"> 
+           		<label for="country">Size *</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			 <div class="col-12 col-lg-6"> 
+           		<label for="country">Quantity *</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			 <div class="col-12 col-lg-6"> 
+           		<label for="country">Don gia *</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			 <div class="col-12 col-lg-6"> 
+           		<label for="country">Thanh tien *</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+             <div class="modal-header">
+              <h2 class="h6 modal-title" id="addzise"></h2>
+                 <button type="button" id="btnaddproductdetails" class="btn btn-gray-800 ms-lg-3 animate-up-2" > <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg> Add product details</button>
+                   </div>
+            
+ 				   <div class="modal-footer">
+                <button type="button" id="btnsaveproduct" class="btn btn-secondary">Save</button>
+                 <button type="button" id="btnupdate" class="btn btn-secondary">Update</button>
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+            </div></div></div>
+            </form>
+
+           
+        </div>
+        
+    </div>
+   
+</div>
+
+<!-- End of Modal Content -->
+   <div id="okeroiload" class="col-12 ">
+ <div id="loadtable" class="card card-body border-0 shadow mb-4">  
+    <div class="table-responsive py-4">
+    <table class="table table-flush" id="tableproduct">
+        <thead class="thead-light">
+        <tr>
+            <th >Id</th>
+            <th >Product name</th>
+            <th >Image</th>
+            <th >Brand name</th>
+            <th>Category name</th>
+            <th>Fabric Material</th>
+             <th>Price</th>
+             <th>Warranty</th>
+             <th>Descriptions</th>
+             <th>Status</th>
+             <th>Functional</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="products" th:each = "list : ${product}">
+            <td class="idproduct"  th:value=${list.Id_Poroduct}>[[${list.Id_Poroduct}]]</td>
+            <td class="productName" id="khangcogi" th:text=${list.Product_Name}></td>
+            <td class="image" th:value="${list.Image}">[[${list.Image}]] <span>cm</span></td>
+     		  <td class="Fabric_Material" >[[${list.brand.brand_Name}]] </td>
+     		   <td class="Fabric_Material" >[[${list.category.Category_Name}]] </td>
+               <td class="Fabric_Material" >[[${list.Fabric_Material}]] </td>
+                <td class="Price" > </td>
+                 <td class="Warranty" >[[${list.Warranty}]] </td>
+                 <td class="Descriptions" >[[${list.Descriptions}]]</td>
+            	<td> <span th:data-id="${list.Id_Poroduct}" th:data-name="${list.status}"
+            	onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" btn badge bg-secondary activeCategory" th:if="${list.status == 0}"  th:value=${list.status}>Active</span>
+            			<span	th:data-id="${list.Id_Poroduct}" th:data-name="${list.status}"
+            			onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" btn badge bg-primary activeCategory" th:if="${list.status == 1}"  th:value=${list.status}>Disbale</span>
+            			
+            	</td>
+          		<td><a th:data-id="${list.Id_Poroduct}"
+          		onclick="btninfoaize(this.getAttribute('data-id'))"
+          		 class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+
+          			<a th:data-id="${list.Id_Poroduct}"
+          				th:data-name="${list.Product_Name}"
+          				onclick="showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+        </tr>
+       
+        </tbody>
+        
+    </table>
+    </div>
+    	<div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to <span id="showtheo">15</span> of [[${sumproductcolor}]] entries</div><nav aria-label="Page navigation example">
+  	 <nav aria-label="Page navigation example">
+    	<ul class="pagination mb-0">
+       	 <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        	</li>
+        	<th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+        	 </th:block>
+       	 <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+		
+                    </div>
+                  
+                </div>
+
+  		
+               
+
+                  
+
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+
+         function showmodal(id,name){
+ 	console.log(name,id)
+ 	var khang = $('#sizeName1').text(name);
+ 	
+ 	$('#modal-default').modal('show');
+	
+ 	$('#yesOption').attr('href', '/admin/size/delete/' + id);
+ }
+
+
+
+    </script>    
+ 
+ <script>
+ $("#showadd").click(function(){
+		
+		$('#modalSubscribe').modal('show');
+		 $("#btnupdate").hide();
+	})
+function nhanjson(data){
+	 var tablecategory =$("#tableproduct").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		if(data[i].status == 0){
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Poroduct +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].product_Name  +' </td>'
+			+'<td class="image"> ' + data[i].image  +' </td>'
+			+'<td class="brand_Name"> ' + data[i].brand.brand_Name  +' </td>'
+			+'<td class="Category_Name"> ' + data[i].category.category_Name  +' </td>'
+			+'<td class="fabric_Material"> ' + data[i].fabric_Material  +' </td>'
+			+'<td class="Price"> ' + data[i].price  +' </td>'
+			+'<td class="Warranty"> ' + data[i].warranty  +' </td>'
+			+'<td class="Descriptions"> ' + data[i].descriptions  +' </td>'
+		
+			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Poroduct +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Active</span> </td>\r\n"
+			+"<td><a  data-id= " + data[i].id_Poroduct +"\r\n"
+			+ " onclick=\"btninfoaize(this.getAttribute('data-id'))\"\r\n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Poroduct+"\r\n"
+			+ "data-name=" + data[i].product_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+		
+			}
+			else{
+				tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Poroduct +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].product_Name  +' </td>'
+			+'<td class="image"> ' + data[i].image  +' </td>'
+			+'<td class="brand_Name"> ' + data[i].brand.brand_Name  +' </td>'
+			+'<td class="Category_Name"> ' + data[i].category.category_Name  +' </td>'
+			+'<td class="fabric_Material"> ' + data[i].fabric_Material  +' </td>'
+			+'<td class="Price"> ' + data[i].price  +' </td>'
+			+'<td class="Warranty"> ' + data[i].warranty  +' </td>'
+			+'<td class="Descriptions"> ' + data[i].descriptions  +' </td>'
+		
+			+"<td> <span class=\" btn badge bg-primary\" data-id= " + data[i].id_Poroduct +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Disbale</span> </td>\r\n"
+			+"<td><a  data-id= " + data[i].id_Poroduct +"\r\n"
+			+ " onclick=\"btninfoaize(this.getAttribute('data-id'))\"\r\n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Poroduct+"\r\n"
+			+ "data-name=" + data[i].product_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+			}
+		
+	}
+}
+
+	  	 	function btninfoaize(id){
+			var idproduct = id;
+				 $.ajax({
+					url:"/admin/product/bingdingupdate",
+					type: "GET",
+					data:{
+						id:id,
+											},
+					success: function(value){
+						//self.closest("tr").remove();
+						$('#modalSubscribe').modal('show');
+						console.log(value)
+					$("#idproduct").val(value.id_Poroduct);
+					$("#productName").val(value.product_Name);
+					$("#fabric_material").val(value.fabric_Material);
+					$("#price1").val(value.price);
+					$("#warranty1").val(value.warranty);
+					//$("#formFile").val(value.image);	
+					$("#Id_Category1").val(value.category.id_Category);
+					$("#idbrand1").val(value.brand.id_Brand);
+					$("#containerptoductdetail").html('');
+					for( i=0; i<value.product_details.length; i++){
+					var productdetailclone = $("#addproductdeltai").clone().removeAttr("id");
+					productdetailclone.find("#iddetailsproductcolor").val(value.product_details[i].product_Color.id_Product_Color);
+					productdetailclone.find("#iddetailssize").val(value.product_details[i].size.id_Size);
+					productdetailclone.find("#quantity").val(value.product_details[i].quantity);
+					productdetailclone.find("#user_Manual").val(value.product_details[i].user_Manual);
+					$("#containerptoductdetail").append(productdetailclone);
+					}
+					 $("#btnsaveproduct").hide();
+					 $("#btnupdate").show();
+					
+					}
+				}) 
+	}
+ //update status
+  $(document).ready(function(){
+			
+				$("body").on("click", "#btnaddproductdetails", function(){
+					var productdetailclone = $("#addproductdeltai").clone().removeAttr("id");
+					
+					$("#containerptoductdetail").append(productdetailclone);
+				})
+				$("body").on("click", ".closeproductdetail", function(){
+					//var productdetailclone = $("#addproductdeltai").clone().attr("id");
+				//	$("#containerptoductdetail").empty(productdetailclone);
+					//var k = $(".khangco");
+					//k.empty();
+				
+				})
+ 
+		$("#yesOption1").click(function(){
+			  var idsize = $(this).closest("div").find(".idsize").attr("value");
+			  
+			 alert(idsize)
+			  var self = $(this);
+			  $.ajax({
+					url:"/admin/size/ajaxdelete",
+					type: "POST",
+					data:{
+						id:idsize,
+											},
+					success: function(value){
+						//self.closest("tr").remove();
+						console.log(value)
+						
+						
+					}
+				}) 
+			
+		})
+	  
+	  
+	
+	  // reset form
+	  $("#btnreset").click(function(){
+		  $("#btnSaveCategory").show();
+		  $("#btnupdate").hide();
+	  })
+	  // b
+	 
+  })
+   function activeCategory(id,status){
+	  var solimit=document.getElementById("showme").value;  
+	   var status1=document.getElementById("metlamroi").value; 
+	   $.ajax({
+			url:"/admin/product/updatestatus",
+			type: "POST",
+			data:{
+				id:id,
+				status,
+				solimit:solimit,
+				status1:status1,
+			},
+			success: function(value){
+				//self.closest("tr").remove();			
+				nhanjson(value)
+			}
+		}) 
+	   
+}
+//show status
+	$("body").on("change", "#metlamroi", function(){
+		  var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value;  
+			
+		  $.ajax({
+				url:"/admin/product/showstatus",
+				type: "GET",
+				data:{
+					status:status,
+					solimit:solimit,
+				},
+				success: function(data){
+					//self.closest("tr").remove();
+					console.log(data)	
+					nhanjson(data)
+
+				}
+			}) 
+		 
+	  })
+	  
+	     $("body").on("change", "#showme", function(){
+		  var solimit=document.getElementById("showme").value;  
+		  var status=document.getElementById("metlamroi").value; 
+			
+		  $.ajax({
+				url:"/admin/product/showlimit",
+				type: "GET",
+				data:{
+					solimit:solimit,
+					status:status,
+				},
+				success: function(value){
+					nhanjson(value)	
+						//tablecategory.append(value);	
+						$("#showtheo").html(solimit);
+				}
+			}) 
+		
+		
+})
+  // phan trang
+	  
+	  $("body").on("click", ".page-item", function(){
+		  $(".page-item").removeClass("active");
+		  $(this).addClass("active");
+		  var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		  
+		
+		  var sotrang = $(this).text();
+		  var spbatdau = (sotrang -1)*solimit;
+		  
+		  $.ajax({
+				url:"/admin/product/pagingproduct",
+				type: "GET",
+				data:{
+					spbatdau:spbatdau,
+					status:status,
+					solimit:solimit,
+				},
+				success: function(value){
+					console.log(value)
+					nhanjson(value);
+					
+				}
+			}) 
+	  })
+
+	  //
+             $(document).ready(function(){
+	
+              $("#close").click(function(){
+            	
+            	  $("#formsize").trigger("reset");
+              })
+              
+              var files = []
+              var image = "";
+              $("#formFile").change(function(event){
+				
+				files = event.target.files;
+				image = files[0].name;
+				forms = new FormData();
+				forms.append("file", files[0]);
+})
+              
+
+// save 
+					$("#btnsaveproduct").click(function(){
+						var formsize = $("#formproduct").serializeArray();
+						var productName = document.getElementById("productName").value;
+						var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value;
+						   console.log(formsize)
+						json = {};
+						
+						arraryDetails = [];
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+				$("#containerptoductdetail >.detailsproduct").each(function(){
+					objectDetails = {};
+					idproductclor = $(this).find('select[name="idproductColor"]').val();
+					idsize = $(this).find('select[name="idsize"]').val();
+					quantity = $(this).find('input[name="quantity"]').val();
+					usermanual = $(this).find('input[name="Usermanual"]').val();
+					objectDetails["idproductclor"] = idproductclor;
+					objectDetails["idsize"] = idsize;
+					objectDetails["quantity"] = quantity;
+					objectDetails["usermanual"] = usermanual;
+					arraryDetails.push(objectDetails);
+				})
+				json["productdetails"] = arraryDetails;
+				json["Image"] = image;
+				
+				console.log(json)
+				if(productName == ""	){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your product name.'
+		              
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/product/ajaxsaveproduct",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+								console.log(data);
+				
+								 for(var i = 0; i<data.length; i++)
+								if(data[i].product_Name === null){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Size name is duplicate !'
+							                
+							            });
+								}else{
+									
+										$('#modalSubscribe').modal('hide');
+							
+										nhanjson(data);
+										
+								
+									
+								}
+						
+							})
+						}
+			
+					   
+		})
+
+// update 
+$("#btnupdate").click(function(){
+						var formsize = $("#formproduct").serializeArray();
+						var productName = document.getElementById("productName").value;
+						var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value;
+						   console.log(formsize)
+						json = {};
+						
+						arraryDetails = [];
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+						$("#containerptoductdetail >.detailsproduct").each(function(){
+					objectDetails = {};
+					idproductclor = $(this).find('select[name="idproductColor"]').val();
+					idsize = $(this).find('select[name="idsize"]').val();
+					quantity = $(this).find('input[name="quantity"]').val();
+					usermanual = $(this).find('input[name="Usermanual"]').val();
+					objectDetails["idproductclor"] = idproductclor;
+					objectDetails["idsize"] = idsize;
+					objectDetails["quantity"] = quantity;
+					objectDetails["usermanual"] = usermanual;
+					arraryDetails.push(objectDetails);
+				})
+				json["productdetails"] = arraryDetails;
+				json["Image"] = image;
+				
+				console.log(json)
+				if(productName == ""	){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your product name.'
+		              
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/product/ajaxupdate",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+								console.log(data);
+				
+								 for(var i = 0; i<data.length; i++)
+								if(data[i].product_Name === null){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Size name is duplicate !'
+							                
+							            });
+								}else{
+									
+										$('#modalSubscribe').modal('hide');
+							
+										nhanjson(data);
+										
+								
+									
+								}
+						
+							})
+						}
+			
+					   
+		})
+					
+})
+
+</script>
+                    </div>
+                </div>
+            </div>
+ 
+
+
+</body>
+</html>

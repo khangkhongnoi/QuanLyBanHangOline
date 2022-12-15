@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+	
+<head>
+<meta charset="UTF-8">
+<title>Brand</title>
+   <style type="text/css">
+        .wrap {
+            margin: 10% auto;
+            width: 60%;
+        }
+        
+        .dandev-reviews {
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .dandev-reviews .form_upload {
+            width: 320px;
+            position: relative;
+            padding: 5px;
+            bottom: 0px;
+            height: 40px;
+            left: 0;
+            z-index: 5;
+            box-sizing: border-box;
+            background: #f7f7f7;
+            border-top: 1px solid #ddd;
+        }
+        
+        .dandev-reviews .form_upload>label {
+            height: 35px;
+            width: 160px;
+            display: block;
+            cursor: pointer;
+        }
+        
+        .dandev-reviews .form_upload label span {
+            padding-left: 26px;
+            display: inline-block;
+            background: url(images/camera.png) no-repeat;
+            background-size: 23px 20px;
+            margin: 5px 0 0 10px;
+        }
+        
+        .list_attach {
+            display: block;
+            margin-top: 30px;
+        }
+        
+        ul.dandev_attach_view {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        ul.dandev_attach_view li {
+            float: left;
+            width: 80px;
+            margin: 0 20px 20px 0 !important;
+            padding: 0!important;
+            border: 0!important;
+            overflow: inherit;
+            clear: none;
+        }
+        
+        ul.dandev_attach_view .img-wrap {
+            position: relative;
+        }
+        
+        ul.dandev_attach_view .img-wrap .close {
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            background: #000;
+            color: #fff!important;
+            border-radius: 50%;
+            z-index: 2;
+            display: block;
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+            text-align: center;
+            line-height: 18px;
+            cursor: pointer!important;
+            opacity: 1!important;
+            text-shadow: none;
+        }
+        
+        ul.dandev_attach_view li.li_file_hide {
+            opacity: 0;
+            visibility: visible;
+            width: 0!important;
+            height: 0!important;
+            overflow: hidden;
+            margin: 0!important;
+        }
+        
+        ul.dandev_attach_view .img-wrap-box {
+            position: relative;
+            overflow: hidden;
+            padding-top: 100%;
+            height: auto;
+            background-position: 50% 50%;
+            background-size: cover;
+        }
+        
+        .img-wrap-box img {
+            right: 0;
+            width: 100%!important;
+            height: 100%!important;
+            bottom: 0;
+            left: 0;
+            top: 0;
+            position: absolute;
+            object-position: 50% 50%;
+            object-fit: cover;
+            transition: all .5s linear;
+            -moz-transition: all .5s linear;
+            -webkit-transition: all .5s linear;
+            -ms-transition: all .5s linear;
+        }
+        
+        ul li,
+        ol li {
+            list-style-position: inside;
+        }
+        
+        .list_attach span.dandev_insert_attach {
+            width: 80px;
+            height: 80px;
+            text-align: center;
+            display: inline-block;
+            border: 2px dashed #ccc;
+            line-height: 76px;
+            font-size: 25px;
+            color: #ccc;
+            display: none;
+            cursor: pointer;
+            float: left;
+        }
+        
+        ul.dandev_attach_view {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        ul.dandev_attach_view .img-wrap {
+            position: relative;
+        }
+        
+        .list_attach.show-btn span.dandev_insert_attach {
+            display: block;
+            margin: 0 0 20px!important;
+        }
+        
+        i.dandev-plus {
+            font-style: normal;
+            font-weight: 900;
+            font-size: 35px;
+            line-height: 1;
+        }
+        
+        ul.dandev_attach_view li input {
+            display: none;
+        }
+        
+#andi {
+    display: none;
+}
+
+        
+    </style>
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                          
+                            <li class="breadcrumb-item active" aria-current="page">Hình ảnh</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Danh sách hình ảnh</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                  
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+            <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"  placeholder="Tìm theo tên sản phẩm"></div>
+               
+               <select id="metlamroi" class="form-select fmxw-200 d-none d-md-inline"  aria-label="Message select example 2">
+	               <option  value="2" selected="selected" >Tất cả</option>
+	               <option  value="0">Đã thêm</option>
+	               <option value="1">Chưa thêm</option>
+               </select></div>
+                    <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
+                        <div class="dataTable-dropdown"><label><select id="showme" class="dataTable-selector"><option value="5">5</option><option value="10" >10</option><option value="15" selected="selected">15</option><option value="20">20</option><option value="25">25</option></select> </label></div>
+                    </div>
+                </div>
+            </div>
+
+   <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+            <th >Mã sản phẩm</th>
+            <th >Tên sản phẩm</th>
+             <th>Hình ảnh</th>
+              <th>Trạng thái</th>
+             <th>Chức năng</th>
+             
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        <tr class="categorys" th:each = "list : ${listproduct}">
+            <td class="IdCategory1" id="idne" th:value=${list.Id_Poroduct}>[[${list.Id_Poroduct}]]</td>
+            <td class="categoryName" id="khangcogi1" th:text=${list.Product_Name}></td>
+            <td class="image" th:value="${list.Image}">
+            	<th:block th:each= "images : ${list.images}">
+             <img  width="50%" th:src="@{'/view/images/' + ${images.Image_Name}}" alt="&#193;o Thun Cổ Tr&#242;n Tối Giản Ver12" />
+             </th:block>
+             </td>
+            	<td> <span
+            		th:data-id="${list.Id_Poroduct}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" btn badge bg-secondary activeCategory" th:if="${list.status == 0}"  th:value=${list.status}>Hoạt động</span>
+            			<span
+            			th:data-id="${list.Id_Poroduct}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" btn badge bg-danger activeCategory" th:if="${list.status == 1}"  th:value=${list.status}>Ngưng hoạt động</span>
+            	</td>
+          		<td><a  th:data-id="${list.Id_Poroduct}"
+          				th:data-name="${list.Product_Name}"
+          				
+          				onclick="btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+          				
+          		class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.Id_Poroduct}"
+          				th:data-name="${list.Product_Name}"
+          				onclick="showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+        </tr>
+       
+        </tbody>
+    </table>
+    
+    </div>
+   
+		<div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to <span id="showtheo">15</span> of [[${tongsocategory}]] entries</div><nav aria-label="Page navigation example">
+   <nav aria-label="Page navigation example">
+    <ul class="pagination mb-0">
+        <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        </li>
+        <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+         </th:block>
+        <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+                    </div>
+                  
+                </div>
+
+  		
+               
+        
+          
+        
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+             Bạn muốn xoá tất cả chi tiết hình ảnh với id ="<span id="id123"></span>" tên ="<span id="sizeName1"></span>"   ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Hủy bỏ</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-contentss">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="chinhten">Thêm hình ảnh</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form id="formproduct" action="#" method="post" class="card border-0 shadow">
+           <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+           
+ 					  
+ <div class="col-12 col-lg-6" id="andi"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Tên sản phẩm</label>
+            <input type="email" class="form-control1" id="idsp" name="Product_Name" aria-describedby="cartInputEmail1" required=""></div></div>
+ 					  
+ 					    <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Tên sản phẩm</label>
+            <input type="email" class="form-control1" id="productName" name="Product_Name" aria-describedby="cartInputEmail1" required=""></div></div>
+ 					  
+<!--  					 <div class="col-12 col-lg-6">
+ 					 <div class="col-lg-3 col-sm-6 mt-4 mt-md-0"><fieldset>
+   
+    End of Radio
+</fieldset></div>
+  <script>
+                            function chomesFile(fieldInput){
+                                if(fieldInput.files && fieldInput.files[0])
+                                var reader = new FileReader();
+                                reader.onload = function(e){
+                                    $('#image').attr('src', e.target.result);
+                                }
+                                reader.readAsDataURL(fieldInput.files[0]);
+                            }
+    
+                        </script>
+ 	</div>
+ 	<div class="col-12">
+ 					 <div class="mb-3">
+ 					 
+  		<label for="formFile" class="form-label">Image</label>
+  		<img name="oke" id="image" class="img-fluid" src="" alt="">
+  		<input class="form-control" type="file" onchange="chomesFile(this)" id="formFile" name="imageFile">
+</div>
+ 					 </div> -->
+ 					  
+ 				 <div class="wrap">
+        <h1>Thêm hình ảnh</h1>
+        <div class="dandev-reviews">
+            <div class="form_upload">
+                <label class="dandev_insert_attach"><span>Đính kèm ảnh</span></label>
+            </div>
+            <div class="list_attach">
+                <ul class="dandev_attach_view addclose" id="formFile">
+
+                </ul>
+                <span class="dandev_insert_attach"><i class="dandev-plus">+</i></span>
+            </div>
+        </div>
+    </div>
+             
+            
+ 				   <div class="modal-footer">
+
+                 <button type="button" id="btnupdate" class="btn btn-secondary">Cập nhật</button>
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Hủy bỏ</button>
+            </div></div></div>
+            </form>
+            
+                 <script type="text/javascript">
+        $('.dandev_insert_attach').click(function() {
+            if ($('.list_attach').hasClass('show-btn') === false) {
+                $('.list_attach').addClass('show-btn');
+            }
+            var _lastimg = jQuery('.dandev_attach_view li').last().find('input[type="file"]').val();
+
+            if (_lastimg != '') {
+                var d = new Date();
+                var _time = d.getTime();
+                var _html = '<li id="li_files_' + _time + '" class="li_file_hide">';
+                _html += '<div class="img-wrap">';
+                _html += '<span class="close" onclick="DelImg(this)" value="1">×</span>';
+                _html += ' <div class="img-wrap-box"></div>';
+                _html += '</div>';
+                _html += '<div class="' + _time + '">';
+                _html += '<input type="file" class="hidden"  onchange="uploadImg(this)" id="files_' + _time + '"   />';
+                _html += '</div>';
+                _html += '</li>';
+                jQuery('.dandev_attach_view').append(_html);
+                jQuery('.dandev_attach_view li').last().find('input[type="file"]').click();
+            } else {
+                if (_lastimg == '') {
+                    jQuery('.dandev_attach_view li').last().find('input[type="file"]').click();
+                } else {
+                    if ($('.list_attach').hasClass('show-btn') === true) {
+                        $('.list_attach').removeClass('show-btn');
+                    }
+                }
+            }
+        });
+
+        function uploadImg(el) {
+            var file_data = $(el).prop('files')[0];
+            var type = file_data.type;
+            var fileToLoad = file_data;
+
+            var fileReader = new FileReader();
+
+            fileReader.onload = function(fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result;
+
+                var newImage = document.createElement('img');
+                newImage.src = srcData;
+                newImage.style.width = "50%"
+                newImage.id = "formFile"
+                var _li = $(el).closest('li');
+                if (_li.hasClass('li_file_hide')) {
+                    _li.removeClass('li_file_hide');
+                }
+                _li.find('.img-wrap-box').append(newImage.outerHTML);
+
+
+            }
+            fileReader.readAsDataURL(fileToLoad);
+
+        }
+
+        function DelImg(el) {
+        	jQuery(el).closest('li').remove();
+            
+        }
+        const fileUpload = document.querySelector("#formFile");
+        Manghinh = [];
+    	const reader = new FileReader()
+        fileUpload.addEventListener("change", (event) => {
+  		const { files } = event.target;
+
+  	
+  		for(var i = 0 ; i <files.length; i++){
+  			
+            objectDetails = {};
+  			image =files[i].name;
+  			console.log(image)
+  			forms = new FormData();
+			forms.append("file", files[i]);
+            objectDetails["Hinh"] = image;
+            Manghinh.push(objectDetails);
+            reader.addEventListener("load", (event) => {
+			const url = event.target
+			
+			document.querySelector("img").src = URL.revokeObjectURL(url);
+	})
+  		}
+  	})
+    
+
+
+  $(document).ready(function(){
+    	// save 
+		$("#btnupdate").click(function(){
+		
+			 var status=document.getElementById("metlamroi").value;  
+			  var solimit=document.getElementById("showme").value; 
+			const brandName = document.getElementById("idsp").value;
+				
+			console.log(Manghinh)
+			
+if(brandName === "0" ){
+	 const notyf = new Notyf({
+            position: {
+                x: 'right',
+                y: 'top',
+            },
+            types: [
+                {
+                    type: 'warning',
+                    background: '#F5B759',
+                    icon: {
+                        className: 'fas fa-exclamation-triangle',
+                        tagName: 'span',
+                        color: '#fff'
+                    },
+                    dismissible: false
+                }
+            ]
+        });
+	 notyf.open({
+            type: 'warning',
+            message: 'Vui lòng chọn tên sản phẩm và thêm hình ảnh.'
+        });
+	 
+		return false;
+			} else{
+				 $.ajax({
+						url:"/admin/images/ajaxsaveimage",
+						type: "POST",
+						data:{
+							Manghinh:JSON.stringify(Manghinh),
+							brandName:brandName,
+						},
+
+				}).done(function(data){
+					console.log(data);
+	
+					
+							$('#modalSubscribe').modal('hide');
+						//nhanjson(data);
+						
+					     const notyf = new Notyf({
+				                position: {
+				                    x: 'left',
+				                    y: 'top',
+				                },
+				                types: [
+				                    {
+				                        type: 'info',
+				                        background: '#0948B3',
+				                        icon: {
+				                            className: 'fas fa-check',
+				                            tagName: 'span',
+				                            color: '#fff'
+				                        },
+				                        dismissible: false
+				                    }
+				                ]
+				            });
+				            notyf.open({
+				                type: 'info',
+				                message: 'Hình ảnh đã được lưu '
+				            });
+				            
+			
+							 $('#modal-defaults').modal('hide');
+					setTimeout(() =>{
+						location.reload()
+							},2500);
+							
+						
+					
+			
+				})
+			}
+
+		   
+})
+  })
+
+    </script>
+         	
+
+             
+              
+            </div>
+           
+        </div>
+        
+    </div>
+   
+
+
+
+
+
+
+<div class="modal fade" id="modal-defaults" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Add Brand</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+ <form id="formsize">
+               
+                    <div class="col-md-6 mb-3">
+                     <div class="anoinput">
+                            <label for="first_name">Id</label>
+                            <input class="form-control " id="IdCategory" name="IdBrand" type="text" placeholder="Id" readonly>
+                        </div>
+                        <div>
+                            <label for="first_name">Brand Name</label>
+                            <input class="form-control" id="brandName" name="brandName" type="text" placeholder="Enter your brand name" autofocus>
+                        </div>
+                    </div>
+
+                <div class="mt-3">
+                    <button type="button" id="btnsavesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Save</button>
+                </div>
+                 <div class="ml-3">
+                    <button type="button" id="btnupdatesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Update</button>
+                </div>
+            </form>            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+         //function yesOption(id){
+        	 
+        //	 console.log(id)
+	//}
+         
+       function activeCategory1(){
+    	   alert("oke")
+       }
+
+       function showactive(){
+    	   alert("oke")
+       }
+
+    </script>    
+ 
+ <script>
+ 
+function nhanjson(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		if(data[i].status == 0){
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Brand +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].brand_Name  +' </td>'
+			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Brand +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Active</span> </td>\r\n"
+			+"<td><a  data-id= " + data[i].id_Brand +"\r\n"
+			+ "	data-name=" + data[i].brand_Name +"\r\n"
+			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Brand+"\r\n"
+			+ "data-name=" + data[i].color_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+		}
+		else{
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Brand +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].brand_Name  +' </td>'
+			+"<td> <span class=\" btn badge bg-primary\" data-id= " + data[i].id_Brand +" data-name= " + data[i].status +"  " 
+			+ "  onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Disbale</span> </td>\r\n"
+			+"<td><a  data-id= " + data[i].id_Brand +"\r\n"
+			+ "	data-name=" + data[i].brand_Name +"\r\n"
+			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Brand+"\r\n"
+			+ "data-name=" + data[i].brand_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+		}
+	}
+}
+
+
+ $(document).ready(function() {
+	 $("#showadd").click(function() {
+		 
+		  $('#modalSubscribe').modal('show');
+		  $("#btnupdate").hide();
+		  $("#btnsave").show();
+		 
+		  document.getElementById("formsize").reset()
+		 
+		});
+	   $('#myInput').on('keyup', function(event) {
+	      event.preventDefault();
+	      /* Act on the event */
+	      var tukhoa = $(this).val().toLowerCase();
+	      $('#myTable tr').filter(function() {
+	         $(this).toggle($(this).text().toLowerCase().indexOf(tukhoa)>-1);
+	      });
+	   });
+	   
+	   $("body").on("change", "#metlamroi", function(){
+			  var status=document.getElementById("metlamroi").value;  
+			  var solimit=document.getElementById("showme").value;  
+			
+			  $.ajax({
+					url:"/admin/brand/showstatus",
+					type: "GET",
+					data:{
+						status:status,
+						solimit:solimit,
+					},
+					success: function(value){
+					nhanjson(value);
+
+					}
+				}) 
+			 
+		
+		  
+	});
+
+
+	  
+	
+	  
+	  $("body").on("change", "#showme", function(){
+		  var sotrang=document.getElementById("showme").value;  
+		  var number=document.getElementById("metlamroi").value; 
+		 
+		  $.ajax({
+				url:"/admin/brand/showCategory",
+				type: "GET",
+				data:{
+					sotrang:sotrang,
+					number:number,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+						
+						nhanjson(value);
+						//tablecategory.append(value);	
+						$("#showtheo").html(sotrang);
+				}
+			}) 
+	  })
+	 // phan trang
+	  
+	  $("body").on("click", ".page-item", function(){
+		  $(".page-item").removeClass("active");
+		  $(this).addClass("active");
+		  var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		  
+
+		  var sotrang = $(this).text();
+		  var spbatdau = (sotrang -1)*solimit;
+		  $.ajax({
+				url:"/admin/brand/pagingcategory",
+				type: "GET",
+				data:{
+					spbatdau:spbatdau,
+					status:status,
+					solimit:solimit,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+				nhanjson(value);
+				}
+			}) 
+	  })
+
+
+	  // xoa
+	  $("#yesOption").click(function(){
+		var id = document.getElementById("id123").innerHTML;
+		var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		 $.ajax({
+				url:"/admin/images/deteteimage",
+				type: "GET",
+				data:{
+					id:id,
+					
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					
+				//	trahtml(value);
+						//self.removeClass( "btn badge bg-secondary" ).addClass( "btn badge bg-primary" );
+						//self.html("Disable");
+						$('#modal-default').modal('hide');
+					/* 	var tablecategory =	$("#tablecategory").find("tbody");
+						tablecategory.empty(); */
+						
+						
+						//tablecategory.append(value);	
+						
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Delete succees.'
+			            });
+					
+				}
+			}) 
+	  })
+	  
+  
+	 
+ 
+		$("#yesOption1").click(function(){
+			  var idsize = $(this).closest("div").find(".idsize").attr("value");
+			  
+			 alert(idsize)
+			  var self = $(this);
+			  $.ajax({
+					url:"/admin/size/ajaxdelete",
+					type: "POST",
+					data:{
+						id:idsize,
+											},
+					success: function(value){
+						//self.closest("tr").remove();
+						console.log(value)
+			
+						
+					}
+				}) 
+			
+		})
+	  
+
+	  // reset form
+	  $("#btnreset").click(function(){
+		  $("#btnSaveCategory").show();
+		  $("#btnupdate").hide();
+	  })
+	  // bingding
+    
+  })
+   function activeCategory(id,name){
+		 var solimit=document.getElementById("showme").value; 
+		  var status1=document.getElementById("metlamroi").value;  
+		  $.ajax({
+				url:"/admin/brand/updatestatus",
+				type: "POST",
+				data:{
+					id:id,
+					status:name,
+					solimit:solimit,
+					status1:status1,
+				},
+				success: function(value){
+					nhanjson(value);
+					
+				}
+			}) 
+	  }
+   function btninfoaize(id,name){
+    	console.log(id)
+     $('#modalSubscribe').modal('show');
+    	  $("#btnupdate").show();
+    	  $("#btnsave").hide();
+    	  $("div").removeClass("anoinput");
+    		$("#chinhten").html("Cập nhật hình ảnh")
+    	 	
+    	  $.ajax({
+  			url:"/admin/images/bingdingimage",
+  			type: "GET",
+  			data:{
+  				id:id,
+  			},
+  			success: function(value){
+  			console.log(value)
+  			 $("#productName").val(name);
+  			$("#idsp").val(id);
+  			for( i=0; i<value.length; i++){
+  				
+  				 $(".addclose").append('<span class="close" onclick="DelImg(this)" value="1">×</span>');
+  				 const images = document.createElement('img')
+  				 images.src  = '/view/images/'+ value[i].image_Name;
+				 images.style.width = "20%"
+				  document.querySelector('#formFile').appendChild(images)
+				  
+	
+  				
+  			}
+  			}
+  		}) 
+         
+    	$("#brandName").val(name);
+     	$("#IdCategory").val(id);
+  			$("#addzise").html("Update size")
+      }
+             $(document).ready(function(){
+              $("#close").click(function(){
+            	
+            	  $("#formsize").trigger("reset");
+              })
+	 
+					// save 
+					$("#btnsavesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						 var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value; 
+						const brandName = document.getElementById("brandName").value;
+						
+						console.log(formsize);
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(brandName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your category name.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/brand/ajaxaddbrand",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+								console.log(data);
+				
+								for(var i = 0; i<data.length; i++)
+								if(data[i].brand_Name === null ){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Category name is duplicate !'
+							                
+							            });
+									 
+								}else{
+									if(data){
+										$('#modal-defaults').modal('hide');
+									nhanjson(data);
+								     const notyf = new Notyf({
+							                position: {
+							                    x: 'left',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'info',
+							                        background: '#0948B3',
+							                        icon: {
+							                            className: 'fas fa-check',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });
+							            notyf.open({
+							                type: 'info',
+							                message: 'Your category name has been saved '
+							            });
+							        
+										
+								//		 $(".swal2-container").show();
+								//		 setTimeout(() =>{
+					        	//		 $(".swal2-container").hide();
+								//		},2500);
+								//		 $('#modal-defaults').modal('hide');
+								//	setTimeout(() =>{
+								//			$("#taongcuch").load("http://localhost:8080/admin/category/add");
+								//			},2500);
+										
+									}
+									else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									}
+								}
+						
+							})
+						}
+			
+					   
+		})
+			
+})
+
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

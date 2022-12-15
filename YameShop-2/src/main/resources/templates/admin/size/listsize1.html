@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+	
+<head>
+<meta charset="UTF-8">
+<title>List Size</title>
+
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Size</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">All Size</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  id="showadd" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        New Size
+                    </button>
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+            <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span><input type="text" class="form-control" placeholder="Search users"></div><select class="form-select fmxw-200 d-none d-md-inline" aria-label="Message select example 2"><option selected="selected">All</option><option value="1">Active</option><option value="2">Inactive</option><option value="3">Pending</option><option value="3">Cancelled</option></select></div>
+                    <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
+                        <div class="dropdown">
+                            <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
+                                <span class="small ps-3 fw-bold text-dark">Show</span>
+                                <a class="dropdown-item d-flex align-items-center fw-bold" href="#">10 <svg class="icon icon-xxs ms-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></a>
+                                <a class="dropdown-item fw-bold" href="#">20</a>
+                                <a class="dropdown-item fw-bold rounded-bottom" href="#">30</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+   <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush" id="datatable">
+        <thead class="thead-light">
+        <tr>
+            <th >IdSize</th>
+            <th >size name</th>
+            <th >Start hieght</th>
+            <th>End hieght</th>
+            <th>Start weigh</th>
+             <th>End weigh</th>
+             <th>Status</th>
+             <th>Functional</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="categorys" th:each = "list : ${listsize}">
+            <td class="idsize"  th:value=${list.id}>[[${list.id}]]</td>
+            <td class="sizeName" id="khangcogi" th:text=${list.sizeName}></td>
+            <td class="startHieght" th:value="${list.startHieght}">[[${list.startHieght}]] <span>cm</span></td>
+              <td class="endHieght" th:value="${list.endHieght}">[[${list.endHieght}]] <span>cm</span></td>
+               <td class="startWeigh" th:value="${list.startWeigh}">[[${list.startWeigh}]] <span>kg</span></td>
+                <td class="endWeigh" th:value="${list.endWeigh}">[[${list.endWeigh}]] <span>kg</span></td>
+            	<td> <span class=" btn badge bg-secondary activeCategory" th:value=${list.status}>Active</span></td>
+          		<td><a  class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.id}"
+          				th:data-name="${list.sizeName}"
+          				onclick="showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+        </tr>
+       
+        </tbody>
+    </table>
+    </div>
+		
+                    </div>
+                  
+                </div>
+
+  		
+               
+        <div id="popUp">
+          <div id="close" class="close"><i class="fa fa-times"></i></div>
+          <div class="rows">
+            <h2 class="h5 mb-4" id="addzise">Add Size</h2>
+            <form id="formsize">
+               
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label for="first_name">Size Name</label>
+                            <input class="form-control" id="sizeName" name="sizeName" type="text" placeholder="Enter your size name" autocomplete>
+                        </div>
+                    </div>
+                   
+              
+                    <div class="margintopvsnhau">
+                <h2>Height</h2>
+                <div class="row align-items-center">
+                 
+                  <div class="col-md-6 mb-3">
+                  <label for="phone">Start height</label>
+                  <div class="input-group">
+                  
+                                      <input type="number" class="form-control" id="startHieght" name="startHieght" placeholder="Start height">
+                                         <span class="input-group-text" id="basic-addon2">
+                                               cm
+                                          </span>
+ 					  </div>
+                    
+                </div>
+                <div class="col-md-6 mb-3">
+                <label for="phone">End height</label>
+                  <div class="input-group">
+                  
+                                      <input type="number" class="form-control" id="endHieght" name="endHieght" placeholder="End height">
+                                         <span class="input-group-text" id="basic-addon2">
+                                               cm
+                                          </span>
+ 					  </div>
+                  
+              </div>
+                </div>
+                    </div>
+                <div class="margintopvsnhau">
+                    <h2>Weigh</h2>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                  <label for="phone">Start weigh</label>
+                  <div class="input-group">
+                  
+                                      <input type="number" class="form-control" id="startWeigh" name="startWeigh" placeholder="Start weigh">
+                                         <span class="input-group-text" id="basic-addon2">
+                                               kg
+                                          </span>
+ 					  </div>
+                    
+                </div>
+                <div class="col-md-6 mb-3">
+                   <label for="phone">End weigh</label>
+                  <div class="input-group">
+                  
+                                      <input type="number" class="form-control" id="endWeigh" name="endWeigh" placeholder="End weigh">
+                                         <span class="input-group-text" id="basic-addon2">
+                                               kg
+                                          </span>
+ 					  </div>
+                
+            </div>
+            
+                </div>
+              </div>
+              
+                <div class="mt-3">
+                    <button type="button" id="btnsavesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Save</button>
+                </div>
+                 <div class="ml-3">
+                    <button type="button" id="btnupdatesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Update</button>
+                </div>
+            </form>
+          
+        </div>
+        
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success alert</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your work has been saved</div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-confirm btn btn-primary" aria-label="" style="display: inline-block;">OK</button><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        </div>
+                  
+<button type="button" class="btn btn-block btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-default">Default</button>
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               Do you want to delete "<span id="sizeName1"></span>" ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a id="yesOption" type="button" class="btn btn-secondary">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+
+         function showmodal(id,name){
+ 	console.log(name,id)
+ 	var khang = $('#sizeName1').text(name);
+ 	
+ 	$('#modal-default').modal('show');
+	
+ 	$('#yesOption').attr('href', '/admin/size/delete/' + id);
+ }
+
+        
+$("#showadd").click(function() {
+  
+  $("#popUp").css("margin-left", "42%");
+ 
+  $("#plus").css("margin-left", "0px");
+ 
+});
+
+$("#close").click(function() {
+  $("#popUp").css("margin-left", "100%");
+  $("#plus").css("margin-left", "0px");
+});
+    </script>    
+ 
+ <script>
+
+ //update status
+  $(document).ready(function(){
+	
+ 
+		$("#yesOption1").click(function(){
+			  var idsize = $(this).closest("div").find(".idsize").attr("value");
+			  
+			 alert(idsize)
+			  var self = $(this);
+			  $.ajax({
+					url:"/admin/size/ajaxdelete",
+					type: "POST",
+					data:{
+						id:idsize,
+											},
+					success: function(value){
+						//self.closest("tr").remove();
+						console.log(value)
+			
+						
+					}
+				}) 
+			
+		})
+	  
+	  
+	  $(".activeCategory").click(function(){
+		  var id = $(this).closest("tr").find(".idcategory").attr("value");
+		  var  status = $(this).closest("tr").find(".activeCategory").text();
+		 
+		  var self = $(this);
+		  $.ajax({
+				url:"/admin/category/updatestatus",
+				type: "POST",
+				data:{
+					id:id,
+					status:status,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+					if(value === "0"){
+						self.removeClass( "btn badge bg-secondary" ).addClass( "btn badge bg-primary" );
+						self.html("Disable");
+						
+					}
+					if(value === "1")
+					{
+						self.removeClass( "btn badge bg-primary" ).addClass( "btn badge bg-secondary " );
+						self.html("Active");
+					}
+					
+				}
+			}) 
+	  })
+	  
+	  // reset form
+	  $("#btnreset").click(function(){
+		  $("#btnSaveCategory").show();
+		  $("#btnupdate").hide();
+	  })
+	  // bingding
+      $(".btninfoaize").click(function(){
+    	 
+    	  $("#popUp").css("margin-left", "52%");
+    	  
+    	  $("#plus").css("margin-left", "0px");
+    	  $("#btnupdatesize").show();
+    	  $("#btnsavesize").hide();
+    	  var sizename = $(this).closest("tr").find(".sizeName").text();
+    	  var starthieght = $(this).closest("tr").find(".startHieght").attr("value");
+    	  var endhieght = $(this).closest("tr").find(".endHieght").attr("value");
+    	  var startweigh = $(this).closest("tr").find(".startWeigh").attr("value");
+    	  var endweigh = $(this).closest("tr").find(".endWeigh").attr("value");
+    	   $("#sizeName").val(sizename);
+    	   $("#startHieght").val(starthieght);
+    	   $("#endHieght").val(endhieght);
+    	   $("#startWeigh").val(startweigh);
+    	   $("#endWeigh").val(endweigh);
+  			$("#addzise").html("Update size")
+      })
+  })
+             $(document).ready(function(){
+              $("#close").click(function(){
+            	
+            	  $("#formsize").trigger("reset");
+              })
+	 
+					// save 
+					$("#btnsavesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						
+						const sizeName = document.getElementById("sizeName").value;
+						const startHieght = document.getElementById("startHieght").value;
+						const endHieght = document.getElementById("endHieght").value;
+						const startWeigh = document.getElementById("startWeigh").value;
+						const endWeigh = document.getElementById("endWeigh").value;
+						console.log(sizeName,startHieght,endHieght);
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(sizeName === "" || startHieght === "" || endHieght === ""
+						||	startWeigh === "" || endWeigh ===""	){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'This action is not allowed.'+ ' startHieght'
+		                + ' endHieght' + ' startWeigh' + ' endWeigh'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/size/ajaxsavesize",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+									
+									},
+
+							}).done(function(data){
+								console.log(data);
+				
+								 
+								if(data === "false"){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Size name is duplicate !'
+							                
+							            });
+								}else{
+									if(data === "success"){
+										$("#popUp").css("margin-left", "100%");
+										 $(".swal2-container").show();
+										 setTimeout(() =>{
+					        			 $(".swal2-container").hide();
+										},2500);
+										
+										setTimeout(() =>{
+											$("#taongcuch").load("http://localhost:8080/admin/size/add");
+											},2400);
+										
+									}
+									else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									}
+								}
+						
+							})
+						}
+			
+					   
+		})
+
+								// update 
+					$("#btnupdatesize").click(function(){
+						var formcategory = $("#formcategory").serializeArray();
+						var namecategory = $(this).find(".categoryName1").attr("value");
+						const myElement = document.getElementById("categoryName").value;
+						console.log(formcategory);
+					
+						json = {};
+						$.each(formcategory, function(i, field){
+				    		json[field.name] = field.value;
+							if(field.name === "Category_Name" && field.value ===""){
+							$(".jq-toast-wrap").show();
+								setTimeout(() =>{
+            			 $(".jq-toast-wrap").hide();
+						},5000);
+							return false;
+							
+							}else{
+												
+
+				}
+			});		if(myElement === ""){
+				return false
+			}
+			else{
+			    $.ajax({
+					url:"/admin/category/ajaxupdatecategory",
+					type: "POST",
+					data:{
+						dataJson:JSON.stringify(json),
+					
+					},
+
+			}).done(function(data){
+				console.log(data);
+				if(data === "Successful"){
+					 $(".swal2-container").show();
+					 setTimeout(() =>{
+        			 $(".swal2-container").hide();
+					},2500);
+					$("#formcategory").trigger("reset");
+					setTimeout(() =>{
+						$("#taongcuch").load("http://localhost:8080/admin/category/add");
+						},2400);
+					
+				}
+				if(data === "false"){
+					$.Toast("Error", "Your category name is duplicated !", "success", {
+				          has_icon:true,
+				          has_close_btn:true,
+							stack: true,
+				          fullscreen:true,
+				          timeout:5000,
+				          sticky:false,
+				          has_progress:true,
+				          rtl:false,
+				      });
+					
+					
+				}
+			})
+			}
+
+		})
+})
+
+</script>
+                    </div>
+                </div>
+            </div>
+ 
+
+
+</body>
+</html>

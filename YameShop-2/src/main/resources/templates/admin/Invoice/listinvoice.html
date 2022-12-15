@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+	
+<head>
+<meta charset="UTF-8">
+<title>Hoá đơn</title>
+<style type="text/css">
+#andi {
+    display: none;
+}
+</style>
+</head>
+<body id="khang">
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/admin/dashboard}">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                           
+                            <li class="breadcrumb-item active" aria-current="page">Hoá đơn</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Tất cả hoá đơn hàng</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                   <a  th:href="@{/admin/invoice/taohd}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                       Thêm hoá đơn
+                    </a> 
+                   
+                    
+                </div>
+            </div>
+            <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" oninput="searchByName(this)"   placeholder="Tìm kiếm bằng tên, sđt"></div>
+               
+               <select id="metlamroi" class="form-select fmxw-200 d-none d-md-inline"  aria-label="Message select example 2">
+	               <option  value="2" selected="selected" >Tất cả</option>
+	               <option  value="0">Đã duyệt</option>
+	               <option value="1">Chưa duyệt</option>
+	                <option value="3">Đang chuẩn bị hàng</option>
+	                <option value="4">Đã giao hàng cho shipper</option>
+	                  <option value="7">Đang giao hàng</option>
+	                <option value="5">Hoàn thành</option>
+	                <option value="6">Giao hàng không thành công trả về shop</option>
+               </select></div>
+                    <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
+                        <div class="dataTable-dropdown"><label><select id="showme" class="dataTable-selector"><option value="5">5</option><option value="10" >10</option><option value="15" selected="selected">15</option><option value="20">20</option><option value="25">25</option></select> </label></div>
+                    </div>
+                </div>
+            </div>
+
+   <div id="okeroiload" class="col-12 ">
+      <!--  <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            
+                           
+                             <li class="breadcrumb-item" value="1"><a>Chưa Duyệt</a></li>
+                             <li class="breadcrumb-item"  value="0"><a  >Đã Duyệt</a></li>
+                              <li class="breadcrumb-item"  value="3"><a  >Đang chuẩn bị hàng</a></li>
+                               <li class="breadcrumb-item"  value="4"><a  >Đã giao hàng cho shipper</a></li>
+                                <li class="breadcrumb-item"  value="5"><a  >Hoàn thành</a></li>
+                                 <li class="breadcrumb-item"  value="6"><a  >Giao hàng không thành công</a></li>
+                                  <li class="breadcrumb-item"  value="7"><a  >Đang giao hàng</a></li>
+                        </ol>
+                    </nav>
+                   
+                   
+                </div> -->
+                <div class="row">
+    <div class="col-12">
+        <!-- Tab -->
+        <nav>
+            <div class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" value="1" onclick="showinvoi(this.getAttribute('value'))"  data-bs-toggle="tab"  role="tab" aria-controls="nav-home" aria-selected="true">Chưa duyệt</a>
+                <a class="nav-item nav-link" value="0"  onclick="showinvoi(this.getAttribute('value'))" id="nav-dadyuet-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Đã duyệt</a>
+                <a class="nav-item nav-link" value="3"  onclick="showinvoi(this.getAttribute('value'))" id="nav-dangcbh-tab" data-bs-toggle="tab" href="#nav-chuanbihang" role="tab" aria-controls="nav-contact" aria-selected="false">Đang chuẩn bị hàng</a>
+           		 <a class="nav-item nav-link" value= "4"  onclick="showinvoi(this.getAttribute('value'))" id="nav-giaohd-tab" data-bs-toggle="tab" href="#nav-ship" role="tab" aria-controls="nav-contact" aria-selected="false">Đã giao hàng cho shipper</a>
+           		
+           		   <a class="nav-item nav-link" value="5"  onclick="showinvoi(this.getAttribute('value'))" id="nav-hoanthanh-tab" data-bs-toggle="tab" href="#nav-shipsuccess" role="tab" aria-controls="nav-contact" aria-selected="false">Hoàn thành</a>
+           		    <a class="nav-item nav-link" value="6"  onclick="showinvoi(this.getAttribute('value'))" id="nav-chuaht-tab" data-bs-toggle="tab" href="#nav-noshipnosuccess" role="tab" aria-controls="nav-contact" aria-selected="false">Giao không thành công</a>
+           		     <a class="nav-item nav-link" value="7"  onclick="showinvoi(this.getAttribute('value'))" id="nav-dahuy-tab" data-bs-toggle="tab" href="#nav-huy" role="tab" aria-controls="nav-contact" aria-selected="false">Đã huỷ</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                  <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+     <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+            <th >Mã hóa đơn</th>
+            <th >Tên khách hàng</th>
+             <th>SĐT</th>
+              <th>Địa chỉ</th>
+               <th>Ngày đặt</th>
+                <th>Giờ đặt</th>
+                 <th>Tổng tiền</th>
+               <th>Trạng thái</th>
+             <th>Chức năng</th>
+             
+        </tr>
+        </thead>
+        <tbody id="myTable">
+         <th:block th:each = "list : ${liststatus1}" >
+        <tr class="categorys" >
+            <td class="IdCategory1" id="idne" th:value=${list.Id_Invoice}>[[${list.Id_Invoice}]]</td>
+            <td class="categoryName" id="khangcogi" th:text=${list.Customer_Name}></td>
+            <td class="categoryName" id="khangcogi"  >[[${list.Phone}]]</td>
+            <td class="categoryName" id="khangcogi1" th:text=${list.Delivery_Address}></td>
+            <td class="categoryName" id="khangcogi" th:text="${#dates.format(list.receiptDate, 'dd-MM-yyyy')}"></td>
+             <td class="categoryName" id="khangcogi" th:text=${list.gio}></td>
+              <td th:text="${#numbers.formatDecimal(list.total_money, 0, 'COMMA', 0, 'POINT')} "></td>
+            	<td id="atviestatus"> 
+            	            			<span
+            			th:data-id="${list.Id_Invoice}"
+          				th:data-name="${list.status}"
+          				onclick="updatestatus(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" btn badge bg-secondary updatestatus"  th:value=${list.status}> <i class="fa-solid fa-clock"></i> Chưa  duyệt</span>
+            	
+            	
+            	</td>
+          		<td><a  th:data-id="${list.Id_Invoice}"
+          				
+          				onclick="chitethd(this.getAttribute('data-id'))"
+          				
+          		class="btn-sm btn-outline-info btninfoaize"> <i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.Id_Invoice}"
+          				
+          				onclick="showmodal(this.getAttribute('data-id'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+          		
+        </tr>
+        
+       
+ </th:block>
+        </tbody>
+    </table>
+    
+    </div>
+   
+		<div class="dataTable-bottom"><div class="dataTable-info">Hiển thị 1 đến <span id="showtheo">15</span> trên [[${tongsocategory}]] mục</div><nav aria-label="Page navigation example">
+   <nav aria-label="Page navigation example">
+    <ul class="pagination mb-0">
+        <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        </li>
+        <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+         </th:block>
+        <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+                    </div>
+                  
+                </div>
+            </div>
+            
+                       
+            
+            
+            
+            
+          
+                      
+                                    
+                                  
+        </div>
+        <!-- End of tab -->
+    </div>
+</div>
+                   
+                <script type="text/javascript">
+          function updatestatus(id, status){
+        	  
+        	 $("#idhd").val(id);  
+        	  $('#updatestatus').modal('show');
+        		$("#id1235").text(id);
+        	
+        	  if(status == 1){
+        		  $("#chuyentrangthai").text("Đã duyệt");
+        		  $("#trangthaidonhang").val(0)
+        	  }
+        	  if(status == 3){
+        		  $("#chuyentrangthai").text("Đã giao hàng cho shipper");
+        	  }
+        	  if(status == 0){
+        	  $('#chuyentrangthai').text("Đang chuẩn bị hàng");
+        	  $("#trangthaidonhang").val(3)
+        	  /* if(status == 5 || status == 6 || status == 7){
+        		  document.getElementById("andtgh").style.display = 'none';
+        	  } */
+          }
+        	  
+          }
+         function showinvoi(status){
+        	 
+        	 $.ajax({
+ 				url:"/admin/invoice/showinoivce",
+ 				type: "GET",
+ 				data:{
+ 					status:status,
+ 				},
+ 				success: function(data){
+ 					
+ 					console.log(data)
+ 					 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+ 				for(var i = 0; i<data.length; i++){
+ 					if(data[i].status == 0){
+ 						nhanjsonstatus1(data)
+ 						
+ 					}
+ 					if(data[i].status == 1){
+ 						nhanjson(data)
+ 					}
+ 					if(data[i].status == 3){
+ 						nhanjsonstatus3(data)
+ 					}
+ 					if(data[i].status == 4){
+ 						nhanjsonstatus4(data)
+ 					}
+ 					if(data[i].status == 5){
+ 						nhanjsonstatus5(data)
+ 					}
+ 					if(data[i].status == 6){
+ 						nhanjsonstatus6(data)
+ 					}
+ 					if(data[i].status == 7){
+ 						nhanjsonstatus7(data)
+ 					}
+ 				}		
+ 						
+ 						
+ 				}
+ 			}) 
+         }
+         
+          
+         </script>
+        
+          
+        
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bạn có muốn xóa hóa đơn với id ="<span id="id123"></span>"   ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Huỷ bỏ</button>
+                 <a id="yesOyesOptionption" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updatestatus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Thông báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bạn có muốn câph nhật lại trạng thái sang <span id="chuyentrangthai"> </span> với mã hoá đơn ="<span id="id1235"></span>"   ?
+            <div class="col-12 col-lg-6" style="display: none;"><div class="form-group mb-4">
+           <input  type="text" placeholder="Enter your..." class="form-control1"  id="trangthaidonhang" name="CMND" aria-describedby="cartInputAddress1"></div></div>  
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Huỷ bỏ</button>
+                 <a id="capnhattrangthaihoadon" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updatestatusyesno" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Thông báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bạn có muốn câph nhật lại trạng thái với mã hoá đơn ="<span id="id1234"></span>" tên khách hàng="<span id="trangthaihd"></span> "   ?
+              <div class="card-body p-0 p-md-4"><div class="row ">
+           <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Trạng thái</label>
+            <div class="form-checks"  >
+        <input class="form-check-input option radiobuntton" type="radio"  value="5" name="Gender" id="Namvalue" >
+        <label class="form-check-label" >
+           Hoàn thành
+           
+        </label>
+        </div>
+        <div class="form-checks">
+        <input class="form-check-input option radiobuntton" type="radio"  value="6" name="Gender" id="nuvalue" >
+        <label class="form-check-label" for="exampleRadios1">
+            Không hoàn thành
+        </label>
+        </div>
+       
+            </div>
+            </div>
+            </div></div>	
+           
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Huỷ bỏ</button>
+                 <a id="capnhattrangthaihoadonyesno" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-contentss">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Add Brand</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+ <form id="formsize">
+               
+                    <div class="col-md-6 mb-3">
+                     <div class="anoinput">
+                            <label for="first_name">Id</label>
+                            <input class="form-control " id="IdCategory" name="IdBrand" type="text" placeholder="Id" readonly>
+                        </div>
+                        <div>
+                            <label for="first_name">Brand Name</label>
+                            <input class="form-control" id="brandName" name="brandName" type="text" placeholder="Enter your brand name" autofocus>
+                        </div>
+                    </div>
+
+                <div class="mt-3">
+                    <button type="button" id="btnsavesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Save</button>
+                </div>
+                 <div class="ml-3">
+                    <button type="button" id="btnupdatesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Update</button>
+                </div>
+            </form>            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalSubscribe1" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-contentss">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Thêm nhà cung cấp</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form id="formsupplier" action="#" method="post" class="card border-0 shadow">
+            <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+            
+            <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Mã nhà cung cấp</label>
+            <input type="email" class="form-control1" placeholder="Mã mặc định" id="idsupplier" name="idproduct" aria-describedby="cartInputEmail1" required=""></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Tên khách hàng</label>
+            <input type="email" class="form-control1"  id="supplierName" name="supplierName" aria-describedby="cartInputEmail1" required=""></div></div>
+                <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Điên thoại</label> <div class="input-group">
+                  
+           <input type="number" class="form-control1" id="phonenumnber" name="Phonenumnber" placeholder="+84 123456789"></div></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Email</label>
+            <input type="email" class="form-control1" placeholder="name@gmail.com" id="Gamil" name="Gamil" aria-describedby="cartInputEmail1" required=""></div></div>
+            
+ <div class="form-group mb-4"><label for="textarea">Địa chỉ</label>
+<textarea class="form-control" placeholder="Enter your address..." id="Address" name="Address" rows="2"></textarea></div>
+
+           			<div class="form-group mb-4"><label for="textarea">Ghi chú</label>
+<textarea class="form-control" placeholder="Enter your address..." id="descriptions" name="descriptions" rows="4"></textarea></div>
+	
+			  <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  id="showaddproduct" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                       Thêm thương hiệu
+                    </button>
+                </div>
+			
+        <div class="modal-footer">
+                <button type="button" id="btnsave" class="btn btn-secondary">Lưu</button>
+                 <button type="button" id="btnupdate" class="btn btn-secondary">Cập nhật</button>
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Huỷ bỏ</button>
+            </div>
+    </div>
+       </div>
+            </form>
+             
+           
+           
+        </div>
+        
+    </div>
+   
+</div>
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+function chitethd(id){
+	$.ajax({
+		url:"/admin/invoice/chitiethd/" +id,
+		type: "GET",
+	
+		success: function(data){
+			var tablecategory =	$("#khang").empty();
+    		tablecategory.append(data)
+    		window.history.pushState({urlPath:'/admin/invoice/chitiethd/' + id},"", '/admin/invoice/chitiethd/' + id);
+		}
+	}) 
+}
+
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+         //function yesOption(id){
+        	 
+        //	 console.log(id)
+	//}
+         
+       function activeCategory1(){
+    	   alert("oke")
+       }
+
+       function showactive(){
+    	   alert("oke")
+       }
+
+    </script>    
+
+ <script>
+ 
+function nhanjson(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		
+		const price = data[i].total_money;
+		const formatprice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Invoice +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].customer_Name  +' </td>'
+			+'<td class="categoryName" > ' + data[i].phone  +' </td>'
+			+'<td class="categoryName" > ' + data[i].delivery_Address  +' </td>'
+			+'<td class="categoryName" > ' + data[i].receiptDate  +' </td>'
+			+'<td class="categoryName" > ' + data[i].gio  +' </td>'
+			+'<td  > ' + formatprice  +' </td>'
+			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Invoice +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"updatestatus(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" > <i class=\"fa-solid fa-clock\"></i> Chưa Duyệt</span> </td>\r\n"
+			+"<td><a  href =/admin/invoice/chitiethd/"+ data[i].id_Invoice + " \n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Invoice+"\r\n"
+			+ "data-name=" + data[i].customer_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+		
+			
+	}
+}
+function nhanjsonstatus1(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		const price = data[i].total_money;
+		const formatprice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Invoice +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].customer_Name  +' </td>'
+			+'<td class="categoryName" > ' + data[i].phone  +' </td>'
+			+'<td class="categoryName" > ' + data[i].delivery_Address  +' </td>'
+			+'<td class="categoryName" > ' + data[i].receiptDate  +' </td>'
+			+'<td class="categoryName" > ' + data[i].gio  +' </td>'
+			+'<td  > ' + formatprice  +' </td>'
+			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Invoice +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"updatestatus(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" > <i class=\"fa-solid fa-clock\"></i> Đã Duyệt</span> </td>\r\n"
+			+"<td><a  href =/admin/invoice/chitiethd/"+ data[i].id_Invoice + " \n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Invoice+"\r\n"
+			+ "data-name=" + data[i].customer_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+		
+			
+	}
+}
+function nhanjsonstatus3(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		
+		const price = data[i].total_money;
+		const formatprice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Invoice +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].customer_Name  +' </td>'
+			+'<td class="categoryName" > ' + data[i].phone  +' </td>'
+			+'<td class="categoryName" > ' + data[i].delivery_Address  +' </td>'
+			+'<td class="categoryName" > ' + data[i].receiptDate  +' </td>'
+			+'<td class="categoryName" > ' + data[i].gio  +' </td>'
+			+'<td  > ' + formatprice  +' </td>'
+			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Invoice +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"updatestatus(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" > <i class=\"fa-solid fa-clock\"></i> Đang chuẩn bị hàng </span> </td>\r\n"
+			+"<td><a  href =/admin/invoice/chitiethd/"+ data[i].id_Invoice + " \n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Invoice+"\r\n"
+			+ "data-name=" + data[i].customer_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+		
+			
+	}
+}
+function nhanjsonstatus4(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		
+		const price = data[i].total_money;
+		const formatprice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Invoice +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].customer_Name  +' </td>'
+			+'<td class="categoryName" > ' + data[i].phone  +' </td>'
+			+'<td class="categoryName" > ' + data[i].delivery_Address  +' </td>'
+			+'<td class="categoryName" > ' + data[i].receiptDate  +' </td>'
+			+'<td class="categoryName" > ' + data[i].gio  +' </td>'
+			+'<td  > ' + formatprice  +' </td>'
+			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Invoice +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"updatestatusyesno(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" > <i class=\"fa-solid fa-clock\"></i> Đã giao hang cho shipper </span> </td>\r\n"
+			+"<td><a  href =/admin/invoice/chitiethd/"+ data[i].id_Invoice + " \n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n </td>\r\n"
+			+"</tr>")
+		
+			
+	}
+}
+function nhanjsonstatus5(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		
+		const price = data[i].total_money;
+		const formatprice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Invoice +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].customer_Name  +' </td>'
+			+'<td class="categoryName" > ' + data[i].phone  +' </td>'
+			+'<td class="categoryName" > ' + data[i].delivery_Address  +' </td>'
+			+'<td class="categoryName" > ' + data[i].receiptDate  +' </td>'
+			+'<td class="categoryName" > ' + data[i].gio  +' </td>'
+			+'<td  > ' + formatprice  +' </td>'
+			+"<td> <span class=\"  badge bg-info\" > <i class=\"fa-solid fa-check\"></i> Hoàn thành </span> </td>\r\n"
+			+"<td><a  href =/admin/invoice/chitiethd/"+ data[i].id_Invoice + " \n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n </td>\r\n"
+			+"</tr>")
+		
+			
+	}
+}
+function nhanjsonstatus6(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		const price = data[i].total_money;
+		const formatprice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Invoice +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].customer_Name  +' </td>'
+			+'<td class="categoryName" > ' + data[i].phone  +' </td>'
+			+'<td class="categoryName" > ' + data[i].delivery_Address  +' </td>'
+			+'<td class="categoryName" > ' + data[i].receiptDate  +' </td>'
+			+'<td class="categoryName" > ' + data[i].gio  +' </td>'
+			+'<td  > ' + formatprice  +' </td>'
+			+"<td> <span class=\"  badge bg-danger\"> <i class=\"fa-solid fa-ban\"></i> Giao không thành cộng </span> </td>\r\n"
+			+"<td><a  href =/admin/invoice/chitiethd/"+ data[i].id_Invoice + " \n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n </td>\r\n"
+			+"</tr>")
+		
+			
+	}
+}
+function nhanjsonstatus7(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		
+		const price = data[i].total_money;
+		const formatprice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Invoice +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].customer_Name  +' </td>'
+			+'<td class="categoryName" > ' + data[i].phone  +' </td>'
+			+'<td class="categoryName" > ' + data[i].delivery_Address  +' </td>'
+			+'<td class="categoryName" > ' + data[i].receiptDate  +' </td>'
+			+'<td class="categoryName" > ' + data[i].gio  +' </td>'
+			+'<td  > ' + formatprice  +' </td>'
+			+"<td> <span class=\"  badge bg-danger\" > <i class=\"fa-solid fa-ban\"></i> Đã hủy </span> </td>\r\n"
+			+"<td><a  href =/admin/invoice/chitiethd/"+ data[i].id_Invoice + " \n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Invoice+"\r\n"
+			+ "data-name=" + data[i].customer_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+		
+			
+	}
+}
+function searchByName(praram){
+	var txtseach = praram.value;
+	 var status=document.getElementById("metlamroi").value;  
+	  var solimit=document.getElementById("showme").value;  
+	 
+	$.ajax({
+		url:"/admin/invoice/searchByName",
+		type: "GET",
+		data:{
+			name:txtseach,
+			
+		},
+		success: function(value){
+			//self.closest("tr").remove();
+			nhanjson(value)
+console.log(value)
+		}
+	}) 
+}
+function updatestatusyesno(id,name){
+	$('#updatestatusyesno').modal('show');
+	$("#id1234").text(id)
+}
+
+ $(document).ready(function() {
+	 
+	 $("#capnhattrangthaihoadonyesno").click(function(){
+			var id = document.getElementById("id1234").innerHTML;
+			alert(id)
+			var checkbox = document.getElementsByName("Gender");
+            for (var i = 0; i < checkbox.length; i++){
+                if (checkbox[i].checked === false){
+                 	const notyf = new Notyf({
+                        position: {
+                            x: 'right',
+                            y: 'top',
+                        },
+                        types: [
+                            {
+                                type: 'warning',
+                                background: '#F5B759',
+                                icon: {
+                                    className: 'fas fa-exclamation-triangle',
+                                    tagName: 'span',
+                                    color: '#fff'
+                                },
+                                dismissible: false
+                            }
+                        ]
+                    });
+        		 notyf.open({
+                        type: 'warning',
+                        message: 'Vui lòng chọn trạng thái để cập nhật !'
+                    });
+                }else{
+                	var status = checkbox[i].value;
+
+      			  $.ajax({
+      					url:"/admin/invoice/capnhattrangthaiyesno",
+      					type: "POST",
+      					data:{
+      						status:status,
+      						id:id,
+      					},
+      					success: function(data){
+      						console.log(data)
+      						nhanjsonstatus4(data)
+      					
+      					}
+      				}) 
+                }
+                }
+	 })
+	 
+	 $("body").on("change", "#metlamroi", function(){
+
+		  var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		  
+		  $.ajax({
+				url:"/admin/invoice/laytrangthaihd",
+				type: "GET",
+				data:{
+					idstatus:status,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+				nhanjson(value);
+				}
+			}) 
+		 
+	  })
+	 
+	  
+	 
+	 
+	 
+	 
+	 $("#showadd").click(function() {
+		 
+		  $('#modalSubscribe1').modal('show');
+		  $("#btnupdatesize").hide();
+		  $("#btnsavesize").show();
+		  document.getElementById("formsize").reset()
+		 
+		});
+	   
+	   
+	   $("body").on("change", "#metlamroi", function(){
+			  var status=document.getElementById("metlamroi").value;  
+			  var solimit=document.getElementById("showme").value;  
+			
+			  $.ajax({
+					url:"/admin/brand/showstatus",
+					type: "GET",
+					data:{
+						status:status,
+						solimit:solimit,
+					},
+					success: function(value){
+					nhanjson(value);
+
+					}
+				}) 
+			 
+		
+		  
+	});
+
+
+	  
+	
+	  
+	  $("body").on("change", "#showme", function(){
+		  var sotrang=document.getElementById("showme").value;  
+		  var number=document.getElementById("metlamroi").value; 
+		 
+		  $.ajax({
+				url:"/admin/brand/showCategory",
+				type: "GET",
+				data:{
+					sotrang:sotrang,
+					number:number,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+						
+						nhanjson(value);
+						//tablecategory.append(value);	
+						$("#showtheo").html(sotrang);
+				}
+			}) 
+	  })
+	 // phan trang
+	  
+	  $("body").on("click", ".page-item", function(){
+		  $(this).closest("ul").find(".page-item").removeClass("active");
+		  $(this).addClass("active");
+		
+		  var solimit=document.getElementById("showme").value; 
+		  var status = 0
+		  $("#nav-tab >.nav-item").each(function(){
+			  var k = $(this).closest("div").find(".active").attr("value");
+			  status = k;
+		  })
+		 
+		  var sotrang = $(this).text();
+		  var spbatdau = (sotrang -1)*solimit;
+		  $.ajax({
+				url:"/admin/invoice/pagingproduct",
+				type: "GET",
+				data:{
+					spbatdau:spbatdau,
+					status:status,
+					solimit:solimit,
+				},
+				success: function(value){
+					var tablecategory =$("#tablecategory").find("tbody");
+					tablecategory.empty();
+					/* var tablecategory =$("#tablecategoryduyet").find("tbody");
+					tablecategory.empty(); */
+					for(var i = 0; i<value.length; i++){
+						if(value[i].status ==1){
+					
+							nhanjson(value);
+						}
+						if(value[i].status == 0){
+							
+							nhanjsonstatus1(value);
+						}
+						if(value[i].status == 3){
+	 						nhanjsonstatus3(value)
+	 					}
+	 					if(value[i].status == 4){
+	 						nhanjsonstatus4(value)
+	 					}
+	 					if(value[i].status == 5){
+	 						nhanjsonstatus5(value)
+	 					}
+	 					if(value[i].status == 6){
+	 						nhanjsonstatus6(value)
+	 					}
+	 					if(value[i].status == 7){
+	 						nhanjsonstatus7(value)
+	 					}
+					}
+					
+					console.log(value)
+				
+				}
+			}) 
+	  })
+
+
+	  // update tthd
+	  $("#capnhattrangthaihoadon").click(function(){
+		  
+		  
+		  var id = document.getElementById("id1235").innerHTML;
+		  var tthd = document.getElementById("trangthaidonhang").value;  
+		alert(tthd)
+			var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		  
+		 $.ajax({
+				url:"/admin/invoice/updatestatushoadon",
+				type: "POST",
+				data:{
+					id:id,
+					tthd:tthd,
+					status:status,
+					solimit:solimit,
+					
+				},
+				success: function(data){
+						
+					 $('#updatestatus').modal('hide');
+						
+						console.log(data)
+					
+						
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Cập nhật thành công.'
+			            });
+					 /*  setTimeout(() => {
+						 location.reload()
+						}, "3000")  */
+						if(tthd == 0){
+							nhanjson(data)
+						}
+						if(tthd == 3){
+							nhanjsonstatus1(data)
+						}
+						
+				}
+			}) 
+	  })
+	  
+  
+	
+ 
+		$("#yesOyesOptionption").click(function(){
+			  var id = document.getElementById("id123").innerHTML;
+			  $.ajax({
+					url:"/admin/invoice/ajaxdelete",
+					type: "POST",
+					data:{
+						id:id,
+											},
+					success: function(value){
+						$('#modal-default').modal('hide');
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Hủy hóa đơn thành công.'
+			            });
+						  setTimeout(() =>{
+								location.reload()
+									},2300);
+						
+					}
+				}) 
+			
+		})
+	  
+
+	  // reset form
+	  $("#btnreset").click(function(){
+		  $("#btnSaveCategory").show();
+		  $("#btnupdate").hide();
+	  })
+	  // bingding
+    
+  })
+  /*  function activeCategory(id,name){
+		 var solimit=document.getElementById("showme").value; 
+		  var status1=document.getElementById("metlamroi").value;  
+		  $.ajax({
+				url:"/admin/invoice/updatestatus",
+				type: "POST",
+				data:{
+					id:id,
+					status:name,
+					solimit:solimit,
+					status1:status1,
+				},
+				success: function(value){
+					console.log(value)
+					nhanjson(value);
+					
+				}
+			}) 
+	  } */
+   function btninfoaize(id,name){
+    	console.log(id)
+     $('#modalSubscribe').modal('show');
+    	  $("#btnupdatesize").show();
+    	  $("#btnsavesize").hide();
+    	  $("div").removeClass("anoinput");
+    	  
+    	  $.ajax({
+				url:"/admin/invoice/chitiethd",
+				type: "GET",
+				data:{
+					id:id,
+					
+				},
+				success: function(value){
+					console.log(value)
+					nhanjson(value);
+					$("#formsize").empty()
+					for(var i = 0; i<data.length; i++){
+						
+							tablecategory.append(' <table class="table table-flush " id="tablecategory">'
+							     +'   <thead class="thead-light">'
+							     +'    <tr>'
+							     +'       <th >Idhd</th>'
+							     +'       <th >Tên khách hàng</th>'
+							     +'        <th>SĐT</th>'
+							     +'          <th>Địa chỉ</th>'
+							     +'           <th>Ngày đặt</th>'
+							     +'            <th>Giờ đặt</th>'
+							     +'           <th>Trạng thái</th>'
+							     +'         <th>Functional</th>'
+							             
+							     +'    </tr>'
+							     +'   </thead>'
+							     
+							     +'    </table> '
+							+"</tr>")
+						}
+						
+						
+				}
+			}) 
+    	  
+         
+      }
+             $(document).ready(function(){
+              $("#close").click(function(){
+            	
+            	  $("#formsize").trigger("reset");
+              })
+	 
+					// save 
+					$("#btnsavesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						 var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value; 
+						const brandName = document.getElementById("brandName").value;
+						
+						console.log(formsize);
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(brandName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your category name.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/brand/ajaxaddbrand",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+								console.log(data);
+				
+								for(var i = 0; i<data.length; i++)
+								if(data[i].brand_Name === null ){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Category name is duplicate !'
+							                
+							            });
+									 
+								}else{
+									if(data){
+										$('#modal-defaults').modal('hide');
+									nhanjson(data);
+								     const notyf = new Notyf({
+							                position: {
+							                    x: 'left',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'info',
+							                        background: '#0948B3',
+							                        icon: {
+							                            className: 'fas fa-check',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });
+							            notyf.open({
+							                type: 'info',
+							                message: 'Your category name has been saved '
+							            });
+							        
+										
+								//		 $(".swal2-container").show();
+								//		 setTimeout(() =>{
+					        	//		 $(".swal2-container").hide();
+								//		},2500);
+								//		 $('#modal-defaults').modal('hide');
+								//	setTimeout(() =>{
+								//			$("#taongcuch").load("http://localhost:8080/admin/category/add");
+								//			},2500);
+										
+									}
+									else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									}
+								}
+						
+							})
+						}
+			
+					   
+		})
+			
+	// update 
+			$("#btnupdatesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						 var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value; 
+						  const brandName = document.getElementById("brandName").value;
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(brandName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your category name.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/brand/ajaxupdatebrand",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+									console.log(data)
+ 							for(var i = 0; i<data.length; i++)
+							if(data[i].brand_Name === null ){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Category name is duplicate !'
+							                
+							            });
+								}else{
+									if(data){
+										$('#modal-defaults').modal('hide');
+										nhanjson(data);
+										 const notyf = new Notyf({
+								                position: {
+								                    x: 'left',
+								                    y: 'top',
+								                },
+								                types: [
+								                    {
+								                        type: 'info',
+								                        background: '#0948B3',
+								                        icon: {
+								                            className: 'fas fa-check',
+								                            tagName: 'span',
+								                            color: '#fff'
+								                        },
+								                        dismissible: false
+								                    }
+								                ]
+								            });
+								            notyf.open({
+								                type: 'info',
+								                message: 'Your category name has been saved '
+								            });
+									//	 $(".swal2-container").show();
+									//	 setTimeout(() =>{
+					        		//	 $(".swal2-container").hide();
+									//	},2500);
+									//	 $('#modal-defaults').modal('hide');
+									//	setTimeout(() =>{
+									//		$("#taongcuch").load("http://localhost:8080/admin/category/add");
+									//		},2400);
+										
+									}
+									else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									}
+								} 
+						
+							})
+						}
+			
+					   
+		})
+})
+
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

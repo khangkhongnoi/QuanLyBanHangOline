@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>Category</title>
+<link type="text/css" th:href="@{/admin/css/volt.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/admin/scss/volt/components/_buttons.scss}" rel="stylesheet">
+</head>
+<body>
+	  <div  class="row">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Category</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">All Category</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  id="showadd" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        New Category
+                    </button>
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+            <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"  placeholder="Search category"></div>
+               
+               <select id="metlamroi" class="form-select fmxw-200 d-none d-md-inline"  aria-label="Message select example 2">
+	               <option  value="2" selected="selected" >All</option>
+	               <option  value="0">Active</option>
+	               <option value="1">Disbale</option>
+               </select></div>
+                    <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
+                        <div class="dataTable-dropdown"><label><select id="showme" class="dataTable-selector"><option value="5">5</option><option value="10" >10</option><option value="15" selected="selected">15</option><option value="20">20</option><option value="25">25</option></select> </label></div>
+                    </div>
+                </div>
+            </div>
+
+   <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+            <th >Id</th>
+            <th >category name</th>
+             <th>Status</th>
+             <th>Functional</th>
+             
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        <tr class="categorys" th:each = "list : ${listcategory}">
+            <td class="IdCategory1" id="idne" th:value=${list.Id_Category}>[[${list.Id_Category}]]</td>
+            <td class="categoryName" id="khangcogi" th:text=${list.Category_Name}></td>
+            
+            	<td> <span
+            		th:data-id="${list.Id_Category}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" btn badge bg-secondary activeCategory" th:if="${list.status == 0}"  th:value=${list.status}>Active</span>
+            			<span
+            			th:data-id="${list.Id_Category}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" btn badge bg-primary activeCategory" th:if="${list.status == 1}"  th:value=${list.status}>Disbale</span>
+            	</td>
+          		<td><a  th:data-id="${list.Id_Category}"
+          				th:data-name="${list.Category_Name}"
+          				onclick="btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+          				
+          		class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.Id_Category}"
+          				th:data-name="${list.Category_Name}"
+          				onclick="showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+        </tr>
+       
+        </tbody>
+    </table>
+    
+    </div>
+   
+		<div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to <span id="showtheo">15</span> of [[${tongsocategory}]] entries</div><nav aria-label="Page navigation example">
+   <nav aria-label="Page navigation example">
+    <ul class="pagination mb-0">
+        <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        </li>
+        <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+         </th:block>
+        <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+                    </div>
+                  
+                </div>
+
+  		
+               
+        
+          
+        
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               Do you want to delete  id ="<span id="id123"></span>" name="<span id="sizeName1"></span>"   ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-defaults" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Add Category</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+ <form id="formsize">
+               
+                    <div class="col-md-6 mb-3">
+                     <div class="anoinput">
+                            <label for="first_name">Id</label>
+                            <input class="form-control " id="IdCategory" name="IdCategory" type="text" placeholder="Id" readonly>
+                        </div>
+                        <div>
+                            <label for="first_name">Category Name</label>
+                            <input class="form-control" id="categoryName" name="categoryName" type="text" placeholder="Enter your brand name" autofocus>
+                        </div>
+                    </div>
+                   
+  
+                
+              
+                <div class="mt-3">
+                    <button type="button" id="btnsavesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Save</button>
+                </div>
+                 <div class="ml-3">
+                    <button type="button" id="btnupdatesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Update</button>
+                </div>
+            </form>            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+         //function yesOption(id){
+        	 
+        //	 console.log(id)
+	//}
+         
+       function activeCategory1(){
+    	   alert("oke")
+       }
+
+       function showactive(){
+    	   alert("oke")
+       }
+
+    </script>    
+ 
+ <script>
+ function fid(data){
+		var res = "";
+		for(var i = 0; i<data.length; i++){
+			res += data[i].id_Category+ "<br>";
+			
+		}
+		document.getElementById("myP").innerHTML = res;
+	}
+ function trahtml(data){
+	 var tablecategory =	$("#tablecategory").find("tbody");
+		tablecategory.empty();
+		
+	//tablecategory.append(
+	//' <table class="table"> <thead> <tr> <th scope="col">#</th>' 
+	//+' <th scope="col">First</th> <th scope="col">Last</th><th scope="col">Handle</th> </tr> </thead><tbody><tr>  <th scope="row">1</th>   <td>Mark</td>  <td>Otto</td> <td>@mdo</td>  </tr <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td> <td>@fat</td </tr></tbody></table> '		
+//	)
+		for(var i = 0; i<data.length; i++){
+		if(data[i].status === 0){
+	tablecategory.append('<tr class="categorys">'
+	+ '<td class="IdCategory1"> '+ data[i].id_Category  +' </td>'
+	+'<td class="categoryName" id="khangcogi"> ' + data[i].category_Name  +' </td>'
+		
+		
+	+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Category +" data-name= " + data[i].status +"  " 
+	
+	+ "  onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Active</span>\r\n"
+	
+	+ "            	</td>"
+		
+	 +"<td><a  data-id= " + data[i].id_Category +"\r\n"
+		+ "	data-name=" + data[i].category_Name +"\r\n"
+		+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+		+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+		
+		+ "          		\r\n"
+		+ "          			<a data-id= " + data[i].id_Category+"\r\n"
+		+ "          				data-name=" + data[i].category_Name +"\r\n"
+		+ "          				onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+		+ "						 class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a>\r\n"
+		+ "          		</td>"
+		
+			+"</tr>")
+		}
+		if(data[i].status === 1){
+			tablecategory.append('<tr class="categorys">'
+					+ '<td class="IdCategory1"> '+ data[i].id_Category  +' </td>'
+					+'<td class="categoryName" id="khangcogi"> ' + data[i].category_Name  +' </td>'
+						
+						
+					+"<td> <span class=\" btn badge bg-primary\" data-id= " + data[i].id_Category +" data-name= " + data[i].status +"  " 
+					
+					+ "  onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Disbale</span>\r\n"
+					
+					+ "            	</td>"
+						+'<td><a 	class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a> <a class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a></td>'
+						
+							+'</tr>')
+		}
+		}
+ }
+
+ 
+ $(document).ready(function() {
+	   $('#myInput').on('keyup', function(event) {
+	      event.preventDefault();
+	      /* Act on the event */
+	      var tukhoa = $(this).val().toLowerCase();
+	      $('#myTable tr').filter(function() {
+	         $(this).toggle($(this).text().toLowerCase().indexOf(tukhoa)>-1);
+	      });
+	   });
+	});
+
+  $(document).ready(function(){
+	  $("body").on("change", "#metlamroi", function(){
+		  var number=document.getElementById("metlamroi").value;  
+		  var sotrang=document.getElementById("showme").value;  
+		
+		  $.ajax({
+				url:"/admin/category/showstatus",
+				type: "GET",
+				data:{
+					number:number,
+					sotrang:sotrang,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					trahtml(value);	
+
+				}
+			}) 
+		 
+	  })
+	  
+	
+	  
+	  $("body").on("change", "#showme", function(){
+		  var sotrang=document.getElementById("showme").value;  
+		  var number=document.getElementById("metlamroi").value; 
+		 
+		  $.ajax({
+				url:"/admin/category/showCategory",
+				type: "GET",
+				data:{
+					sotrang:sotrang,
+					number:number,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+						
+						trahtml(value);
+						//tablecategory.append(value);	
+						$("#showtheo").html(sotrang);
+				}
+			}) 
+	  })
+	 // phan trang
+	  
+	  $("body").on("click", ".page-item", function(){
+		  $(".page-item").removeClass("active");
+		  $(this).addClass("active");
+		  var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		  
+
+		  var sotrang = $(this).text();
+		  var spbatdau = (sotrang -1)*solimit;
+		  $.ajax({
+				url:"/admin/category/pagingcategory",
+				type: "GET",
+				data:{
+					spbatdau:spbatdau,
+					status:status,
+					solimit:solimit,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					trahtml(value);
+
+				}
+			}) 
+	  })
+
+
+	  // xoa
+	  $("#yesOption").click(function(){
+		var id = document.getElementById("id123").innerHTML;
+		var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		 $.ajax({
+				url:"/admin/category/deletecategory",
+				type: "POST",
+				data:{
+					id:id,
+					status:status,
+					solimit:solimit,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					
+					trahtml(value);
+						//self.removeClass( "btn badge bg-secondary" ).addClass( "btn badge bg-primary" );
+						//self.html("Disable");
+						$('#modal-default').modal('hide');
+						var tablecategory =	$("#tablecategory").find("tbody");
+						tablecategory.empty();
+						
+						
+						//tablecategory.append(value);	
+						
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Delete succees.'
+			            });
+					
+				}
+			}) 
+	  })
+	  
+	  
+	  
+	  $("#showadd").click(function() {
+		
+		  $('#modal-defaults').modal('show');
+		  $("#btnupdatesize").hide();
+		  $("#btnsavesize").show();
+		  document.getElementById("formsize").reset()
+		 
+		});
+ 
+		$("#yesOption1").click(function(){
+			  var idsize = $(this).closest("div").find(".idsize").attr("value");
+			  
+			 alert(idsize)
+			  var self = $(this);
+			  $.ajax({
+					url:"/admin/size/ajaxdelete",
+					type: "POST",
+					data:{
+						id:idsize,
+											},
+					success: function(value){
+						//self.closest("tr").remove();
+						console.log(value)
+			
+						
+					}
+				}) 
+			
+		})
+	  
+
+	  // reset form
+	  $("#btnreset").click(function(){
+		  $("#btnSaveCategory").show();
+		  $("#btnupdate").hide();
+	  })
+	  // bingding
+    
+  })
+   function activeCategory(id,name){
+		//  var id = $(this).closest("tr").find(".IdCategory1").attr("value");
+		//  var  status = $(this).closest("tr").find(".activeCategory").text();
+		 var solimit=document.getElementById("showme").value; 
+		  var status1=document.getElementById("metlamroi").value;  
+		  var self = $(this);
+		  $.ajax({
+				url:"/admin/category/updatestatus",
+				type: "POST",
+				data:{
+					id:id,
+					status:name,
+					solimit:solimit,
+					status1:status1,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+					if(value){
+						//self.removeClass( "btn badge bg-secondary" ).addClass( "btn badge bg-primary" );
+						//self.html("Disable");
+						trahtml(value);
+						
+					}
+					if(value === "1")
+					{
+						self.removeClass( "btn badge bg-primary" ).addClass( "btn badge bg-secondary " );
+						self.html("Active");
+					}
+					
+				}
+			}) 
+	  }
+   function btninfoaize(id,name){
+    	console.log(id)
+     $('#modal-defaults').modal('show');
+    	  $("#btnupdatesize").show();
+    	  $("#btnsavesize").hide();
+    	  $("div").removeClass("anoinput");
+         
+    	$("#categoryName").val(name);
+     	$("#IdCategory").val(id);
+  			$("#addzise").html("Update size")
+      }
+             $(document).ready(function(){
+              $("#close").click(function(){
+            	
+            	  $("#formsize").trigger("reset");
+              })
+	 
+					// save 
+					$("#btnsavesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						 var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value; 
+						const categoryName = document.getElementById("categoryName").value;
+						
+						console.log(categoryName);
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(categoryName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your category name.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/category/ajaxaddcategory",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+								console.log(data);
+				
+								
+								if(data === "false" ){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Category name is duplicate !'
+							                
+							            });
+									 
+								}else{
+									if(data){
+										$('#modal-defaults').modal('hide');
+									console.log(data)	
+									var tablecategory =	$("#tablecategory").find("tbody");
+									tablecategory.empty();
+									
+								//tablecategory.append(
+								//' <table class="table"> <thead> <tr> <th scope="col">#</th>' 
+								//+' <th scope="col">First</th> <th scope="col">Last</th><th scope="col">Handle</th> </tr> </thead><tbody><tr>  <th scope="row">1</th>   <td>Mark</td>  <td>Otto</td> <td>@mdo</td>  </tr <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td> <td>@fat</td </tr></tbody></table> '		
+							//	)
+									
+									tablecategory.append(data);	
+								     const notyf = new Notyf({
+							                position: {
+							                    x: 'left',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'info',
+							                        background: '#0948B3',
+							                        icon: {
+							                            className: 'fas fa-check',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });
+							            notyf.open({
+							                type: 'info',
+							                message: 'Your category name has been saved '
+							            });
+							        
+										
+								//		 $(".swal2-container").show();
+								//		 setTimeout(() =>{
+					        	//		 $(".swal2-container").hide();
+								//		},2500);
+								//		 $('#modal-defaults').modal('hide');
+								//	setTimeout(() =>{
+								//			$("#taongcuch").load("http://localhost:8080/admin/category/add");
+								//			},2500);
+										
+									}
+									else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									}
+								}
+						
+							})
+						}
+			
+					   
+		})
+			
+								// update 
+										$("#btnupdatesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						 var status=document.getElementById("metlamroi").value;  
+						  var solimit=document.getElementById("showme").value; 
+						const categoryName = document.getElementById("categoryName").value;
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(categoryName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your category name.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/category/ajaxupdatecategory",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										status:status,
+										solimit:solimit,
+									},
+
+							}).done(function(data){
+								
+								
+								 
+							if(data === "false"){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Category name is duplicate !'
+							                
+							            });
+								}else{
+									if(data){
+										$('#modal-defaults').modal('hide');
+										var tablecategory =	$("#tablecategory").find("tbody");
+										tablecategory.empty();
+										tablecategory.append(data);	
+										 const notyf = new Notyf({
+								                position: {
+								                    x: 'left',
+								                    y: 'top',
+								                },
+								                types: [
+								                    {
+								                        type: 'info',
+								                        background: '#0948B3',
+								                        icon: {
+								                            className: 'fas fa-check',
+								                            tagName: 'span',
+								                            color: '#fff'
+								                        },
+								                        dismissible: false
+								                    }
+								                ]
+								            });
+								            notyf.open({
+								                type: 'info',
+								                message: 'Your category name has been saved '
+								            });
+									//	 $(".swal2-container").show();
+									//	 setTimeout(() =>{
+					        		//	 $(".swal2-container").hide();
+									//	},2500);
+									//	 $('#modal-defaults').modal('hide');
+									//	setTimeout(() =>{
+									//		$("#taongcuch").load("http://localhost:8080/admin/category/add");
+									//		},2400);
+										
+									}
+									else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									}
+								} 
+						
+							})
+						}
+			
+					   
+		})
+})
+
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

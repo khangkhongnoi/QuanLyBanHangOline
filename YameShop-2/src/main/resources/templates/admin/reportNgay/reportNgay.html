@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}" xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>Brand</title>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            
+                            <li class="breadcrumb-item active" aria-current="page">Thông kê doanh thu</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Thông kê doanh thu ngày</h2>
+                   
+                </div>
+                
+            </div>
+            
+        <div class="row align-items-center"><div class="col-sm-3 mb-3"><label for="birthday">Từ ngày</label><div class="input-group" >
+        <span class="input-group-text"><svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg> </span>
+        <input type="text" id="datepicker"  class="form-control datepicker-input"></p></div></div>
+        
+        <div class="col-sm-3 mb-3"><label for="birthday">Đến ngày</label><div class="input-group" >
+        <span class="input-group-text"><svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg> </span>
+        <input type="text" id="todatepicker"  class="form-control datepicker-input"></p></div>
+        
+        </div>
+  			    		   <div class="ml-3">
+                  <button type="button" id="btnthonghke"  class="btn btn-gray-800 ms-lg-3 " >Thống kê</button>
+                </div>
+  			 </div>
+			<div class="col-12 mb-4"><div class="card border-0 bg-yellow-100 shadow">
+			<div class="card-header d-sm-flex flex-row align-items-center border-yellow-200 flex-0">
+			
+			<div class="btn-group ms-auto" role="group" aria-label="Basic example"><button type="button" class="btn btn-secondary active">Ngày</button> <button type="button" id="btnthang" class="btn btn-secondary">Tháng</button></div>
+			 <div>
+                            
+                           
+                        </div>
+			</div>
+		
+			<canvas id="myChart"></canvas>
+			<div id="charmoi"></div>
+    </div>
+    </div>
+ 
+   
+               <div class="col-10">
+    
+	 
+	
+    
+
+          </div>   
+        <script type="text/javascript">
+        function destroyChart() {
+        	  myChart.destroyChart();
+        	}
+        $( function() {
+            $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();
+          
+          } );
+        $( function() {
+            $( "#todatepicker" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();
+          
+          } );
+        $(document).ready(function() {
+        	
+        	$("#btnthonghke").click(function(){
+        		var ngaybt = $("#datepicker").val();
+        		var ngaykt = $("#todatepicker").val()
+        		myChart.destroy()
+       		 $.ajax({
+     				url:"/report/ngaybtandngaykt",
+     				type: "GET",
+     				data :{
+     					ngaybt:ngaybt,
+     					ngaykt:ngaykt,
+     				},
+     				success: function(value){
+     					//self.closest("tr").remove();
+     			console.log(value)
+     			 $('#charmoi').append('<canvas id=""myChart""><canvas>');
+     			var transaction_x = value.map(x => x["booking_Date"])
+				
+				var transaction_y = value.map(x => x["total_money"])
+				/* const labels = Utils.months({count: 7}); */
+				const data = {
+				  labels: transaction_x,
+				  datasets: [{
+				    label: 'Tổng doanh thu',
+				    data: transaction_y,
+				    backgroundColor: [
+				    	 'rgba(255, 99, 132, 0.6)',
+				            'rgba(54, 162, 235, 0.6)',
+				            'rgba(255, 206, 86, 0.6)',
+				            'rgba(75, 192, 192, 0.6)',
+				            'rgba(153, 102, 255, 0.6)',
+				            'rgba(255, 159, 64, 0.6)',
+				            'rgba(255, 99, 132, 0.6)'
+				    ],
+				    borderColor: [
+				      'rgb(255, 99, 132)',
+				      'rgb(255, 159, 64)',
+				      'rgb(255, 205, 86)',
+				      'rgb(75, 192, 192)',
+				      'rgb(54, 162, 235)',
+				      'rgb(153, 102, 255)',
+				      'rgb(201, 203, 207)'
+				    ],
+				    borderWidth: 1
+				  }]
+				};
+				const config = {
+						  type: 'bar',
+						  data: data,
+						  options: {
+						    scales: {
+						      y: {
+						        beginAtZero: true
+						      }
+						    }
+						  },
+						};
+				let ctx = document.getElementById('myChart').getContext('2d');
+				new Chart(ctx, config);
+			
+     				}
+     			}) 
+        	})
+        	
+        	
+        	$("#btnthang").click(function(){
+        		myChart.destroy()
+        		 $.ajax({
+      				url:"/report/ngay1",
+      				type: "GET",
+      				
+      				success: function(value){
+      					//self.closest("tr").remove();
+      			console.log(value)
+      			 $('#charmoi').append('<canvas id=""myChart""><canvas>');
+      			var transaction_x = value.map(x => x["booking_Date"])
+				
+				var transaction_y = value.map(x => x["total_money"])
+				/* const labels = Utils.months({count: 7}); */
+				const data = {
+				  labels: transaction_y,
+				  datasets: [{
+				    label: 'Tổng doanh thu',
+				    data: transaction_x,
+				    backgroundColor: [
+				    	 'rgba(255, 99, 132, 0.6)',
+				            'rgba(54, 162, 235, 0.6)',
+				            'rgba(255, 206, 86, 0.6)',
+				            'rgba(75, 192, 192, 0.6)',
+				            'rgba(153, 102, 255, 0.6)',
+				            'rgba(255, 159, 64, 0.6)',
+				            'rgba(255, 99, 132, 0.6)'
+				    ],
+				    borderColor: [
+				      'rgb(255, 99, 132)',
+				      'rgb(255, 159, 64)',
+				      'rgb(255, 205, 86)',
+				      'rgb(75, 192, 192)',
+				      'rgb(54, 162, 235)',
+				      'rgb(153, 102, 255)',
+				      'rgb(201, 203, 207)'
+				    ],
+				    borderWidth: 1
+				  }]
+				};
+				const config = {
+						  type: 'bar',
+						  data: data,
+						  options: {
+						    scales: {
+						      y: {
+						        beginAtZero: true
+						      }
+						    }
+						  },
+						};
+				let ctx = document.getElementById('myChart').getContext('2d');
+				new Chart(ctx, config);
+			
+      				}
+      			}) 
+        	})
+        	
+        	
+        	
+        	$("#showadd").click(function(){
+        		var d = $("#datepicker").val();
+        		var t = $("#todatepicker").val();
+        		console.log(t)
+        		 $.ajax({
+     				url:"/report/ngay",
+     				type: "GET",
+     				data:{
+     					d:d,
+     					t:t,
+     				},
+     				success: function(value){
+     					//self.closest("tr").remove();
+     			
+     				}
+     			}) 
+        		
+        		 
+        		/* $("#birthday").datepicker({
+        			todayBtn: "linked",
+        		       language: "it",
+        		       autoclose: true,
+        		       todayHighlight: true,
+        		       format: 'dd-mm/yyyy'
+            	}); */
+        	})
+        	
+        })
+        
+        
+        	
+      var dt = $('#birthday').datepicker( "getDate" );
+    		
+   		 console.log(dt)
+        
+        
+        </script>  
+          
+<script th:inline = "javascript" >
+var transaction = [[${list}]]
+console.log(transaction);
+
+
+/* var today = new Date();
+var date = today.getFullYear() + '-'+(today.getMonth()+1)+'-'+today.getDate();
+console.log(date);
+for (var i = 1 ; i <=6 ; i++){
+	today.setDate(today.getDate() - i);
+	var date = today.getFullYear() + '-'+(today.getMonth()+1)+'-'+today.getDate();
+	console.log(date);
+}
+
+var sum = []
+for(var i = 0; i<transaction.length; i++){
+	if(transaction[i].booking_Date){
+		console.log(transaction[i].total_money)
+		sum = sum + transaction[i].total_money;
+	}
+	
+	
+} 
+console.log(sum) */
+
+
+$(document).ready(function() {
+	
+	
+	
+	$("#nut").click(function(){
+		$.ajax({
+			url:"/report/charngay",
+			type: "GET",
+		
+			success: function(value){
+				console.log(value);
+				var transaction_x = value.map(x => x["booking_Date"])
+				
+				var transaction_y = value.map(x => x["total_money"])
+				/* const labels = Utils.months({count: 7}); */
+				const data = {
+				  labels: transaction_x,
+				  datasets: [{
+				    label: 'My First Dataset',
+				    data: transaction_y,
+				    backgroundColor: [
+				    	 'rgba(255, 99, 132, 0.6)',
+				            'rgba(54, 162, 235, 0.6)',
+				            'rgba(255, 206, 86, 0.6)',
+				            'rgba(75, 192, 192, 0.6)',
+				            'rgba(153, 102, 255, 0.6)',
+				            'rgba(255, 159, 64, 0.6)',
+				            'rgba(255, 99, 132, 0.6)'
+				    ],
+				    borderColor: [
+				      'rgb(255, 99, 132)',
+				      'rgb(255, 159, 64)',
+				      'rgb(255, 205, 86)',
+				      'rgb(75, 192, 192)',
+				      'rgb(54, 162, 235)',
+				      'rgb(153, 102, 255)',
+				      'rgb(201, 203, 207)'
+				    ],
+				    borderWidth: 1
+				  }]
+				};
+				const config = {
+						  type: 'bar',
+						  data: data,
+						  options: {
+						    scales: {
+						      y: {
+						        beginAtZero: true
+						      }
+						    }
+						  },
+						};
+				let ctx = document.getElementById('myChart').getContext('2d');
+				const myChart =new Chart(ctx, config);
+				myChart.destroy()
+			}
+		}) 
+	})
+});
+
+    window.onload = function(){
+    	cateChart("myChart");
+    	
+    }
+  </script>
+
+  <script>
+    
+
+	var transaction_x = transaction.map(x => x["booking_Date"])
+	
+	var transaction_y = transaction.map(x => x["total_money"])
+	/* const labels = Utils.months({count: 7}); */
+	const data = {
+	  labels: transaction_x,
+	  datasets: [{
+	    label: 'Tổng doanh thu',
+	    data: transaction_y,
+	    backgroundColor: [
+	    	 'rgba(255, 99, 132, 0.6)',
+	            'rgba(54, 162, 235, 0.6)',
+	            'rgba(255, 206, 86, 0.6)',
+	            'rgba(75, 192, 192, 0.6)',
+	            'rgba(153, 102, 255, 0.6)',
+	            'rgba(255, 159, 64, 0.6)',
+	            'rgba(255, 99, 132, 0.6)'
+	    ],
+	    borderColor: [
+	      'rgb(255, 99, 132)',
+	      'rgb(255, 159, 64)',
+	      'rgb(255, 205, 86)',
+	      'rgb(75, 192, 192)',
+	      'rgb(54, 162, 235)',
+	      'rgb(153, 102, 255)',
+	      'rgb(201, 203, 207)'
+	    ],
+	    borderWidth: 1
+	  }]
+	};
+	const config = {
+			  type: 'bar',
+			  data: data,
+			  options: {
+			    scales: {
+			      y: {
+			        beginAtZero: true
+			      }
+			    }
+			  },
+			};
+	let ctx = document.getElementById('myChart').getContext('2d');
+	const myChart =new Chart(ctx, config);
+	
+
+
+  </script>
+                    </div>
+       
+ 
+<script type="text/javascript" src="https://yourweb.com/inc/chart.utils.js"></script>
+
+</body>
+</html>

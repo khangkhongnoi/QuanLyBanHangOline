@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/dashboardLayout.html}">
+<head>
+
+<meta charset="UTF-8">
+<title>Bảng điều khiển</title>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+
+	 <div class="row" layout:fragment="content">
+               <div class="col-12 mb-4">
+                    <div class="card bg-yellow-100 border-0 shadow" id="removechar">
+                        <div class="card-header d-sm-flex flex-row align-items-center flex-0">
+                            <div class="d-block mb-3 mb-sm-0">
+                                <div class="fs-5 fw-normal mb-2">DOANH THU THEO NGÀY</div>
+                                <h2 class="fs-3 fw-extrabold" th:text="${#numbers.formatDecimal(tongtien, 0, 'COMMA', 0, 'POINT') + 'VNĐ'}"></h2>
+                                <div class="small mt-2"> 
+                                    <span class="fw-normal me-2">Doanh thu hôm nay</span>                              
+                                    <span class="fas fa-angle-up text-success"></span>                                   
+                                    <span class="text-success fw-bold">[[${phantram}]]%</span>
+                                </div>
+                            </div>
+                            <div class="d-flex ms-auto">
+                                <a  id="ngay" class="btn btn-secondary text-dark btn-sm me-2">Ngày</a>
+                                <a  id="thang" class="btn btn-dark btn-sm me-3">Tháng</a>
+                            </div>
+                        </div>
+                        <div class="card-body p-2">
+                        <div id="chart"></div>
+                           <!--  <div class="ct-chart-sales-value ct-double-octave ct-series-g"></div> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <p>
+             
+            </p>
+                <div class="col-12 mb-4">
+                    <div class="card bg-yellow-100 border-0 shadow">
+                        <div class="card-header d-sm-flex flex-row align-items-center flex-0">
+                            <div class="d-block mb-3 mb-sm-0">
+                                <div class="fs-5 fw-normal mb-2">TOP 10 SẢN PHẢM BÁN CHẠY THÁNG NÀY</div>
+                                
+                                
+                            </div>
+                            
+                        </div>
+                        <div class="card-body p-2">
+                        <div id="charttop10"></div>
+                           <!--  <div class="ct-chart-sales-value ct-double-octave ct-series-g"></div> -->
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="col-12 col-sm-6 col-xl-4 mb-4">
+                <div class="card border-0 shadow">
+                <div class="card-body"><div class="row d-block d-xl-flex align-items-center">
+                <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0"><svg class="icon icon-md" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg></div><div class="d-sm-none"><h2 class="h5">Tổng số lượng truy cập</h2><h3 class="fw-extrabold mb-1"></h3></div></div>
+                <div class="col-12 col-xl-7 px-xl-0"><div class="d-none d-sm-block"><h2 class="h5">Tổng số lượng truy cập</h2><h3 class="fw-extrabold mb-1">[[${count.count}]]</h3></div>
+                
+                </div></div></div></div></div>
+                <div class="col-12 col-sm-6 col-xl-4 mb-4">
+                <div class="card border-0 shadow"><div class="card-body">
+                <div class="row d-block d-xxl-flex align-items-center">
+                <div class="col-12 col-xxl-6 px-xxl-0 mb-3 mb-xxl-0" style="position: relative;">
+                <div id="chart-revenueview" style="min-height: 140px;">
+                
+               </div><div class="resize-triggers"><div class="expand-trigger"><div style="width: 263px; height: 141px;"></div></div><div class="contract-trigger"></div></div></div><div class="col-12 col-xxl-6 ps-xxl-4 pe-xl-0"><h2 class="fs-6 fw-normal mb-1 text-gray-400">TOP 10 SẢN PHẨM CÓ LƯỢNG TRUY CẬP CAO NHẤT</h2>
+</div></div></div></div></div>
+                
+               <!--  <div class="col-12 mb-4">
+                    <div class="card bg-yellow-100 border-0 shadow">
+                        <div class="card-header d-sm-flex flex-row align-items-center flex-0">
+                            <div class="d-block mb-3 mb-sm-0">
+                                <div class="fs-5 fw-normal mb-2">TOP 10 SẢN PHẢM CÓ LƯỢNG TRUY CẬP CAO NHẤT</div>
+                                <h2 class="fs-3 fw-extrabold" th:text="${#numbers.formatDecimal(tongtien, 0, 'COMMA', 0, 'POINT') + 'VNĐ'}"></h2>
+                                <div class="small mt-2"> 
+                                    <span class="fw-normal me-2">Yesterday</span>                              
+                                    <span class="fas fa-angle-up text-success"></span>                                   
+                                   
+                                </div>
+                            </div>
+                            <div class="d-flex ms-auto">
+                                <a href="#" class="btn btn-secondary text-dark btn-sm me-2">Month</a>
+                                <a href="#" class="btn btn-dark btn-sm me-3">Week</a>
+                            </div>
+                        </div>
+                        <div class="card-body p-2">
+                        <div id="charttopview"></div>
+                            <div class="ct-chart-sales-value ct-double-octave ct-series-g"></div>
+                        </div>
+                    </div>
+                </div> --> 
+             <script th:inline = "javascript" >
+var transaction = [[${listCharngay}]]
+console.log(transaction);
+/* window.onload = function(){
+	cateChart("myChart");
+	
+} */
+
+
+
+var transaction_x = transaction.map(x => x["booking_Date"])
+
+var transaction_y = transaction.map(x => x["total_money"])
+
+                var options = {
+            	        chart: {
+            	            height: 420,
+            	            type: "area",
+            	            fontFamily: 'Inter',
+            	            foreColor: '#4B5563',
+            	            toolbar: {
+            	                show: true,
+            	                offsetX: 0,
+            	                offsetY: 0,
+            	                tools: {
+            	                    download: false,
+            	                    selection: false,
+            	                    zoom: false,
+            	                    zoomin: true,
+            	                    zoomout: true,
+            	                    pan: false,
+            	                    reset: false | '<img src="/static/icons/reset.png" width="20">',
+            	                    customIcons: []
+            	                },
+            	                export: {
+            	                    csv: {
+            	                        filename: undefined,
+            	                        columnDelimiter: ',',
+            	                        headerCategory: 'category',
+            	                        headerValue: 'value',
+            	                        dateFormatter(timestamp) {
+            	                            return new Date(timestamp).toDateString()
+            	                        }
+            	                    }
+            	                },
+            	                autoSelected: 'zoom'
+            	            },
+            	        },
+            	        dataLabels: {
+            	            enabled: false
+            	        },
+            	        tooltip: {
+            	            style: {
+            	                fontSize: '14px',
+            	                fontFamily: 'Inter',
+            	            },
+            	            
+            	        },
+            	        theme: {
+            	            monochrome: {
+            	                enabled: true,
+            	                color: '#f3c78e',
+            	            }
+            	        },
+            	        grid: {
+            	            show: true,
+            	            borderColor: '#f5e1c5',
+            	            strokeDashArray: 1,
+            	        },
+            	        series: [
+            	            {
+            	                name: "Tổng tiền",
+            	                data: transaction_y
+            	            },
+            	            
+            	            
+            	        ],
+            	        
+            	        markers: {
+            	            size: 5,
+            	            strokeColors: '#ffffff',
+            	            hover: {
+            	                size: undefined,
+            	                sizeOffset: 3
+            	            }
+            	        },
+            	        xaxis: {
+            	            categories: transaction_x,
+            	            labels: {
+            	                style: {
+            	                    fontSize: '12px',
+            	                    fontWeight: 500,
+            	                },
+            	            },
+            	            axisBorder: {
+            	                color: '#f5e1c5',
+            	            },
+            	            axisTicks: {
+            	                color: '#f5e1c5',
+            	            }
+            	        },
+            	        yaxis: {
+            	            labels: {
+            	                style: {
+            	                    colors: ['#4B5563'],
+            	                    fontSize: '12px',
+            	                    fontWeight: 500,
+            	                },
+            	            },
+            	            
+            	        },
+            	        tooltip: {
+            	            fillSeriesColor: false,
+            	            onDatasetHover: {
+            	                highlightDataSeries: false,
+            	            },
+            	            theme: 'light',
+            	            style: {
+            	                fontSize: '12px',
+            	                fontFamily: 'Inter',
+            	            },
+            	            y: {
+            	                formatter: function (val) {
+            	                	val += '';
+            	                    x = val.split('.');
+            	                    x1 = x[0];
+            	                    x2 = x.length > 1 ? '.' + x[1] : '';
+            	                    var rgx = /(\d+)(\d{3})/;
+            	                    while (rgx.test(x1)) {
+            	                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            	                    }
+            	                    return x1 + x2 + " VNĐ";
+            	                }
+            	            },
+            	            
+            	        },
+            	        
+            	        responsive: [
+            	            {
+            	                breakpoint: 768,
+            	                options: {
+            	                    yaxis: {
+            	                        show: false,
+            	                    }
+            	                }
+            	            }
+            	        ]}
+            	var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+            	chart.render(); 
+               </script> 
+      <script th:inline = "javascript" >
+var top10 = [[${top10}]]
+console.log(top10);
+var productName = top10.map(x => x["hdsd"])
+var soluong = top10.map(x => x["quantity"])
+
+var options = {
+        series: [{
+        data: soluong
+      }],
+        chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: productName
+      }
+      };
+
+      var chart = new ApexCharts(document.querySelector("#charttop10"), options);
+      chart.render();
+
+       
+</script>       
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	
+	
+	$("#ngay").click(function(){
+		$.ajax({
+			url:"/report/charngay",
+			type: "GET",
+		
+			success: function(value){
+				console.log(value);
+				$("#chart").empty();
+				var transaction_x = value.map(x => x["booking_Date"])
+				
+				var transaction_y = value.map(x => x["total_money"])
+				/* const labels = Utils.months({count: 7}); */
+				$("#ngay").addClass("btn-secondary");
+				$("#thang").removeClass("btn-secondary");	
+                var options = {
+            	        chart: {
+            	            height: 420,
+            	            type: "area",
+            	            fontFamily: 'Inter',
+            	            foreColor: '#4B5563',
+            	            toolbar: {
+            	                show: true,
+            	                offsetX: 0,
+            	                offsetY: 0,
+            	                tools: {
+            	                    download: false,
+            	                    selection: false,
+            	                    zoom: false,
+            	                    zoomin: true,
+            	                    zoomout: true,
+            	                    pan: false,
+            	                    reset: false | '<img src="/static/icons/reset.png" width="20">',
+            	                    customIcons: []
+            	                },
+            	                export: {
+            	                    csv: {
+            	                        filename: undefined,
+            	                        columnDelimiter: ',',
+            	                        headerCategory: 'category',
+            	                        headerValue: 'value',
+            	                        dateFormatter(timestamp) {
+            	                            return new Date(timestamp).toDateString()
+            	                        }
+            	                    }
+            	                },
+            	                autoSelected: 'zoom'
+            	            },
+            	        },
+            	        dataLabels: {
+            	            enabled: false
+            	        },
+            	        tooltip: {
+            	            style: {
+            	                fontSize: '14px',
+            	                fontFamily: 'Inter',
+            	            },
+            	            
+            	        },
+            	        theme: {
+            	            monochrome: {
+            	                enabled: true,
+            	                color: '#f3c78e',
+            	            }
+            	        },
+            	        grid: {
+            	            show: true,
+            	            borderColor: '#f5e1c5',
+            	            strokeDashArray: 1,
+            	        },
+            	        series: [
+            	            {
+            	                name: "Tổng tiền",
+            	                data: transaction_y
+            	            },
+            	            
+            	            
+            	        ],
+            	        
+            	        markers: {
+            	            size: 5,
+            	            strokeColors: '#ffffff',
+            	            hover: {
+            	                size: undefined,
+            	                sizeOffset: 3
+            	            }
+            	        },
+            	        xaxis: {
+            	            categories: transaction_x,
+            	            labels: {
+            	                style: {
+            	                    fontSize: '12px',
+            	                    fontWeight: 500,
+            	                },
+            	            },
+            	            axisBorder: {
+            	                color: '#f5e1c5',
+            	            },
+            	            axisTicks: {
+            	                color: '#f5e1c5',
+            	            }
+            	        },
+            	        yaxis: {
+            	            labels: {
+            	                style: {
+            	                    colors: ['#4B5563'],
+            	                    fontSize: '12px',
+            	                    fontWeight: 500,
+            	                },
+            	            },
+            	            
+            	        },
+            	        tooltip: {
+            	            fillSeriesColor: false,
+            	            onDatasetHover: {
+            	                highlightDataSeries: false,
+            	            },
+            	            theme: 'light',
+            	            style: {
+            	                fontSize: '12px',
+            	                fontFamily: 'Inter',
+            	            },
+            	            y: {
+            	                formatter: function (val) {
+            	                	val += '';
+            	                    x = val.split('.');
+            	                    x1 = x[0];
+            	                    x2 = x.length > 1 ? '.' + x[1] : '';
+            	                    var rgx = /(\d+)(\d{3})/;
+            	                    while (rgx.test(x1)) {
+            	                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            	                    }
+            	                    return x1 + x2 + " VNĐ";
+            	                }
+            	            },
+            	            
+            	        },
+            	        
+            	        responsive: [
+            	            {
+            	                breakpoint: 768,
+            	                options: {
+            	                    yaxis: {
+            	                        show: false,
+            	                    }
+            	                }
+            	            }
+            	        ]}
+            	var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+            	chart.render(); 
+			}
+		}) 
+	})
+	$("#thang").click(function(){
+		$.ajax({
+			url:"/report/charMonth",
+			type: "GET",
+		
+			success: function(value){
+				console.log(value);
+				$("#chart").empty();
+				var transaction_x = value.map(x => x["booking_Date"])
+				
+				var transaction_y = value.map(x => x["customer_Name"])
+				/* const labels = Utils.months({count: 7}); */
+				$("#ngay").removeClass("btn-secondary");
+				$("#thang").addClass("btn-secondary");
+                var options = {
+            	        chart: {
+            	            height: 420,
+            	            type: "area",
+            	            fontFamily: 'Inter',
+            	            foreColor: '#4B5563',
+            	            toolbar: {
+            	                show: true,
+            	                offsetX: 0,
+            	                offsetY: 0,
+            	                tools: {
+            	                    download: false,
+            	                    selection: false,
+            	                    zoom: false,
+            	                    zoomin: true,
+            	                    zoomout: true,
+            	                    pan: false,
+            	                    reset: false | '<img src="/static/icons/reset.png" width="20">',
+            	                    customIcons: []
+            	                },
+            	                export: {
+            	                    csv: {
+            	                        filename: undefined,
+            	                        columnDelimiter: ',',
+            	                        headerCategory: 'category',
+            	                        headerValue: 'value',
+            	                        dateFormatter(timestamp) {
+            	                            return new Date(timestamp).toDateString()
+            	                        }
+            	                    }
+            	                },
+            	                autoSelected: 'zoom'
+            	            },
+            	        },
+            	        dataLabels: {
+            	            enabled: false
+            	        },
+            	        tooltip: {
+            	            style: {
+            	                fontSize: '14px',
+            	                fontFamily: 'Inter',
+            	            },
+            	            
+            	        },
+            	        theme: {
+            	            monochrome: {
+            	                enabled: true,
+            	                color: '#f3c78e',
+            	            }
+            	        },
+            	        grid: {
+            	            show: true,
+            	            borderColor: '#f5e1c5',
+            	            strokeDashArray: 1,
+            	        },
+            	        series: [
+            	            {
+            	                name: "Tổng tiền",
+            	                data: transaction_x
+            	            },
+            	            
+            	            
+            	        ],
+            	        
+            	        markers: {
+            	            size: 5,
+            	            strokeColors: '#ffffff',
+            	            hover: {
+            	                size: undefined,
+            	                sizeOffset: 3
+            	            }
+            	        },
+            	        xaxis: {
+            	            categories: transaction_y,
+            	            labels: {
+            	                style: {
+            	                    fontSize: '12px',
+            	                    fontWeight: 500,
+            	                },
+            	            },
+            	            axisBorder: {
+            	                color: '#f5e1c5',
+            	            },
+            	            axisTicks: {
+            	                color: '#f5e1c5',
+            	            }
+            	        },
+            	        yaxis: {
+            	            labels: {
+            	                style: {
+            	                    colors: ['#4B5563'],
+            	                    fontSize: '12px',
+            	                    fontWeight: 500,
+            	                },
+            	            },
+            	            
+            	        },
+            	        tooltip: {
+            	            fillSeriesColor: false,
+            	            onDatasetHover: {
+            	                highlightDataSeries: false,
+            	            },
+            	            theme: 'light',
+            	            style: {
+            	                fontSize: '12px',
+            	                fontFamily: 'Inter',
+            	            },
+            	            y: {
+            	                formatter: function (val) {
+            	                	val += '';
+            	                    x = val.split('.');
+            	                    x1 = x[0];
+            	                    x2 = x.length > 1 ? '.' + x[1] : '';
+            	                    var rgx = /(\d+)(\d{3})/;
+            	                    while (rgx.test(x1)) {
+            	                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            	                    }
+            	                    return x1 + x2 + " VNĐ";
+            	                }
+            	            },
+            	            
+            	        },
+            	        
+            	        responsive: [
+            	            {
+            	                breakpoint: 768,
+            	                options: {
+            	                    yaxis: {
+            	                        show: false,
+            	                    }
+            	                }
+            	            }
+            	        ]}
+            	var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+            	chart.render(); 
+			}
+		}) 
+	})
+});
+
+</script>
+<script th:inline = "javascript">
+var listpoructview = [[${listpoructview}]]
+console.log(listpoructview);
+ var productName = listpoructview.map(x => x["product_Name"])
+var soluong = listpoructview.map(x => x["wiewtruycap"])		 
+ // Revenue Chart
+     var optionsRevenueChart = {
+        series: [{
+            name: 'Lượng truy cập',
+            data: soluong
+        }],
+        chart: {
+            type: 'bar',
+            width: "100%",
+            height: 140,
+            sparkline: {
+                enabled: true
+            }
+        },
+        theme: {
+            monochrome: {
+                enabled: true,
+                color: '#31316A',
+            }
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: '25%',
+                borderRadius: 5,
+                radiusOnLastStackedBar: true,
+                colors: {
+                    backgroundBarColors: ['#F2F4F6', '#F2F4F6', '#F2F4F6', '#F2F4F6'],
+                    backgroundBarRadius: 5,
+                },
+            }
+        },
+        labels: [1, 2, 3, 4, 5, 6, 7],
+        xaxis: {
+            categories: productName,
+            crosshairs: {
+                width: 1
+            },
+        },
+        tooltip: {
+            fillSeriesColor: false,
+            onDatasetHover: {
+                highlightDataSeries: false,
+            },
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter',
+            },
+            y: {
+                formatter: function (val) {
+                    return   val 
+                }
+            }
+        },
+    };
+
+
+      var chart = new ApexCharts(document.querySelector("#chart-revenueview"), optionsRevenueChart);
+      chart.render(); 
+</script> 
+              
+               
+            </div>
+            
+  <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<script type="text/javascript" src="https://yourweb.com/inc/chart.utils.js"></script>
+</body>
+</html>

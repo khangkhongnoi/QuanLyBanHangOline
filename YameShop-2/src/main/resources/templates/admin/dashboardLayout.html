@@ -1,0 +1,1099 @@
+<!--
+
+=========================================================
+* Volt Free - Bootstrap 5 Dashboard
+=========================================================
+
+* Product Page: https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard
+* Copyright 2021 Themesberg (https://www.themesberg.com)
+* License (https://themesberg.com/licensing)
+
+* Designed and coded by https://themesberg.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
+
+-->
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- Primary Meta Tags -->
+<title>Volt - Free Bootstrap 5 Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="title" content="Volt - Free Bootstrap 5 Dashboard">
+<meta name="author" content="Themesberg">
+<meta name="description" content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+<meta name="keywords" content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, themesberg, themesberg dashboard, themesberg admin dashboard" />
+<link rel="canonical" href="https://themesberg.com/product/admin-dashboard/volt-premium-bootstrap-5-dashboard">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.themesberg.com/volt-pro">
+<meta property="og:title" content="Volt - Free Bootstrap 5 Dashboard">
+<meta property="og:description" content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+<meta property="og:image" content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://demo.themesberg.com/volt-pro">
+<meta property="twitter:title" content="Volt - Free Bootstrap 5 Dashboard">
+<meta property="twitter:description" content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+<meta property="twitter:image" content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+
+<!-- Favicon -->
+<!-- link rel="apple-touch-icon" sizes="120x120" href="../../assets/img/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
+<link rel="mask-icon" href="../../assets/img/favicon/safari-pinned-tab.svg" color="#ffffff"> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+
+<!-- Sweet Alert -->
+<link type="text/css" th:href="@{/admin/vendor/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+
+<!-- Notyf -->
+<link type="text/css" th:href="@{/admin/vendor/notyf/notyf.min.css}" rel="stylesheet">
+
+<!-- Volt CSS -->
+<link type="text/css" th:href="@{/admin/css/volt.css}" rel="stylesheet">
+
+<link type="text/css" th:href="@{/admin/scss/volt/components/_buttons.scss}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+<!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+
+<link type="text/css" th:href="@{/admin/css/notification.css}" rel="stylesheet">
+<style type="text/css">
+.andi {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+        <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+      <div id="taongcuch">
+
+        <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
+    <a class="navbar-brand me-lg-5" href="../../index.html">
+        <img class="navbar-brand-dark" th:src="@{/assets/img/brand/light.svg}" alt="Volt logo" /> <img class="navbar-brand-light" src="../../assets/img/brand/dark.svg" alt="Volt logo" />
+    </a>
+    <div class="d-flex align-items-center">
+        <button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+        <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
+  <div class="sidebar-inner px-4 pt-3">
+    <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
+      <div class="d-flex align-items-center">
+        <div class="avatar-lg me-4">
+          <img th:src="@{/admin/assets/img/team/profile-picture-3.jpg}" class="card-img-top rounded-circle border-white"
+            alt="Bonnie Green">
+        </div>
+        <div class="d-block">
+          <h2 class="h5 mb-3">Hi, Jane</h2>
+          <a th:href="@{/admin/pages/examples/sign-in.html}" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
+            <svg class="icon icon-xxs me-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>            
+            Sign Out
+          </a>
+        </div>
+      </div>
+      <div class="collapse-close d-md-none">
+        <a href="#sidebarMenu" data-bs-toggle="collapse"
+            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true"
+            aria-label="Toggle navigation">
+            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          </a>
+      </div>
+    </div>
+    <ul class="nav flex-column pt-3 pt-md-0">
+      <li class="nav-item">
+        <a th:href="@{/admin/index.html}" class="nav-link d-flex align-items-center">
+          <span class="sidebar-icon">
+            <img th:src="@{/admin/assets/img/brand/light.svg}" height="20" width="20" alt="Volt Logo">
+          </span>
+          
+        </a>
+      </li>
+      <li class="nav-item  " id="homedashboard">
+        <a class="nav-link" th:href="@{/admin/dashboard}">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
+          </span> 
+          <span class="sidebar-text">Bảng điều khiển</span>
+        </a>
+      </li>
+       <li class="nav-item">
+        <span
+          class=" collapsed  d-flex justify-content-between align-items-center"
+          data-bs-toggle="collapse">
+          <span>
+            <span class="sidebar-icon">
+            <i class="fas fa-cube"></i>
+            </span> 
+            <span class="sidebar-text">Hàng hoá</span>
+          </span>
+          
+        </span>
+        <div class="multi-level"
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="sizectactive">
+              <a class="nav-link" th:href="@{/admin/size/add}">
+               <span class="sidebar-icon">
+           <i class="fa-solid fa-s"></i>
+            </span> 
+                <span class="sidebar-text">Kích thước</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+         <div class="multi-level "
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="coloractive">
+              <a class="nav-link"  th:href="@{/admin/product_color/add}">
+              <span class="sidebar-icon">
+            <i class="fa-solid fa-palette"></i>
+            </span> 
+                <span class="sidebar-text">Màu sắc</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+         <div class="multi-level "
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="sanpham">
+              <a class="nav-link"  th:href="@{/admin/product/add}">
+              <span class="sidebar-icon">
+            <i class="fa-solid fa-palette"></i>
+            </span> 
+                <span class="sidebar-text">Sản phẩm</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+         <div class="multi-level "
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="hinhanhsp">
+              <a class="nav-link"  th:href="@{/admin/images/add}">
+              <span class="sidebar-icon">
+            <i class="fa-solid fa-palette"></i>
+            </span> 
+                <span class="sidebar-text">Hình ảnh</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+         <div class="multi-level "
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="thietlapgia">
+              <a class="nav-link"  th:href="@{/admin/price/add}">
+               <span class="sidebar-icon">
+             <i class="fa-fw fa fa-tags"></i>
+            </span> 
+                <span class="sidebar-text">Thiết lập giá</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+      </li>
+      <!--
+      <li class="nav-item">
+        <a target="_blank" class="nav-link d-flex justify-content-between">
+          <span>
+            <span class="sidebar-icon">
+              <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            </span>
+            <span class="sidebar-text">Product color</span>
+          </span>
+       
+        </a>
+      </li>
+       <li class="nav-item ">
+        <a  class="nav-link">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"></path></svg>
+  
+          </span>
+          <span class="sidebar-text">Size</span>
+        </a>
+      </li>
+       -->
+      <li class="nav-item " id="categoryactive">
+        <a  class="nav-link" th:href="@{/admin/category/add}">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"></path></svg>
+  
+          </span>
+          <span class="sidebar-text">Loại sản phẩm</span>
+        </a>
+      </li>
+     <li class="nav-item" id="brandactive">
+        <a  class="nav-link d-flex justify-content-between" th:href="@{/admin/brand/add}" >
+          <span>
+           <span class="sidebar-icon">
+              <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"></path><path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+            </span> 
+            <span class="sidebar-text">Thương hiệu</span>
+          </span>
+          
+        </a>
+      </li>
+     
+     <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+       <li class="nav-item">
+        <span
+          class=" collapsed  d-flex justify-content-between align-items-center"
+          data-bs-toggle="collapse">
+          <span>
+            <span class="sidebar-icon">
+            <i class="fas fa-user-tie"></i>
+            </span> 
+            <span class="sidebar-text">Quản lí người dùng</span>
+          </span>
+          
+        </span>
+        <div class="multi-level "
+          role="list" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="sizeactive">
+              <a class="nav-link"  th:href="@{/admin/account/add}">
+               <span class="sidebar-icon">
+        		 <i class="fa-fw fas fa-user-alt"></i>
+            </span> 
+                <span class="sidebar-text">Người dùng</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+         
+         
+     
+       <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+       <li class="nav-item">
+        <span
+          class=" collapsed  d-flex justify-content-between align-items-center"
+          data-bs-toggle="collapse">
+          <span>
+            <span class="sidebar-icon">
+            <i class="fas fa-user-tie"></i>
+            </span> 
+            <span class="sidebar-text">Khuyến mãi</span>
+          </span>
+          
+        </span>
+        <div class="multi-level "
+          role="list" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="banneractive">
+              <a class="nav-link"  th:href="@{/admin/KhuyenMai}">
+               <span class="sidebar-icon">
+        		 <i class="fa-fw fas fa-user-alt"></i>
+            </span> 
+                <span class="sidebar-text">Banner khuyến mãi</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+       <li class="nav-item">
+        <span
+          class=" collapsed  d-flex justify-content-between align-items-center"
+          data-bs-toggle="collapse">
+          <span>
+            <span class="sidebar-icon">
+            <i class="fas fa-user-tie"></i>
+            </span> 
+            <span class="sidebar-text">Đối tác</span>
+          </span>
+          
+        </span>
+        <div class="multi-level "
+          role="list" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="sizeactive">
+              <a class="nav-link"  th:href="@{/admin/khachhang/add}">
+               <span class="sidebar-icon">
+        		 <i class="fa-fw fas fa-user-alt"></i>
+            </span> 
+                <span class="sidebar-text">Khách hàng</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+         <div class="multi-level collapse show"
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="supplier">
+              <a class="nav-link"  th:href="@{/admin/supplier/add}">
+               <span class="sidebar-icon">
+        <i class="fa-solid fa-users"></i>
+            </span> 
+                <span class="sidebar-text">Nhà cung cấp</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+         
+       
+         <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+       <li class="nav-item">
+        <span
+          class=" collapsed  d-flex justify-content-between align-items-center"
+          data-bs-toggle="collapse">
+          <span>
+            <span class="sidebar-icon">
+           <i class="fas fa-user-friends"></i>
+            </span> 
+            <span class="sidebar-text">Nhân viên</span>
+          </span>
+          
+        </span>
+        <div class="multi-level "
+          role="list" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="nhanvien">
+              <a class="nav-link"  th:href="@{/admin/nhanvien/list}">
+               <span class="sidebar-icon">
+        		<i class="fas fa-user-friends"></i>
+            </span> 
+                <span class="sidebar-text">Nhân viên</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+       
+       
+        
+        
+      </li>
+       <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+       <li class="nav-item">
+        <span
+          class=" collapsed  d-flex justify-content-between align-items-center"
+          data-bs-toggle="collapse">
+          <span>
+            <span class="sidebar-icon">
+           <i class="fas fa-exchange-alt"></i>
+            </span> 
+            <span class="sidebar-text">Giao dịch</span>
+          </span>
+          
+        </span>
+        
+        
+         <div class="multi-level"
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="hoadon">
+              <a class="nav-link"  th:href="@{/admin/invoice/all}">
+               <span class="sidebar-icon">
+         <i class="fa-fw fas fa-file-invoice-dollar"></i>
+            </span> 
+                <span class="sidebar-text">Hoá đơn</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+       
+       
+        
+        <div class="multi-level "
+          role="list" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="import_coupon">
+              <a class="nav-link" th:href="@{/admin/import_coupon/add}">
+               <span class="sidebar-icon">
+         <i class="fa-fw fas fa-dolly-flatbed-alt"></i>
+            </span> 
+                <span class="sidebar-text">Nhập hàng</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+         
+        <div class="multi-level "
+          role="list" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="import_coupon">
+              <a class="nav-link" th:href="@{/admin/TraHangNhap}">
+               <span class="sidebar-icon">
+         <i class="fa-fw fas fa-dolly-flatbed-alt"></i>
+            </span> 
+                <span class="sidebar-text">Trả hàng</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+         
+      </li>
+           <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+       <li class="nav-item">
+        <span
+          class=" collapsed  d-flex justify-content-between align-items-center"
+          data-bs-toggle="collapse">
+          <span>
+            <span class="sidebar-icon">
+        		<i class="fas fa-chart-line"></i>
+            </span> 
+            <span class="sidebar-text">Báo cáo</span>
+          </span>
+          
+        </span>
+        <div class="multi-level "
+          role="list" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item " id="sizeactive">
+              <a class="nav-link"  th:href="@{/report/char}">
+               <span class="sidebar-icon">
+        		 <i class="fas fa-chart-pie"></i>
+            </span> 
+                <span class="sidebar-text">Cuối ngày</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+ 
+   
+        <div class="multi-level"
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item ">
+              <a class="nav-link"  th:href="@{/admin/khachhang/reportKH}">
+               <span class="sidebar-icon">
+       		<i class="fa-fw fas fa-user-alt"></i>
+            </span> 
+                <span class="sidebar-text">Khách hàng</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+       <!--  <div class="multi-level"
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item ">
+              <a class="nav-link"  th:href="@{/admin/product/add}">
+               <span class="sidebar-icon">
+       		<i class="fa-solid fa-users"></i>
+            </span> 
+                <span class="sidebar-text">Nhà cung cấp</span>
+              </a>
+            </li>
+          </ul>
+        </div> -->
+         <!-- <div class="multi-level"
+          role="list" id="submenu-app" aria-expanded="false">
+          <ul class="flex-column nav">
+            <li class="nav-item ">
+              <a class="nav-link"  th:href="@{/admin/product/add}">
+               <span class="sidebar-icon"><i class="fa-fw fas fa-id-badge"></i>
+            </span> 
+                <span class="sidebar-text">Nhân viên</span>
+              </a>
+            </li>
+          </ul>
+        </div> -->
+        
+         
+        </div>
+    </ul>
+  </div>
+</nav>
+    
+        <main class="content">
+
+            <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark ps-0 pe-2 pb-0">
+  <div class="container-fluid px-0">
+    <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
+      <div class="d-flex align-items-center">
+        <!-- Search form -->
+        <button id="sidebar-toggle" class="sidebar-toggle me-3 btn btn-icon-only d-none d-lg-inline-block align-items-center justify-content-center"><svg class="toggle-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg></button>
+       
+        <!-- / Search form -->
+      </div>
+      <!-- Navbar links -->
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item dropdown">
+          <a class="nav-link text-dark notification-bell unread dropdown-toggle" data-unread-notifications="true" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+            <svg class="icon icon-sm text-gray-900" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-center mt-2 py-0">
+            <div class="list-group list-group-flush">
+              <a href="#" class="text-center text-primary fw-bold border-bottom border-light py-3">Thông báo</a>
+              <th:block th:each = "liststatus1 : ${liststatus1}">
+              <a th:href ="@{'/admin/invoice/chitiethd/' + ${liststatus1.Id_Invoice}}" class="list-group-item list-group-item-action border-bottom" >
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                      <!-- Avatar -->
+                       <i class="fa-fw fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="col ps-0 ms-2">
+                    
+                      <div class="d-flex justify-content-between align-items-center">
+                          <div>
+                            <h4 class="h6 mb-0 text-small" th:text="${liststatus1.Customer_Name}"></h4>
+                          </div>
+                          <div class="text-end">
+                          <small class="text-danger" th:text="${#dates.format(liststatus1.gio, 'HH:mm')}"></small>
+                            <small class="text-danger" th:text="${#dates.format(liststatus1.receiptDate, 'dd-MM-yyyy')}"></small>
+                            
+                          </div>
+                      </div>
+                      <p class="font-small mt-1 mb-0">Vừa đặt hàng với giá trị</p> <p class="text-danger" th:text="${#numbers.formatDecimal(liststatus1.total_money, 0, 'COMMA', 0, 'POINT')} "></p>
+                    </div>
+                </div>
+              </a>
+    </th:block>
+             
+              
+            </div>
+          </div>
+        </li>
+        <li class="nav-item dropdown ms-lg-3">
+          <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="media d-flex align-items-center">
+              <img class="avatar rounded-circle" alt="Image placeholder" th:src="@{/admin/assets/img/team/profile-picture-3.jpg}">
+              <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
+                <span class="mb-0 font-small fw-bold text-gray-900" id="tentaikhoan" th:text="${#request.userPrincipal.name}"></span>
+              </div>
+            </div>
+          </a>
+          <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
+            <a class="dropdown-item d-flex align-items-center" id="showtaikhoan">
+              <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg>
+             Tài khoản
+            </a>
+            
+            
+           
+            <div role="separator" class="dropdown-divider my-1"></div>
+            <a class="dropdown-item d-flex align-items-center" h:if="${#request.userPrincipal != null}" th:href="@{/logout}">
+              <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>                
+             Đăng xuất
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="modal fade" id="modalSubscribetaikhoan" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-contentss">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Người dùng</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+           <form id="formtaikhoan"  method="post" class="card border-0 shadow">
+           <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+           <div class="col-12 col-lg-6" style="display: none"><div class="form-group mb-4"><label for="cartInputAddress1">Mã tài khoản</label>
+           <input type="text"  class="form-control1"  id="matk" name="matk" aria-describedby="cartInputAddress1"></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Tên người dùng</label> 
+           <input type="text"  class="form-control1"  id="tennguoidung" name="tennguoidung" aria-describedby="cartInputAddress1"></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Tên đăng nhập</label> 
+           <input type="text"  class="form-control1"  id="tendangnhap" name="tendangnhap" aria-describedby="cartInputAddress1"></div></div>
+                     <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Điện thoại</label> 
+           <input type="text"  class="form-control1"  id="phone" name="phone" aria-describedby="cartInputAddress1"></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Email</label> 
+            
+           <input  type="email" class="form-control1"   id="enmail" name="enmail" aria-describedby="cartInputAddress1"></div></div>
+            
+
+ 				   <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Hủy bỏ</button>
+                 <button 
+               		 
+                   type="button" id="btncapnhatnguoidung"  class="btn btn-info "><i class="fas fa-save"></i> Cập nhật</button>
+                   
+            </div>
+            <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cập nhật mật khẩu</h2>
+                <button type="button"  id="capnhatmk"><i class="fas fa-edit"></i>Chỉnh sửa</button>
+            </div>
+            <div class="modal-body modal-bodyandi andi" >
+            <div class="col-12 "><div class="form-group mb-4"><label for="cartInputAddress1">Mật khẩu hiện tại</label> 
+            
+           <input  type="password" class="form-control1"   id="matkhauht" name="matkhau" aria-describedby="cartInputAddress1"></div></div>
+           <div class="col-12 "><div class="form-group mb-4"><label for="cartInputAddress1">Mật khẩu mới</label> 
+            
+           <input  type="password" class="form-control1"   id="matkhaumoi" name="matkhau" aria-describedby="cartInputAddress1"></div></div>
+           <div class="col-12 "><div class="form-group mb-4"><label for="cartInputAddress1">Gõ lại mật khẩu mới</label> 
+           <input  type="password"  class="form-control1"  id="golaimatkhau" name="golaimatkhau" aria-describedby="cartInputAddress1"></div></div>
+
+            
+               
+            </div>
+            <div class="modal-footer modal-bodyandi andi">
+             
+                <button type="button" class="btn btn-link text-gray" id="dongformcapnhatmk">Hủy bỏ</button>
+                 <button id="capnhatmkm" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+            </div></div>
+           
+            </form>
+            
+              
+            </div>
+           
+        </div>
+        
+    </div>
+
+           	<section>
+           	
+            <div  layout:fragment="content" id="khongthenao"></div>
+        	</section>
+        	
+<!--   <footer class="bg-white rounded shadow p-5 mb-4 mt-4">
+    <div class="row">
+        <div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
+            <p class="mb-0 text-center text-lg-start">© 2019-<span class="current-year"></span> <a class="text-primary fw-normal" href="https://themesberg.com" target="_blank">Themesberg</a></p>
+        </div>
+        <div class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
+           
+            <ul class="list-inline list-group-flush list-group-borderless text-md-end mb-0">
+                <li class="list-inline-item px-0 px-sm-2">
+                    <a href="https://themesberg.com/about">About</a>
+                </li>
+                <li class="list-inline-item px-0 px-sm-2">
+                    <a href="https://themesberg.com/themes">Themes</a>
+                </li>
+                <li class="list-inline-item px-0 px-sm-2">
+                    <a href="https://themesberg.com/blog">Blog</a>
+                </li>
+                <li class="list-inline-item px-0 px-sm-2">
+                    <a href="https://themesberg.com/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+-->
+<!-- <script type="text/javascript">
+
+		function newlocatio2n(){
+			window.location = "http://localhost:8080/admin/category/add";
+		}
+		function newlocation() {
+			  const xhttp = new XMLHttpRequest();
+			  xhttp.onload = function() {
+			    document.getElementById("taongcuch").innerHTML = this.responseText;
+			  }
+			  xhttp.open("GET", "http://localhost:8080/admin/category/add");
+			  xhttp.send();
+			  
+			}
+		
+</script> -->
+ <!-- <script type="text/javascript">
+	
+	$(document).ready(function(){
+		 $("body").on("click", ".nav-item", function(){
+			var priceEls = $(this).closest("li").find(".sidebar-text").text();
+
+			if(priceEls === "Category"){
+				
+				$("#taongcuch").load("/admin/category/add", function(){
+					 $("#categoryactive").addClass("active");
+				});
+				
+				window.history.pushState({urlPath:'/admin/category/add'},"", '/admin/category/add');
+				
+			
+				
+				
+			}
+			if(priceEls === "Brand"){
+				
+				$("#taongcuch").load("/admin/brand/add", function(){
+					$("#brandactive").addClass("active");
+				});
+				
+				window.history.pushState({urlPath:'/admin/brand/add'},"", '/admin/brand/add');
+				
+				
+			}
+		if(priceEls === "Size"){
+				
+				$("#taongcuch").load("/admin/size/add" , function(){
+					$("#sizeactive").addClass("active");
+				});
+				
+				window.history.pushState({urlPath:'/admin/size/add'},"", '/admin/size/add');
+				
+			}
+		if(priceEls === "Product Color"){
+			
+			$("#taongcuch").load("/admin/product_color/add");
+			
+			window.history.pushState({urlPath:'/admin/product_color/add'},"", '/admin/product_color/add');
+		}
+if(priceEls === "Product"){
+			
+			$("#taongcuch").load("/admin/product/add");
+			
+			window.history.pushState({urlPath:'/admin/product/add'},"", '/admin/product/add');
+		}
+		})
+	})  -->
+	
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	$("#capnhatmk").click(function(){
+		$(".modal-bodyandi").removeClass("andi");
+		
+		$("#capnhatmk").addClass("andi")
+	})
+	
+	$("#dongformcapnhatmk").click(function(){
+		$(".modal-bodyandi").addClass("andi");
+		
+		$("#capnhatmk").removeClass("andi")
+	})
+	
+	$("#showtaikhoan").click(function() {
+   	 
+		  $('#modalSubscribetaikhoan').modal('show');
+		  tentaikhoan =  document.getElementById("tentaikhoan").innerHTML
+		  
+		  document.getElementById("formtaikhoan").reset()
+		  $.ajax({
+				url:"/admin/gettaikhoan",
+				type: "GET",
+				data: {
+					tentaikhoan:tentaikhoan
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+					$("#tennguoidung").val(value.tenngguoidung);
+					$("#tendangnhap").val(value.userName);
+					$("#phone").val(value.sdt);
+					$("#enmail").val(value.email);
+					$("#matk").val(value.userid);
+				}
+		  })
+		});
+	
+	$("#capnhatmkm").click(function(){
+		var mkht = $("#matkhauht").val();
+		var mkm = $("#matkhaumoi").val();
+		var golaimk = $("#golaimatkhau").val();
+		var matk = $("#matk").val();
+		if( golaimk != mkm){
+			const notyf = new Notyf({
+                position: {
+                    x: 'right',
+                    y: 'top',
+                },
+                types: [
+                    {
+                        type: 'warning',
+                        background: '#F5B759',
+                        icon: {
+                            className: 'fas fa-exclamation-triangle',
+                            tagName: 'span',
+                            color: '#fff'
+                        },
+                        dismissible: false
+                    }
+                ]
+            });
+		 notyf.open({
+                type: 'warning',
+                message: 'Gõ lại mật khẩu không trùng khớp !'
+            });
+		}else
+			{
+			$.ajax({
+				url:"/admin/capnhatmatkhau",
+				type: "POST",
+				data: {
+					mkht:mkht,
+					mkm:mkm,
+					matk:matk,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+					if(value == "thatbai"){
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'warning',
+			                        background: '#F5B759',
+			                        icon: {
+			                            className: 'fas fa-exclamation-triangle',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'warning',
+			                message: 'Mật khẩu cũ không đúng !'
+			            });
+					}else{
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'left',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#0948B3',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+			            notyf.open({
+			                type: 'info',
+			                message: 'Cập nhật mật khẩu thành công.'
+			            });
+			            var mkht = $("#matkhauht").val("");
+			    		var mkm = $("#matkhaumoi").val("");
+			    		var golaimk = $("#golaimatkhau").val("");
+					}
+				}
+		  })
+			}
+		
+	})
+		$("#btncapnhatnguoidung").click(function(){
+			var formtaikhoan = $("#formtaikhoan").serializeArray();
+			 json = {};
+			$.each(formtaikhoan, function(i, field){
+	    		json[field.name] = field.value;	
+});	
+			var tendn = $("#tendangnhap").val();
+			if(tendn == ""){
+				const notyf = new Notyf({
+	                position: {
+	                    x: 'right',
+	                    y: 'top',
+	                },
+	                types: [
+	                    {
+	                        type: 'warning',
+	                        background: '#F5B759',
+	                        icon: {
+	                            className: 'fas fa-exclamation-triangle',
+	                            tagName: 'span',
+	                            color: '#fff'
+	                        },
+	                        dismissible: false
+	                    }
+	                ]
+	            });
+			 notyf.open({
+	                type: 'warning',
+	                message: 'Tên đăng nhập không được để trống !'
+	            });
+				return false;
+			}
+			 $.ajax({
+					url:"/admin/capnhattaikhoan",
+					type: "POST",
+					data: {
+						dataJson:JSON.stringify(json),
+					},
+					success: function(value){
+						$('#modalSubscribetaikhoan').modal('hide');
+						console.log(value)
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'left',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#0948B3',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+			            notyf.open({
+			                type: 'info',
+			                message: 'Cập nhật tài khoản thành công.'
+			            });
+			            setTimeout(() => {
+			            	location.reload()
+			            	}, "3000")
+					}
+			  })
+			
+		})
+
+	 $("body").on("click", ".nav-item", function(){
+		var priceEls = $(this).closest("li").find(".sidebar-text").text();
+		$(".nav-item").removeClass("active");
+		$(this).addClass("active");
+		if(priceEls === "Category"){
+			  $.ajax({
+					url:"/admin/category/showcategorys",
+					type: "GET",
+			
+					success: function(value){
+						//self.closest("tr").remove();
+						console.log(value)
+						window.history.pushState({urlPath:'/admin/category/add'},"", '/admin/category/add');
+						$("#khongthenao").load("/admin/category/showcategorys");
+					}
+				}) 
+		
+		}
+		})
+}) 
+var x = location.href;
+
+	if(x === "http://localhost:8080/admin/category/add"){
+		$("#categoryactive").addClass("active");
+	}
+
+	if(x === "http://localhost:8080/admin/supplier/add"){
+		$("#supplier").addClass("active");
+		
+	}
+	if(x === "http://localhost:8080/admin/import_coupon/add"){
+		$("#import_coupon").addClass("active");
+		
+	}
+	if( x === "http://localhost:8080/admin/brand/add"){
+		$("#brand").addClass("active");
+	}
+	
+
+	if(x === "http://localhost:8080/admin/invoice/all"){
+		$("#hoadon").addClass("active");
+	}
+	if(x === "http://localhost:8080/admin/dashboard"){
+		$("#homedashboard").addClass("active");
+	}
+	if(x === "http://localhost:8080/admin/product/add"){
+		$("#productactive").addClass("active");
+	}
+	if(x === "http://localhost:8080/admin/product_color/add"){
+		$("#coloractive").addClass("active");
+	}
+	if(x === "http://localhost:8080/admin/size/add"){
+		$("#sizectactive").addClass("active");
+	}
+	if(x === "http://localhost:8080/admin/KhuyenMai"){
+		$("#banneractive").addClass("active");
+	}
+	
+	if(x === "http://localhost:8080/admin/nhanvien/list"){
+		$("#nhanvien").addClass("active");
+	}
+	if(x == "http://localhost:8080/admin/product/add"){
+		$("#sanpham").addClass("active")
+	}
+	if(x == "http://localhost:8080/admin/images/add"){
+		$("#hinhanhsp").addClass("active")
+	}
+	if( x == "http://localhost:8080/admin/price/add"){
+		$("#thietlapgia").addClass("active")
+	}
+/* 		
+ * 
+ */
+
+	</script>
+        </main>
+
+    <!-- Core -->
+<script th:src="@{/admin/vendor/@popperjs/core/dist/umd/popper.min.js}"></script>
+<script th:src="@{/admin/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+<!-- Vendor JS -->
+<script th:src="@{/admin/vendor/onscreen/dist/on-screen.umd.min.js}"></script>
+
+
+
+<!-- Smooth scroll -->
+<script th:src="@{/admin/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js}"></script>
+
+<!-- Charts -->
+<!-- <script th:src="@{/admin/vendor/chartist/dist/chartist.min.js}"></script>
+<script th:src="@{/admin/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js}"></script>
+ 
+<!-- Datepicker -->
+<script th:src="@{/admin/vendor/vanillajs-datepicker/dist/js/datepicker.min.js}"></script>
+
+<!-- Sweet Alerts 2 -->
+<script th:src="@{/admin/vendor/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+
+<!-- Moment JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+
+<!-- Vanilla JS Datepicker -->
+<script th:src="@{/admin/vendor/vanillajs-datepicker/dist/js/datepicker.min.js}"></script>
+
+<!-- Notyf -->
+<script th:src="@{/admin/vendor/notyf/notyf.min.js}"></script>
+
+<!-- Simplebar -->
+<script th:src="@{/admin/vendor/simplebar/dist/simplebar.min.js}"></script>
+
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script th:src="@{/admin/assets/js/volt.js}"></script>
+<script th:src="@{/admin/assets/js/notification.script.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<!-- jQuery -->
+  
+    </div>  
+</body>
+
+</html>

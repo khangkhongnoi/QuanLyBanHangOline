@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+
+<head>
+<meta charset="UTF-8">
+<title>Nhân viên</title>
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a th:href = "@{'/admin/dashboard'}">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            
+                            <li class="breadcrumb-item active" aria-current="page">Nhân viên</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Danh sách nhân viên</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  id="showadd" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        New Nhân viên
+                    </button>
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+            <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" oninput="searchByName(this)" placeholder="Tìm theo tên hoặc sđt"></div>
+               
+               <select id="metlamroi" class="form-select fmxw-200 d-none d-md-inline"  aria-label="Message select example 2">
+	               <option  value="2" selected="selected" >Tất cả</option>
+	               <option  value="0">Hoạt động</option>
+	               <option value="1">Đã nghĩ</option>
+               </select></div>
+                    <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
+                        <div class="dataTable-dropdown"><label><select id="showme" class="dataTable-selector"><option value="5">5</option><option value="10" >10</option><option value="15" selected="selected">15</option><option value="20">20</option><option value="25">25</option></select> </label></div>
+                    </div>
+                </div>
+            </div>
+
+   <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+            <th >IdNV</th>
+            <th >Tên nhân viên</th>
+             <th>SĐT</th>
+             <th>Email</th>
+             <th>Ngày sinh</th>
+              <th>Giới tính</th>
+              <th>Số CNND/CCID</th>
+               <th>Địa chi</th>
+                <th>Status</th>
+                <th>Chức năng</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        <tr class="categorys" th:each = "list : ${liststaff}">
+            <td class="IdCategory1" id="idne" th:value=${list.Idsaff}>[[${list.Idsaff}]]</td>
+            <td class="categoryName" id="khangcogi" th:text=${list.FullName}></td>
+            <td class="categoryName"  th:text=${list.SDT}></td>
+            <td class="categoryName"  th:text=${list.Email}></td>
+            <td class="categoryName"  th:text=${list.Date_Of_Birth}></td>
+            <td class="categoryName"  th:text=${list.Gender}></td>
+            <td class="categoryName"  th:text=${list.CMND}></td>
+            <td class="categoryName " id="khangcogi1"  th:text=${list.Address}></td>
+            	<td> <span
+            		th:data-id="${list.Idsaff}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" btn badge bg-secondary activeCategory" th:if="${list.status == 0}"  th:value=${list.status}>Hoạt động</span>
+            			<span
+            			th:data-id="${list.Idsaff}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" btn badge bg-primary activeCategory" th:if="${list.status == 1}"  th:value=${list.status}>Đã nghĩ</span>
+            	</td>
+          		<td><a  th:data-id="${list.Idsaff}"
+          				th:data-name="${list.FullName}"
+          				th:data-sdt="${list.SDT}"
+          				th:data-email="${list.Email}"
+          				th:data-ngaysinh="${list.Date_Of_Birth}"
+          				th:data-gt="${list.Gender}"
+          				th:data-cnnd= "${list.CMND}"
+          				th:data-dd= "${list.Address}"
+          				th:data-image= "${list.Image}"
+          				onclick="btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'),this.getAttribute('data-sdt'), this.getAttribute('data-email'),this.getAttribute('data-ngaysinh'),this.getAttribute('data-gt'),this.getAttribute('data-cnnd'),this.getAttribute('data-dd') , this.getAttribute('data-image'),
+          				)"
+          				
+          		class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.Idsaff}"
+          				th:data-name="${list.FullName}"
+          				onclick="showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+        </tr>
+       
+        </tbody>
+    </table>
+    
+    </div>
+   
+		<div class="dataTable-bottom"><div class="dataTable-info">Hiển thị 1 đến <span id="showtheo">15</span> trên [[ ${demsum.size}]] mục</div><nav aria-label="Page navigation example">
+   <nav aria-label="Page navigation example">
+    <ul class="pagination mb-0">
+        <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        </li>
+        <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+         </th:block>
+        <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+                    </div>
+                  
+                </div>
+
+  		
+               
+        
+          
+        
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Xoá nhân viên</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+           
+               Bạn có muốn xóa nhân viên id ="<span id="id123"></span>" tên ="<span id="sizeName1"></span>"   ?
+               <span> nhưng vẫn giữ những giao dịch lịch sử nếu có. Bạn có chắc chắn muốn xóa?</span>
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Hủy bỏ</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-contentss">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Thêm nhân viên</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+           <form id="formsize"  th:action="@{/admin/nhanvien/saveOrUpdate}" method="post"
+				th:object="${staff}" class="card border-0 shadow">
+           
+           
+           <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Mã nhân viên</label> 
+           <input type="text" placeholder="Mã nhân viên tự động" class="form-control1" th:field="*{Idsaff}" id="idnv" name="Idsaff" aria-describedby="cartInputAddress1" readonly></div></div>
+           <div class="col-12 col-lg-6"> 
+           		<label for="country">Người dùng hệ thống</label> 
+           			
+           			<select class="form-control1 mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select> </div>
+           
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Tên nhân viên</label> 
+           <input type="text" class="form-control1"  th:field="*{FullName}" id="fullname" name="FullName" aria-describedby="cartInputAddress1"></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Số điện thoại</label> 
+           <input type="text"  class="form-control1" th:field="*{SDT}" id="SDT" name="SDT" aria-describedby="cartInputAddress1"></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="">Ngày sinh NV</label> 
+         
+          <input type="text" id="datepicker"  class="form-control1" th:field="*{Date_Of_Birth}"  name="Date_Of_Birth" aria-describedby="cartInputAddress1"></div></div>
+         
+         
+          
+            
+            
+           
+           <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Email</label> 
+           <input type="text"  class="form-control1" th:field="*{Email}" id="Email" name="Email" aria-describedby="cartInputAddress1"></div></div>
+ 					  
+ 			 <div class="col-12 col-lg-6"><div class="form-group mb-4" id="tableproduct">
+           <label for="cartInputEmail1">Giới tính</label>
+            <div class="form-checks"  >
+        <input class="form-check-input option radiobuntton" type="radio" th:field="*{Gender}" value="Nam" name="Gender" id="Namvalue" >
+        <label class="form-check-label" >
+           Nam
+           
+        </label>
+        </div>
+        <div class="form-checks">
+        <input class="form-check-input option radiobuntton" type="radio" th:field="*{Gender}" value="Nữ" name="Gender" id="nuvalue" >
+        <label class="form-check-label" for="exampleRadios1">
+            Nữ
+        </label>
+        </div>
+       
+            
+            </div></div>		  
+ 					 <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Số CMND/CCID</label> 
+           <input type="text" placeholder="Enter your..." class="form-control1" th:field="*{CMND}" id="CMND" name="CMND" aria-describedby="cartInputAddress1"></div></div>  
+ 					  
+ 					  <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Địa chỉ</label> 
+           <textarea class="form-control"  th:field="*{Address}"  id="Address" name="Address" rows="4" ></textarea></div></div>  
+           
+ 					   <div class="col-12 col-lg-6"><div class="form-group mb-4" id="images"><label for="cartInputAddress1">Hình ảnh</label> 
+           <img name="oke" id="image" class="img-fluid"  width="50%"alt="">
+  		<input class="form-control" type="file" onchange="chomesFile(this)"  th:field="*{Image}" multiple  id="formFile" name="Image"></div></div>  
+ 					  
+ 					 <div class="col-12 col-lg-6">
+ 	
+  <script>
+                            function chomesFile(fieldInput){
+                                if(fieldInput.files && fieldInput.files[0])
+                                var reader = new FileReader();
+                                reader.onload = function(e){
+                                    $('#image').attr('src', e.target.result);
+                                }
+                                reader.readAsDataURL(fieldInput.files[0]);
+                            }
+    
+                        </script>
+ 	</div>
+ 		
+ 				
+           
+ 				   <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Hủy bỏ</button>
+                 <button 
+               		 
+                   type="button" id="btnsave"  class="btn btn-info "><i class="fas fa-save"></i> Lưu</button>
+                    <button type="button"  id="btnupdate" class="btn btn-warning"><i class="fa-regular fa-floppy-disk-pen"></i> Update</button>
+            </div></div></div>
+           
+            </form>
+            
+                
+         	
+
+             
+              
+            </div>
+           
+        </div>
+        
+    </div>
+   
+
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+    
+    
+    function nhanjson(data){
+   	 var tablecategory =$("#tablecategory").find("tbody");
+   		tablecategory.empty();
+   	for(var i = 0; i<data.length; i++){
+   		if(data[i].status == 0){
+   			tablecategory.append('<tr class="categorys">'
+   			+ '<td class="IdCategory1"> '+ data[i].id +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].fullName  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].sdt  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].email  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].date_Of_Birth  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].gender  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].cmnd  +' </td>'
+   			+'<td class="categoryName" id="khangcogi1"> ' + data[i].address  +' </td>'
+
+   			
+   			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id +" data-name= " + data[i].status +"  " 
+   			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Hoạt động </span> </td>\r\n"
+   			+"<td><a  data-id= " + data[i].id +"\r\n"
+   			+ "	data-name=" + data[i].fullName +"\r\n"
+   			+" data-sdt=" + data[i].sdt+ "\n"
+  			+"data-email=" + data[i].email + "\r\n"
+  			+"data-ngaysinh=" +data[i].date_Of_Birth + "\r\n"
+  			+"data-gt=" + data[i].gender  + "\r\n"
+  			+"data-cnnd= " +data[i].cmnd  + "\r\n"
+  			+"data-dd= " + data[i].address  + ""
+   			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name') ,this.getAttribute('data-sdt') ,this.getAttribute('data-email'),this.getAttribute('data-ngaysinh'),this.getAttribute('data-gt'),this.getAttribute('data-cnnd'),this.getAttribute('data-dd'))\"\r\n"
+   			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+   			+ "<a data-id= " + data[i].id+"\r\n"
+   			+ "data-name=" + data[i].fullName +"\r\n"
+   			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+   			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+   			+"</tr>")
+   		}
+   		else{
+   			tablecategory.append('<tr class="categorys">'
+   					+ '<td class="IdCategory1"> '+ data[i].id +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].fullName  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].sdt  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].email  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].date_Of_Birth  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].gender  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].cmnd  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi1"> ' + data[i].address  +' </td>'
+
+   		   			
+   		   			+"<td> <span class=\" btn badge bg-primary\" data-id= " + data[i].id +" data-name= " + data[i].status +"  " 
+   		   			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Đã nghĩ </span> </td>\r\n"
+   		   			+"<td><a  data-id= " + data[i].id +"\r\n"
+   		   			+ "	data-name=" + data[i].fullName +"\r\n"
+   		   			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+   		   			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+   		   			+ "<a data-id= " + data[i].id+"\r\n"
+   		   			+ "data-name=" + data[i].fullName +"\r\n"
+   		   			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+   		   			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+   		   			+"</tr>")
+   		}
+   	}
+   }    
+    
+    
+ $( function() {
+            $( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' }).val();
+          
+          } );
+         $( function() {
+            $( "#todatepicker" ).datepicker({ dateFormat: 'dd-mm-yy' }).val();
+          
+          } ); 
+
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+         //function yesOption(id){
+        	 
+        //	 console.log(id)
+	//}
+         
+       function activeCategory1(){
+    	   alert("oke")
+       }
+
+       function showactive(){
+    	   alert("oke")
+       }
+
+
+       $("#showadd").click(function() {
+    	 
+ 		  $('#modalSubscribe').modal('show');
+ 		  $("#btnupdate").hide();
+ 		  $("#btnsave").show();
+ 		  document.getElementById("formsize").reset()
+ 		 
+ 		});
+	
+
+
+	  function btninfoaize(id, ten, sdt, email, ngaysinh, gioitinh, cmnd , diachi, image){
+		  $('#modalSubscribe').modal('show');
+		  $("#formsize").trigger("reset");
+		  console.log(image)
+		  var id = $("#idnv").val(id);
+		  $("#fullname").val(ten);
+		  $("#SDT").val(sdt);
+		  $("#datepicker").val(ngaysinh)
+		  $("#Email").val(email)
+		  $("#CMND").val(cmnd)
+		  $("#Address").val(diachi);
+		
+		  const images = document.createElement('img')
+		  images.src  = '/view/images/'+ image;
+		  
+		  document.querySelector('#images').appendChild(images)
+		  $("#addzise").html("Cập nhật nhân viên")
+		  $("#btnsave").hide();
+		  $("#btnupdate").show();
+		 /*  var reader = new FileReader();
+          reader.onload = function(e){
+              $('#image').attr('src"/view/images/"',  + image);
+          }
+          reader.readAsDataURL(); */
+		//  $("#Namvalue").checked;
+		if(gioitinh == "Nam"){
+		  $("#Namvalue").prop("checked", true);
+		}
+		if(gioitinh == "Nữ"){
+			$("#nuvalue").prop("checked", true);
+		}
+	  }
+	function searchByName(praram){
+		var txtseach = praram.value;
+		$.ajax({
+			url:"/admin/nhanvien/search",
+			type: "GET",
+			data:{
+				name:txtseach,
+			},
+			success: function(value){
+				//self.closest("tr").remove();
+				nhanjson(value)
+console.log(value)
+			}
+		}) 
+	}
+	
+	function activeCategory(id,name){
+		 var solimit=document.getElementById("showme").value; 
+		  var status1=document.getElementById("metlamroi").value;  
+		  $.ajax({
+				url:"/admin/nhanvien/updatestatus",
+				type: "POST",
+				data:{
+					id:id,
+					status:name,
+					solimit:solimit,
+					status1:status1,
+				},
+				success: function(value){
+					nhanjson(value);
+					
+				}
+			}) 
+	  }
+	  
+	  $(document).ready(function() {
+		  $("#yesOption").click(function(){
+				var id = document.getElementById("id123").innerHTML;
+				var status=document.getElementById("metlamroi").value;  
+				  var solimit=document.getElementById("showme").value; 
+				
+				 $.ajax({
+						url:"/admin/nhanvien/deletenhanvien",
+						type: "POST",
+						data:{
+							id:id,
+							status:status,
+							solimit:solimit,
+						},
+						success: function(value){
+							$('#modal-default').modal('hide');
+							nhanjson(value)
+								
+								const notyf = new Notyf({
+					                position: {
+					                    x: 'right',
+					                    y: 'top',
+					                },
+					                types: [
+					                    {
+					                        type: 'info',
+					                        background: '#2361ce',
+					                        icon: {
+					                            className: 'fas fa-check',
+					                            tagName: 'span',
+					                            color: '#fff'
+					                        },
+					                        dismissible: false
+					                    }
+					                ]
+					            });
+							 notyf.open({
+					                type: 'info',
+					                message: 'Delete succees.'
+					            });
+							
+						}
+					}) 
+			  })
+			  
+		  
+		  
+		  
+		  $("body").on("change", "#metlamroi", function(){
+			  var number=document.getElementById("metlamroi").value;  
+			  var sotrang=document.getElementById("showme").value;  
+			
+			  $.ajax({
+					url:"/admin/nhanvien/showCategory",
+					type: "GET",
+					data:{
+						number:number,
+						sotrang:sotrang,
+					},
+					success: function(value){
+						//self.closest("tr").remove();
+						nhanjson(value)
+console.log(value)
+					}
+				}) 
+			 
+		  })
+		   $("body").on("change", "#showme", function(){
+			  var status=document.getElementById("metlamroi").value;  
+			  var solimit=document.getElementById("showme").value;  
+			
+			  $.ajax({
+					url:"/admin/nhanvien/showstatus",
+					type: "GET",
+					data:{
+						status:status,
+						solimit:solimit,
+					},
+					success: function(value){
+					nhanjson(value);
+					$("#showtheo").html(solimit);
+					}
+				}) 
+			 
+		
+		  
+	});
+		// phan trang
+		  
+		  $("body").on("click", ".page-item", function(){
+			  $(".page-item").removeClass("active");
+			  $(this).addClass("active");
+			  var status=document.getElementById("metlamroi").value;  
+			  var solimit=document.getElementById("showme").value; 
+			  
+
+			  var sotrang = $(this).text();
+			  var spbatdau = (sotrang -1)*solimit;
+			  $.ajax({
+					url:"/admin/nhanvien/pagingcategory/" +spbatdau + "/" + status + "/"  + solimit,
+					type: "GET",
+					
+					success: function(value){
+						//self.closest("tr").remove();
+						window.history.pushState("/admin/nhanvien/pagingcategory/" +spbatdau + "/" + status + "/"  + solimit, '', "/admin/nhanvien/pagingcategory/" +spbatdau + "/" + status + "/"  + solimit)
+					nhanjson(value);
+					}
+				}) 
+		  })
+		  
+		
+    forms = new FormData();
+    const fileUpload = document.querySelector("#formFile");
+    jsons = {};
+    Manghinh = [];
+    fileUpload.addEventListener("change", (event) => {
+  		const { files } = event.target;
+
+  		
+  		for(var i = 0 ; i <files.length; i++){
+  			objectDetails = {};
+  			
+  			image =files[i].name;
+  			
+  			forms = new FormData();
+			forms.append("file", files[i]);
+			objectDetails["Hinh"] = image;
+			Manghinh.push(objectDetails);
+  		}
+  	})
+    	    	
+					$("#btnsave").click(function(){
+					
+					 var status=document.getElementById("metlamroi").value;  
+					  var solimit=document.getElementById("showme").value; 
+					var formsize = $("#formsize").serializeArray();
+					
+					
+		 json = {};
+		 json["clm"] = Manghinh
+				      $.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});	
+				      
+				      console.log("ten nè bu cl", json)
+				      var checkbox = document.getElementsByName("Gender");
+		                for (var i = 0; i < checkbox.length; i++){
+		                    if (checkbox[i].checked === false){
+		                    	const notyf = new Notyf({
+		                            position: {
+		                                x: 'right',
+		                                y: 'top',
+		                            },
+		                            types: [
+		                                {
+		                                    type: 'warning',
+		                                    background: '#F5B759',
+		                                    icon: {
+		                                        className: 'fas fa-exclamation-triangle',
+		                                        tagName: 'span',
+		                                        color: '#fff'
+		                                    },
+		                                    dismissible: false
+		                                }
+		                            ]
+		                        });
+		            		 notyf.open({
+		                            type: 'warning',
+		                            message: 'Vui lòng chọn giới tính !'
+		                        });
+		                    }
+		                }	     
+						
+		var tennv = $("#fullname").val();
+		if(tennv == ""){
+			const notyf = new Notyf({
+                position: {
+                    x: 'right',
+                    y: 'top',
+                },
+                types: [
+                    {
+                        type: 'warning',
+                        background: '#F5B759',
+                        icon: {
+                            className: 'fas fa-exclamation-triangle',
+                            tagName: 'span',
+                            color: '#fff'
+                        },
+                        dismissible: false
+                    }
+                ]
+            });
+		 notyf.open({
+                type: 'warning',
+                message: 'Tên nhân viên không được để trống !'
+            });
+		 
+		}else{
+			$.ajax({
+				url:"/admin/nhanvien/ajaxsave",
+				type: "POST",
+				data:{
+					
+					dataJson:JSON.stringify(json),
+					 image:image,
+					 status:status,
+					 solimit:solimit,
+					 processData: false 
+				},
+				success: function(value){
+					console.log(value)
+					
+				
+					$('#modalSubscribe').modal('hide');
+					nhanjson(value);
+					 const notyf = new Notyf({
+			                position: {
+			                    x: 'left',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#0948B3',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+			            notyf.open({
+			                type: 'info',
+			                message: 'Thêm nhân viên thành công.'
+			            });
+
+				}
+			}) 
+		}
+		
+		
+		
+		
+				      
+				})
+		  
+		  
+		  
+		  
+		  
+				$("#btnupdate").click(function(evt){
+					 evt.preventDefault();
+					 var status=document.getElementById("metlamroi").value;  
+					  var solimit=document.getElementById("showme").value; 
+					var formsize = $("#formsize").serializeArray();
+					 var files = []
+				      var image = "";
+				      $("#formFile").change(function(event){
+						
+						files = event.target.files;
+						image = files[0].name;
+						forms = new FormData();
+						forms.append("file", files[0]);
+					
+				      })
+				      
+		 json = {};
+				      $.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});	
+				      var checkbox = document.getElementsByName("Gender");
+		                for (var i = 0; i < checkbox.length; i++){
+		                    if (checkbox[i].checked === false){
+		                    	const notyf = new Notyf({
+		                            position: {
+		                                x: 'right',
+		                                y: 'top',
+		                            },
+		                            types: [
+		                                {
+		                                    type: 'warning',
+		                                    background: '#F5B759',
+		                                    icon: {
+		                                        className: 'fas fa-exclamation-triangle',
+		                                        tagName: 'span',
+		                                        color: '#fff'
+		                                    },
+		                                    dismissible: false
+		                                }
+		                            ]
+		                        });
+		            		 notyf.open({
+		                            type: 'warning',
+		                            message: 'Vui lòng chọn giới tính !'
+		                        });
+		                    }
+		                }	     
+				      
+		var tennv = $("#fullname").val();
+		if(tennv == ""){
+			const notyf = new Notyf({
+                position: {
+                    x: 'right',
+                    y: 'top',
+                },
+                types: [
+                    {
+                        type: 'warning',
+                        background: '#F5B759',
+                        icon: {
+                            className: 'fas fa-exclamation-triangle',
+                            tagName: 'span',
+                            color: '#fff'
+                        },
+                        dismissible: false
+                    }
+                ]
+            });
+		 notyf.open({
+                type: 'warning',
+                message: 'Tên nhân viên không được để trống !'
+            });
+		}else{
+			$.ajax({
+				url:"/admin/nhanvien/ajaxupdate",
+				type: "POST",
+				data:{
+					
+					dataJson:JSON.stringify(json),
+					 image:image,
+					 status:status,
+					 solimit:solimit,
+					
+				},
+				success: function(value){
+				if(value == "false"){
+					 const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'error',
+			                        background: '#FA5252',
+			                        icon: {
+			                            className: 'fas fa-times',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });	
+					 notyf.open({
+			                type: 'error',
+			                message:'Số điện thoại bị trùng lặp !'
+			                
+			            });
+				}else{
+					$('#modalSubscribe').modal('hide');
+					nhanjson(value);
+					 const notyf = new Notyf({
+			                position: {
+			                    x: 'left',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#0948B3',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+			            notyf.open({
+			                type: 'info',
+			                message: 'Cập nhật thành công '
+			            });
+			            
+				}
+				}
+			}) 
+		}
+		
+		
+		
+		
+				      
+				})
+				
+	  });
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}"  xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>Giá</title>
+
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                        
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            
+                            <li class="breadcrumb-item active" aria-current="page">Giá</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Tất cả giá sản phẩm</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                  
+                </div>
+            </div>
+          
+
+<!-- Modal Content -->
+ <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" oninput="searchByName(this)"  placeholder="Tìm theo tên sản phẩm"></div>
+               </div>
+                    <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
+                        <div class="dataTable-dropdown"><label><select id="showme" class="dataTable-selector"><option value="5">5</option><option value="10" >10</option><option value="15" selected="selected">15</option><option value="20">20</option><option value="25">25</option></select> </label></div>
+                    </div>
+                </div>
+            </div>
+
+<!-- End of Modal Content -->
+   <div id="okeroiload" class="col-12 ">
+ <div id="loadtable" class="card card-body border-0 shadow mb-4">  
+    <div class="table-responsive py-4">
+    <table class="table table-flush" id="tableproduct">
+        <thead class="thead-light">
+        <tr>
+            <th >Mã sp</th>
+            <th >Tên sản phẩm</th>
+           
+            <th>Gía vốn</th>
+            
+             <th>Giá bán</th>
+              <th>Giá Khuyến mãi</th>
+              <th>Chức năng</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="products" th:each = "list : ${product}">
+            <td class="idproduct" id="khangcogi1" th:value=${list.Id_Poroduct}>[[${list.Id_Poroduct}]]</td>
+            <td class="productName" id="khangcogi" th:text=${list.Product_Name}></td>
+
+                <td class="Descriptions" th:text="${#numbers.formatDecimal(list.import_Price, 0, 'COMMA', 0, 'POINT')}" ></td>
+                 
+                   
+             <td class="Descriptions" th:text="${#numbers.formatDecimal(list.retail_Price, 0, 'COMMA', 0, 'POINT')}" ></td>
+                  <td  th:text="${#numbers.formatDecimal(list.promotional_price, 0, 'COMMA', 0, 'POINT')}" ></td>
+                  <td><a    th:data-id="${list.Id_Poroduct}"
+                    th:data-name= "${list.Product_Name}"
+                    th:data-price = "${list.retail_Price}"
+                   onclick="btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'),this.getAttribute('data-price'))"
+          				
+          		class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+
+          		</td>
+            	
+        </tr>
+       
+        </tbody>
+        
+    </table>
+    </div>
+   
+    	<div class="dataTable-bottom"><div class="dataTable-info">Hiển thị 1 đến <span id="showtheo">15</span> trên [[${sum.size}]] mục</div><nav aria-label="Page navigation example">
+  	 <nav aria-label="Page navigation example">
+    	<ul class="pagination mb-0">
+       	 <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        	</li>
+        	<th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+        	 </th:block>
+       	 <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+		
+                    </div>
+                  
+                </div>
+
+  		<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cập nhật giá</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+			<form id="">
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Mã SP</label> 
+           <input type="text"  class="form-control3" id="idsp" name="fabric_material" aria-describedby="cartInputAddress1" readonly="readonly"></div></div>
+              <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Tên SP</label> 
+           <input type="text"  class="form-control3" id="tensp" name="fabric_material" aria-describedby="cartInputAddress1" readonly="readonly"></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Giá hiện tại</label> 
+           <input type="text"  class="form-control1" id="giahientai" name="fabric_material" aria-describedby="cartInputAddress1" readonly="readonly"></div></div>
+          
+          
+           			<div class="col-12 col-lg-6">
+           			
+           		<label for="country">Chọn loại giá</label> 
+           			
+           			<select class="form-control1 mb-4 " id="loaigia" name="idcategory" aria-label="Country select example">
+           			 <option value="3">Giá bán</option>
+           			 <option  value="4">Giá khuyến mãi</option>
+           			<option  value="1">Giá vốn</option>
+	               <option value="2">Giá nhập cuối</option>
+	               
+	                
+           			</select> </div>
+          <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Giá mới</label> 
+           <input type="number"  class="form-control1" id="giaupdate" name="fabric_material" aria-describedby="cartInputAddress1"></div></div>
+          	 
+          	 
+<div class="col-12 col-lg-6"><div class="form-group mb-4">
+         
+     <fieldset id="canhchinh">
+    <div class="form-check " >
+        <input class="form-check-input option" type="radio" checked name="options" id="exampleRadios1" value="1" >
+        <label class="form-check-label canhngang" for="exampleRadios1">
+          VND
+        </label>
+        </div>
+        <div class="form-check">
+        <input class="form-check-input option" type="radio" name="options" id="exampleRadios1" value="2">
+        <label class="form-check-label canhngang" for="exampleRadios1">
+            %
+        </label>
+        </div>
+        
+    <!-- End of Radio -->
+</fieldset>
+         
+         </div></div>
+          	 
+
+           
+           </form>
+           
+            </div>
+
+<div id="kiemtrachekc">
+<div class="form-check" >
+    <input class="form-check-input" type="checkbox" value="10" id="defaultCheck10">
+    <label class="form-check-label" for="defaultCheck10">
+        Áp dụng cho tất cả sản phẩm 
+    </label>
+</div>
+</div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a id="btnupdatprice" 
+               		 
+                   type="button" class="btn btn-secondary">Cập nhật</a>
+            </div>
+           
+        </div>
+    </div>
+</div>
+  		
+               
+
+                  
+
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+   
+         function showmodal(id,name){
+ 	console.log(name,id)
+ 	var khang = $('#sizeName1').text(name);
+ 	
+ 	$('#modal-default').modal('show');
+	
+ 	$('#yesOption').attr('href', '/admin/size/delete/' + id);
+ }
+
+
+         function btninfoaize(id, name , price){
+      
+        	 $('#modal-default').modal('show');
+        	
+				
+				
+        	 $("#idsp").val(id)
+        	  $("#tensp").val(name)
+        	 $("#giahientai").val(price) 
+         }
+         
+         
+         
+         
+         $("#btnupdatprice").click(function(){
+        	  var idsp=document.getElementById("idsp").value;
+        	  var loaigia=document.getElementById("loaigia").value;
+        	  var giamoi=document.getElementById("giaupdate").value;
+        	 json = {};
+      		arraryDetails = [];
+      		 var image = 0;
+        	  $("#kiemtrachekc input:checked").each(function(){
+      			
+    			var idcssp = $(this).val()
+    			console.log(idcssp)
+    			image = idcssp
+	
+    			  
+    		})
+        	  
+        	  console.log(image)
+        	  
+        	  $("#canhchinh input:checked").each(function(){
+      			 
+        		  giatheo = $(this).val()
+       
+      
+        	  if(giamoi == ""){
+        		  const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Vui lòng nhập giá trước khi cập nhật.'
+		              
+		            });
+        	  }
+        	  
+        	  
+        	  else{
+        		  $.ajax({
+        				url:"/admin/price/ajaxupdateprice",
+        				type: "POST",
+        				data:{
+        					idsp:idsp,
+        					loaigia:loaigia,
+        					giamoi:giamoi,
+        					giatheo:giatheo,
+        					image:image,
+        				},
+        				success: function(value){
+        					console.log(value)
+        					 $('#modal-default').modal('hide');
+        					const notyf = new Notyf({
+    			                position: {
+    			                    x: 'right',
+    			                    y: 'top',
+    			                },
+    			                types: [
+    			                    {
+    			                        type: 'info',
+    			                        background: '#2361ce',
+    			                        icon: {
+    			                            className: 'fas fa-check',
+    			                            tagName: 'span',
+    			                            color: '#fff'
+    			                        },
+    			                        dismissible: false
+    			                    }
+    			                ]
+    			            });
+    					 notyf.open({
+    			                type: 'info',
+    			                message: 'Cập nhật thành công.'
+    			            });
+        				nhanjson(value);
+        				}
+        			}) 
+        	  }
+         })
+     	})
+$("body").on("change", "#showme", function(){
+		  var solimt=document.getElementById("showme").value;  
+
+		  $.ajax({
+				url:"/admin/price/showlimit",
+				type: "GET",
+				data:{
+					solimt:solimt,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+						
+						nhanjson(value);
+						//tablecategory.append(value);	
+						$("#showtheo").html(sotrang);
+				}
+			}) 
+	  })
+    </script>    
+ 
+ <script>
+ $("#showadd").click(function(){
+		
+		$('#modalSubscribe').modal('show');
+
+		$("#formproduct").trigger("reset");
+		 $("#btnupdate").hide();
+	})
+function nhanjson(data){
+	 var tablecategory =$("#tableproduct").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		const price = data[i].import_Price;
+		const formatprice1 = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		const price1 = data[i].retail_Price;
+		const formatprice = price1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		const giakm = data[i].promotional_price;
+		const formatgiakm = giakm.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Poroduct +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].product_Name  +' </td>'
+			
+			+'<td class="Price"> ' + formatprice1   +' </td>'
+			
+			+'<td class="Price"> ' + formatprice   +' </td>'
+			+'<td class="Price"> ' + formatgiakm   +' </td>'
+			+"<td><a  data-id= " + data[i].id_Poroduct +"\r\n"
+			+ "          				data-name=" + data[i].product_Name +"\r\n"
+			+ "          				data-price=" + data[i].retail_Price +"\r\n"
+			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'),this.getAttribute('data-price'))\"\r\n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+" </td>\r\n"
+			+"</tr>")
+
+	}
+}
+ function DelImg(el) {
+     jQuery(el).closest('div').find("img").remove()
+    console.log(el)
+     
+ }
+ 
+	function searchByName(praram){
+		var txtseach = praram.value;
+		  var solimit=document.getElementById("showme").value;  
+		 
+		$.ajax({
+			url:"/admin/price/searchByName",
+			type: "GET",
+			data:{
+				name:txtseach,
+				solimit:solimit,
+			},
+			success: function(value){
+				//self.closest("tr").remove();
+				nhanjson(value)
+console.log(value)
+			}
+		}) 
+	}
+	
+	
+	  	
+
+
+	    
+  // phan trang
+	  
+	  $("body").on("click", ".page-item", function(){
+		  $(".page-item").removeClass("active");
+		  $(this).addClass("active");
+		  var solimit=document.getElementById("showme").value; 
+		  
+		
+		  var sotrang = $(this).text();
+		  var spbatdau = (sotrang -1)*solimit;
+		 
+		   $.ajax({
+				url:"/admin/price/pagingproduct",
+				type: "GET",
+				data:{
+					spbatdau:spbatdau,
+					solimit:solimit,
+				},
+				success: function(value){
+					console.log(value)
+					nhanjson(value);
+					
+				}
+			})  
+	  })
+
+
+
+
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

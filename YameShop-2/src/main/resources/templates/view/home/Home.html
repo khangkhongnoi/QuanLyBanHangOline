@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{view/home/trangchu.html}">
+<head>
+   
+  
+</head>
+<body>
+    <noscript>
+        <img height="1" width="1"
+             src="https://www.facebook.com/tr?id=1772218379751100&ev=PageView&noscript=1" />
+    </noscript>
+
+    <div >
+
+
+
+        <div class="container-fluid mb-4" layout:fragment="content">
+            
+<th:block th:each= "listpromontion : ${listpromontion}">
+	
+   <div class="row" data-aos="zoom-in">
+            <div class="col-12 text-center mb-2 px-0">
+                <a th:href = "@{'/Home/KhuyenMai/'  + ${listpromontion.Id_Promontion }}"><img loading="eager" th:src="@{'/view/images/' + ${listpromontion.Promontion_Image}}" class="img-fluid" alt="MỞ B&#193;N " style="margin:auto; width:100%;" /></a>
+            </div>
+    </div> 
+
+        </th:block>
+
+    <div class="row" data-aos="zoom-in">
+        <div class="owl-carousel owl-theme" id="dsLookbook">
+<th:block th:each= "listpromontion : ${listpromontionvitri2}">
+                <div class="col-12  px-1">
+                    <h4 style="padding-top:20px;" class="fw-normal"><a href="/bai-viet/mo-ban-2810-lb1/8e9120d3-0dc3-47ad-ae7f-96e9b7111bd5">Mở Bán [[${listpromontion.Start_Time}]]</a></h4>
+                    <div class="banner-home3-colection-top" style="margin-bottom:10px;">
+                        <a th:href = "@{'/Home/KhuyenMai/'  + ${listpromontion.Id_Promontion }}">
+                            <img loading="lazy" class="img-fluid" th:src="@{'/view/images/' + ${listpromontion.Promontion_Image}}" alt="Mở B&#225;n 2810 LB1">
+                        </a>
+                    </div>
+                 
+                </div>
+               
+               
+        </div>
+
+    </div>
+
+
+    <div class="row mt-4" data-aos="zoom-in">
+     <th:block th:each= " colors : ${colors}" >
+            <div class="col-6 col-md-3 mb-2  px-0">
+                <a th:href = "@{'/Home/Mausac/' + ${colors.Id_Product_Color} }">
+                    <img class="img-fluid" loading="lazy" th:src="@{'/view/images/' + ${colors.images}}">
+                </a>
+            </div>
+            </th:block>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <p style="font-size:24px; padding-top:20px;" class="mb-1">Top sản phẩm HOT</p>
+            <p>Những sản phẩm thời trang mới nhất/Hot nhất</p>
+        </div>
+
+
+
+
+
+
+   <th:block th:each= " listproduct : ${listproduct}" >
+<div class="col-6 col-sm-3 col-md-3 px-1"  data-aos="fade-up">
+    <div class="pitem mb-3">
+    
+            <div class="owl-carousel owl-theme dsHinhSanPham">
+                <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+                    <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image1}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+            </div>
+
+        <div class="price">
+            
+					
+                <span class="mb-1" th:if="${listproduct.promotional_price == 0}">
+                      <span  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                       
+                </span>
+                
+                 <span class="mb-1" th:if="${listproduct.promotional_price != 0}">
+                      <span style="text-decoration:line-through"  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                        <span style="color:#ff0000" th:text="${#numbers.formatDecimal(listproduct.promotional_price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                </span>
+        </div>
+    </div>
+       
+ 
+       
+  
+</div>
+
+ </th:block>
+
+
+<script type="text/javascript">
+
+function Toggle3(){
+	var btnvar3 = $(this);
+	console.log(btnvar3)
+        
+}
+function addactive(id){
+	var khang = document.getElementById("khang");
+	if(khang.style.color == "red"){
+		heartleth.style.color =="black"
+	}else{
+		heartleth.style.color =="red"
+	}
+}
+</script>
+
+
+
+</div><div class="row">                      
+ <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a class="btn btn-dark" th:href = "@{'/Home/danhmuc/' + 'LH0001' }" style="line-height:30px;">&nbsp;&nbsp;Xem tất cả Áo thun&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+</div><div class="row">
+
+
+      <th:block th:each= " listproduct : ${listaokhoac}" >
+<div class="col-6 col-sm-3 col-md-3 px-1"  data-aos="fade-up">
+    <div class="pitem mb-3">
+    
+            <div class="owl-carousel owl-theme dsHinhSanPham">
+                <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+                    <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image1}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+            </div>
+
+        <div class="price">
+            
+					
+                <span class="mb-1" th:if="${listproduct.promotional_price == 0}">
+                      <span  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                       
+                </span>
+                
+                 <span class="mb-1" th:if="${listproduct.promotional_price != 0}">
+                      <span style="text-decoration:line-through"  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                        <span style="color:#ff0000" th:text="${#numbers.formatDecimal(listproduct.promotional_price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                </span>
+        </div>
+    </div>
+       
+ 
+       
+  
+</div>
+
+ </th:block>
+
+
+</div><div class="row">                        <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a class="btn btn-dark" th:href = "@{'/Home/danhmuc/' + 'LH0003' }" style="line-height:30px;">&nbsp;&nbsp;Xem tất cả Áo khoác&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+</div><div class="row">
+</div>
+
+<div class="row">
+
+   <th:block th:each= " listproduct : ${listaosomi}" >
+<div class="col-6 col-sm-3 col-md-3 px-1"  data-aos="fade-up">
+    <div class="pitem mb-3">
+    
+            <div class="owl-carousel owl-theme dsHinhSanPham">
+                <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+                    <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image1}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+            </div>
+
+        <div class="price">
+            
+					
+                <span class="mb-1" th:if="${listproduct.promotional_price == 0}">
+                      <span  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                       
+                </span>
+                
+                 <span class="mb-1" th:if="${listproduct.promotional_price != 0}">
+                      <span style="text-decoration:line-through"  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                        <span style="color:#ff0000" th:text="${#numbers.formatDecimal(listproduct.promotional_price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                </span>
+        </div>
+    </div>
+       
+ 
+       
+  
+</div>
+
+ </th:block>
+
+
+
+
+</div><div class="row">                        <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a class="btn btn-dark" th:href = "@{'/Home/danhmuc/' + 'LH0004' }" style="line-height:30px;">&nbsp;&nbsp;Xem tất cả Áo sơ mi&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+</div><div class="row">
+
+   <th:block th:each= " listproduct : ${listquanjean}" >
+<div class="col-6 col-sm-3 col-md-3 px-1"  data-aos="fade-up">
+    <div class="pitem mb-3">
+    
+            <div class="owl-carousel owl-theme dsHinhSanPham">
+                <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+                    <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image1}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+            </div>
+
+        <div class="price">
+            
+					
+                <span class="mb-1" th:if="${listproduct.promotional_price == 0}">
+                      <span  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                       
+                </span>
+                
+                 <span class="mb-1" th:if="${listproduct.promotional_price != 0}">
+                      <span style="text-decoration:line-through"  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                        <span style="color:#ff0000" th:text="${#numbers.formatDecimal(listproduct.promotional_price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                </span>
+        </div>
+    </div>
+       
+ 
+       
+  
+</div>
+
+ </th:block>
+
+
+
+</div><div class="row">                        <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a class="btn btn-dark" th:href = "@{'/Home/danhmuc/' + 'LH0002' }" style="line-height:30px;">&nbsp;&nbsp;Xem tất cả Quần dài&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+</div><div class="row">
+</div>
+<div class="row">              
+<th:block th:each= "listpromontion : ${listpromontionvitri3}">
+          <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a th:href = "@{'/Home/KhuyenMai/'  + ${listpromontion.Id_Promontion }}"><img loading="lazy" th:src="@{'/view/images/' + ${listpromontion.Promontion_Image}}" class="img-fluid" alt="YameAPI.Client.PiranhaCMS.Title" style="margin:auto; width:100%;" /></a>
+                            </div>
+                        </div>
+ </th:block>
+</div>
+<div class="row">
+
+
+<th:block th:each= " listproduct : ${listquansort}" >
+<div class="col-6 col-sm-3 col-md-3 px-1"  data-aos="fade-up">
+    <div class="pitem mb-3">
+    
+            <div class="owl-carousel owl-theme dsHinhSanPham">
+                <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+                    <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image1}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+            </div>
+
+        <div class="price">
+            
+					
+                <span class="mb-1" th:if="${listproduct.promotional_price == 0}">
+                      <span  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                       
+                </span>
+                
+                 <span class="mb-1" th:if="${listproduct.promotional_price != 0}">
+                      <span style="text-decoration:line-through"  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                        <span style="color:#ff0000" th:text="${#numbers.formatDecimal(listproduct.promotional_price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                </span>
+        </div>
+    </div>
+       
+ 
+       
+  
+</div>
+
+ </th:block>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div><div class="row">                        <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a class="btn btn-dark" th:href = "@{'/Home/danhmuc/' + 'LH0005' }" style="line-height:30px;">&nbsp;&nbsp;Xem tất cả Quần Short&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+</div><div class="row">
+
+
+
+<th:block th:each= " listproduct : ${listqbalo}" >
+<div class="col-6 col-sm-3 col-md-3 px-1"  data-aos="fade-up">
+    <div class="pitem mb-3">
+    
+            <div class="owl-carousel owl-theme dsHinhSanPham">
+                <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+                    <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image1}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+            </div>
+
+        <div class="price">
+            
+					
+                <span class="mb-1" th:if="${listproduct.promotional_price == 0}">
+                      <span  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                       
+                </span>
+                
+                 <span class="mb-1" th:if="${listproduct.promotional_price != 0}">
+                      <span style="text-decoration:line-through"  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                        <span style="color:#ff0000" th:text="${#numbers.formatDecimal(listproduct.promotional_price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                </span>
+        </div>
+    </div>
+       
+ 
+       
+  
+</div>
+
+ </th:block>
+
+
+
+
+</div><div class="row">                        <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a class="btn btn-dark" th:href = "@{'/Home/danhmuc/' + 'LH0006' }"style="line-height:30px;">&nbsp;&nbsp;Xem tất cả Balo-Túi&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+</div><div class="row">    </div>
+
+    <div class="row">
+
+
+<th:block th:each= " listproduct : ${listdep}" >
+<div class="col-6 col-sm-3 col-md-3 px-1"  data-aos="fade-up">
+    <div class="pitem mb-3">
+    
+            <div class="owl-carousel owl-theme dsHinhSanPham">
+                <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+                    <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image1}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+            </div>
+
+        <div class="price">
+            
+					
+                <span class="mb-1" th:if="${listproduct.promotional_price == 0}">
+                      <span  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                       
+                </span>
+                
+                 <span class="mb-1" th:if="${listproduct.promotional_price != 0}">
+                      <span style="text-decoration:line-through"  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                        <span style="color:#ff0000" th:text="${#numbers.formatDecimal(listproduct.promotional_price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                </span>
+        </div>
+    </div>
+       
+ 
+       
+  
+</div>
+
+ </th:block>
+
+
+
+</div><div class="row">                        <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a class="btn btn-dark" th:href = "@{'/Home/danhmuc/' + 'LH0010' }" style="line-height:30px;">&nbsp;&nbsp;Xem tất cả Giày-Dép-Sandal&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+</div><div class="row">
+
+
+<th:block th:each= " listproduct : ${listnon}" >
+<div class="col-6 col-sm-3 col-md-3 px-1"  data-aos="fade-up">
+    <div class="pitem mb-3">
+    
+            <div class="owl-carousel owl-theme dsHinhSanPham">
+                <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+                    <a th:href = "@{'/Home/Product/' + ${listproduct.Id_Poroduct} }">
+                    <img loading="lazy" th:src="@{'/view/images/' + ${listproduct.Image1}}" alt="Xanh Biển" class="img-fluid d-block w-100" />
+                </a>
+            </div>
+
+        <div class="price">
+            
+					
+                <span class="mb-1" th:if="${listproduct.promotional_price == 0}">
+                      <span  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                       
+                </span>
+                
+                 <span class="mb-1" th:if="${listproduct.promotional_price != 0}">
+                      <span style="text-decoration:line-through"  th:text="${#numbers.formatDecimal(listproduct.retail_Price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                        <span style="color:#ff0000" th:text="${#numbers.formatDecimal(listproduct.promotional_price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                </span>
+        </div>
+    </div>
+       
+ 
+       
+  
+</div>
+
+ </th:block>
+
+
+
+
+
+</div><div class="row">                        <div class="col-12 text-center mb-4 px-0">
+                            <div>
+                                <a class="btn btn-dark" th:href = "@{'/Home/danhmuc/' + 'LH0008' }" style="line-height:30px;">&nbsp;&nbsp;Xem tất cả Nón&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+
+</div><div class="row">    </div>
+
+
+<hr />
+<!-- <div class="row">
+    <div class="col-sm-12 text-center">
+        <p style="font-size:24px;" class="mb-1">Các chương trình Khuyến mãi</p>
+        <p>Đừng bỏ lỡ các chương trình khuyến mãi Hot tại Yame.vn</p>
+        <input type="hidden" value="MBSPBGNJ2LKDO4BHMEF3IKKI" name="_YID" />
+    </div>
+</div> -->
+
+<!-- <div class="row">
+
+            <div class="col-12 col-md-6 px-1">
+                <h4 style="padding-top:20px;" class="fw-normal"><a href="/bai-viet/san-sale-don-halloween-cung-yame/feb6c7e1-5ff2-4e37-8dcb-25a17f683bd7">SĂN SALE Đ&#211;N HALLOWEEN C&#217;NG YaMe</a></h4>
+                <div class="banner-home3-colection-top" style="margin-bottom:10px;">
+                    <a href="/bai-viet/san-sale-don-halloween-cung-yame/feb6c7e1-5ff2-4e37-8dcb-25a17f683bd7">
+                        <img class="img-fluid" loading="lazy" src="https://cmsv2.yame.vn/uploads/2c4e11b3-a5f9-48e7-a35e-fe4106248f5c/Thum_sale_HLW.jpg?quality=80&amp;w=700&amp;h=0" alt="SĂN SALE Đ&#211;N HALLOWEEN C&#217;NG YaMe">
+                    </a>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="col-12 col-md-6 px-1">
+                <h4 style="padding-top:20px;" class="fw-normal"><a href="/bai-viet/sale-off-30-nhieu-san-pham/b86c6b6d-1878-402d-b4ff-b64b0c235618">20/10 SALE 30% C&#193;C GU UNISEX </a></h4>
+                <div class="banner-home3-colection-top" style="margin-bottom:10px;">
+                    <a href="/bai-viet/sale-off-30-nhieu-san-pham/b86c6b6d-1878-402d-b4ff-b64b0c235618">
+                        <img class="img-fluid" loading="lazy" src="https://cmsv2.yame.vn/uploads/210812bb-e5a3-42fa-a29e-aa8b0fe6e9a0/Thum_blog_sale_20.10.jpg?quality=80&amp;w=700&amp;h=0" alt="20/10 SALE 30% C&#193;C GU UNISEX ">
+                    </a>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+</div> -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="registerVIPOnline" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color:transparent !important; text-align:center; border:none;">
+                
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#fff; font-weight:400;text-shadow: 0 0px 0 #eee; font-size:2rem;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <img src="https://res.yame.vn/content/images/modal_register.png" />
+                    
+                    <a th:href="@{/Home/dangkytk}" style="display:block; width:80%; height:100px; cursor:pointer; position:absolute; top:300px; left:30px;">
+                       ĐĂNG KÝ
+                    </a>
+                     <a th:href="@{/Home/DangNhap}" style="display:block; width:80%; height:100px; cursor:pointer; position:absolute; top:300px; left:30px;">
+                        &nbsp;
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+
+
+        </div>
+
+
+
+
+
+
+  
+
+    
+
+    
+
+</body>
+
+</html>

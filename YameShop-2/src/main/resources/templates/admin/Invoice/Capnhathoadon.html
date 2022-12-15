@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}" xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>Cập nhật hóa đơn</title>
+
+</head>
+<body id ="khang">
+
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item"><a th:href = "@{'/admin/dashboard'}">Trang Chủ</a></li>
+                             <li class="breadcrumb-item"><a  th:href = "@{'/admin/invoice/all'}">Hóa Đơn</a></li>
+                            <li class="breadcrumb-item"><a  th:href = "@{'/admin/invoice/chitiethd/' + ${invoice.Id_Invoice}}">Chi Tiết Hóa Đơn</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Cập Nhật Hóa Đơn</li>
+                        </ol>
+                    </nav>
+                   
+                   
+                </div>
+              
+            </div>
+           
+
+   <div  class="col-12 col-xl-8 ">
+                    <div id="Hightseting" class="card card-body border-0 shadow mb-4">
+                       
+             <form >    
+    <div class="table-responsive py-4">
+    
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr id="layid">
+            <th >Mã hàng</th>
+            <th >Tên hàng</th>
+             <th> Màu sắc</th>
+             <th >Kích thước</th>
+            <th >Số lượng</th>
+             <th > Đơn giá</th>
+          
+             <th>Giảm giá</th>
+             <th>Thành tiền</th>
+          
+             
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        <tr class="categorys10"  th:each = "list : ${listinoive}">
+            <td class="IdCategory1"  th:value="${list.Id_Invoice_Details}"> [[${list.Id_Invoice_Details}]]
+            <a  th:data-id="${list.product_details.Id_Product_Details}"
+          				onclick="showmodal(this.getAttribute('data-id'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+            </td>
+            <td class="categoryName"  th:text=${list.product_details.product.Product_Name}></td>
+            <td class="categoryName"  th:text=${list.product_details.product_Color.Color_Name}>
+           
+            </td>
+            <td class="categoryName"  th:text=${list.product_details.size.Size_Name}>
+           
+            </td>	
+            <td  >
+             <input type="number" class="form-control2 quantity" id="quantity" name="quantity" min="1" th:value="${list.Amount}">
+            </td>	
+           
+          	
+            <td class="dongia" th:value="${list.don_gia}"  th:text="${#numbers.formatDecimal(list.don_gia, 0, 'COMMA', 0, 'POINT')}"></td>
+              <td class="categoryName" >
+           0
+            </td>
+            <td class="categoryName"  th:text="${#numbers.formatDecimal(list.don_gia * list.Amount, 0, 'COMMA', 0, 'POINT')}"></td>
+        </tr>
+        
+       
+        </tbody>
+        
+    </table>
+   
+                </div>
+                <div id="magrin">
+                <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address"> Tổng Số lượng:</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number" >5</label> </div></div></div>
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address"> Tổng tiền:</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number" th:text="${#numbers.formatDecimal(invoice.total_money, 0, 'COMMA', 0, 'POINT')}"></label> </div></div></div>
+      <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address">Giảm giá:</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number"id="oke">0</label> </div></div></div>
+      <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address">Khách cần trả:</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number"id="ncc" th:text="${#numbers.formatDecimal(invoice.total_money, 0, 'COMMA', 0, 'POINT')}"></label> </div></div></div>
+               </div>
+                  </form>
+                </div>
+                
+  </div>
+  
+  <script> 
+  
+  
+  
+  $(document).ready(function(){
+	  
+	
+		
+	
+	  
+	$("#btncapnhat").click(function(){
+		var formsize = $("#formproduct").serializeArray();
+		
+		   console.log(formsize)
+		json = {};
+		arraryDetails = [];
+		$.each(formsize, function(i, field){
+ 		json[field.name] = field.value;	
+});		
+		$("#myTable >.categorys10").each(function(){
+			iddetails = $(this).find(".IdCategory1").attr("value");		
+			
+			quantity = $(this).find('input[name="quantity"]').val();
+			dongia = $(this).find(".dongia").attr("value");
+			
+			objectDetails = {};
+			objectDetails["dongia"] = dongia;
+			objectDetails["quantity"] = quantity;
+			objectDetails["iddetails"] = iddetails;
+			
+			arraryDetails.push(objectDetails);
+		})
+		json["inoice"] = arraryDetails;
+		var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+	    var mobile = $('#phone').val();
+	    var diachi = $("#descriptions").val();
+	   
+	    if(mobile !=='' && diachi !== "" ){
+	    	
+	        if (vnf_regex.test(mobile) == false) 
+	        {
+	        	$('#modal-default10').modal('hide');
+	        	const notyf = new Notyf({
+	                position: {
+	                    x: 'right',
+	                    y: 'top',
+	                },
+	                types: [
+	                    {
+	                        type: 'error',
+	                        background: '#FA5252',
+	                        icon: {
+	                            className: 'fas fa-times',
+	                            tagName: 'span',
+	                            color: '#fff'
+	                        },
+	                        dismissible: false
+	                    }
+	                ]
+	            });	
+			 notyf.open({
+	                type: 'error',
+	                message:'Số điện thoại của bạn không đúng định dạng!'
+	                
+	            });
+	        }else{
+	        	$.ajax({
+	    			url:"/admin/invoice/ajaxupdate",
+	    			type: "GET",
+	    			data:{
+	    				dataJson:JSON.stringify(json),
+	    				
+	    			},
+
+	    	}).done(function(data){
+	    		console.log(data);
+	    		/* var tablecategory =	$("#khang").empty();
+	    		tablecategory.append(data)
+	    		 */
+	    		 $('#modal-default10').modal('hide');
+	    		
+	    			 const notyf = new Notyf({
+			                position: {
+			                    x: 'left',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#0948B3',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+			            notyf.open({
+			                type: 'info',
+			                message: 'Cập nhật thành công. '
+			            });
+	    			
+			            setTimeout(() => {
+			            	location.reload();
+			            	}, "2000")
+		            
+	    	})
+	        }
+	    }else{
+	    	$('#modal-default10').modal('hide');
+	   	 const notyf = new Notyf({
+             position: {
+                 x: 'right',
+                 y: 'top',
+             },
+             types: [
+                 {
+                     type: 'warning',
+                     background: '#F5B759',
+                     icon: {
+                         className: 'fas fa-exclamation-triangle',
+                         tagName: 'span',
+                         color: '#fff'
+                     },
+                     dismissible: false
+                 }
+             ]
+         });
+		 notyf.open({
+             type: 'warning',
+             message: 'Bạn chưa điền số điện thoại!'
+           
+         });
+	    }
+		
+		
+
+		
+		
+	})
+	   
+
+	  
+    	$(".quantity").change(function(){
+	
+	var quantity = $(this).val();
+	
+	
+		})
+    })
+  </script>
+      <div class="ol-12 col-xl-4">
+      <div class="row">
+      <div class="col-12 mb-4">
+      
+      <div class="card card-body border-0 shadow mb-4">
+     
+      <form id="formproduct">
+  <div class="col-md-12 ">
+      <div class="form-group"> <input class="form-control1" id="ten" name="id" type="text" placeholder="Tên khách hàng" th:value="${invoice.Id_Invoice}" required=""></div></div>
+      <div class="col-md-12 "><label for="email">Khách hàng</label> 
+      <div class="form-group"> <input class="form-control1" id="ten" name="ten" type="text" placeholder="Tên khách hàng" th:value="${invoice.Customer_Name}" required=""></div></div>
+ 	<div class="col-md-12 "><label for="email">SĐT</label> 
+      <div class="form-group"> <input class="form-control1" id="phone" type="text" name="phone" placeholder="Số di động" th:value="${invoice.Phone}" required=""> </div></div>
+      <div class="col-md-12 "><label for="email">Địa chỉ</label> 
+      <div class="form-group">
+      <textarea class="form-control" placeholder="Enter your message..."  id="descriptions" name="descriptions" rows="4" > [[${invoice.Delivery_Address}]]</textarea>
+       </div></div>
+       
+       </form>
+       <button onclick="showupdate()"
+               		 
+                   type="button" class="btn btn-secondary">THANH TOÁN</button>
+       </div>
+   
+     </div>
+     
+     </div>
+     </div>
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default10" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo hoá đơn</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Khi thay đổi thông tin trên hóa đơn, hệ thống sẽ:
+- Hủy hóa đơn cũ và tạo hóa đơn mới
+- Tất cả các phiếu thanh toán của hóa đơn cũ sẽ được gắn với hóa đơn mới
+- Nếu bạn thay đổi số lượng hàng hóa, cần đảm bảo tồn kho của cửa hàng vẫn đáp ứng đủ, hệ thống sẽ không kiểm tra lại.
+Bạn có muốn tiếp tục?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Bỏ qua</button>
+                 <a id="btncapnhat" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               Do you want to delete  id ="<span id="id123"></span>" name="<span id="sizeName1"></span>"   ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+function nhanjson(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+	 
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		if(data[i].status == 0){
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].product.id_Poroduct  +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].product.product_Name  +' </td>'
+			+'<td class="image"> ' + data[i].dvt +' </td>'
+			+'<td class="brand_Name"> ' + data[i].quanlity  +' </td>'
+			+'<td class="Category_Name"> ' + data[i].don_Gia  +' </td>'
+			+'<td class="Category_Name"> ' + data[i].don_Gia *  data[i].quanlity +' </td>'
+			
+			+"</tr>")
+		
+			}
+			
+		
+	}
+}
+function showupdate(){
+	
+	  $('#modal-default10').modal('show');
+}
+
+         function showmodal(id){
+ 	
+ 	
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	$('#yesOption').attr('herf' , '/admin/invoice/deletedetails/' + id)
+ }
+         
+
+         var today = new Date();
+         var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+         var dateTime = date+' '+time;
+       console.log(dateTime);
+       	document.getElementById("ngaygio").innerHTML = dateTime;
+       	
+       	
+       	
+   	 var files = []
+     var image = "";
+     $("#formFile").change(function(event){
+		
+		files = event.target.files;
+		image = files[0].name;
+		forms = new FormData();
+		forms.append("file", files[0]);
+     })	
+	$("#uploadfiles").click(function(){
+	var nopro =	document.getElementById("removese");
+console.log(nopro)
+		$.ajax({
+			url:"/admin/coupon/excel/savexcel",
+			type: "POST",
+			data:{
+				
+				image:image,
+									},
+			success: function(value){
+				//self.closest("tr").remove();
+				
+				console.log(value)
+				nhanjson(value);
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your product name.'
+		              
+		            });
+			}
+		}) 
+	})
+    </script>    
+ 
+ 
+                    </div>
+       
+ 
+
+
+</body>
+</html>

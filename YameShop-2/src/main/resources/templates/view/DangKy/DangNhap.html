@@ -1,0 +1,705 @@
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2205398-24"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-2205398-24');
+    </script>
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "3xdyrg1i0n");
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="xFnIbRiqlbUWt2-5yqv6TejVhQ1oYB1hZiZ1jRXLzHw" />
+    <link rel="icon" type="image/png" href="https://res.yame.vn/Content/images/yame-fav.png">
+    <link rel="image_src" href="https://res.yame.vn/Content/images/yame.png">
+<link type="text/css" th:href="@{/admin/vendor/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+
+
+<!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+
+<link type="text/css" th:href="@{/admin/css/notification.css}" rel="stylesheet">
+    <title>Đăng k&#253;/Đăng nhập bằng số điện thoại - YaMe.vn</title>
+
+        <meta name="description" content="Giao Hàng Nhanh Miễn Phí ✓ Bảo Hành 365 Ngày ✓ 7 Ngày Đổi Hàng Miễn Phí. Mua Online Giá Rẻ Bất Ngờ" />
+
+        <meta name="keywords" content="quần áo thời trang nam nữ, quần áo nam, quàn áo nữ, thời trang nam giá rẻ, thời trang nữ giá rẻ, shop thời trang nam nữ" />
+
+    
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,100italic,300italic,400italic,500,700,500italic,700italic,900&subset=latin,greek,greek-ext,vietnamese,latin-ext,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css'>
+
+    
+
+    <link href="https://res.yame.vn/14112022/Content/CssFramework.css" rel="stylesheet"/>
+
+    <link href="https://res.yame.vn/14112022/Content/theme1/fonts/icomoon/style.css" rel="stylesheet"/>
+
+    <link href="https://res.yame.vn/14112022/Content/theme1.css?v=2" rel="stylesheet"/>
+
+    <link href="https://res.yame.vn/14112022/Content/Custom.css" rel="stylesheet"/>
+
+    <link href="https://res.yame.vn/14112022/Scripts/OwlCarousel2/assets/owl.carousel.min.css" rel="stylesheet"/>
+<!-- Notyf -->
+<link type="text/css" th:href="@{/admin/vendor/notyf/notyf.min.css}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Volt CSS -->
+<link type="text/css" th:href="@{/admin/css/volt.css}" rel="stylesheet">
+
+<link type="text/css" th:href="@{/admin/scss/volt/components/_buttons.scss}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+<link type="text/css" th:href="@{/admin/css/notification.css}" rel="stylesheet">
+
+
+<!-- Sweet Alerts 2 -->
+<script th:src="@{/admin/vendor/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+
+<!-- Moment JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+
+<!-- Vanilla JS Datepicker -->
+<script th:src="@{/admin/vendor/vanillajs-datepicker/dist/js/datepicker.min.js}"></script>
+
+<!-- Notyf -->
+<script th:src="@{/admin/vendor/notyf/notyf.min.js}"></script>
+
+<!-- Simplebar -->
+<script th:src="@{/admin/vendor/simplebar/dist/simplebar.min.js}"></script>
+
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+<script th:src="@{/admin/assets/js/volt.js}"></script>
+<script th:src="@{/admin/assets/js/notification.script.js}"></script>
+    <style>
+        .firebaseui-title {
+            display:none;
+        }
+     #canhtoptaomk {
+    margin-top: -20%;
+}
+
+    </style>
+
+
+
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1772218379751100');
+        fbq('track', 'PageView');
+       
+        function show(){
+        	const notyf = new Notyf({
+                position: {
+                    x: 'right',
+                    y: 'top',
+                },
+                types: [
+                    {
+                        type: 'info',
+                        background: '#2361ce',
+                        icon: {
+                            className: 'fas fa-check',
+                            tagName: 'span',
+                            color: '#fff'
+                        },
+                        dismissible: false
+                    }
+                ]
+            });
+		 notyf.open({
+                type: 'info',
+                message: 'Delete succees.'
+            });
+        }
+    </script>
+    <!-- End Facebook Pixel Code -->
+	
+
+
+    <script src="https://res.yame.vn/firebasejs/ui/firebase-ui-auth__vi.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://res.yame.vn/firebasejs/ui/firebase-ui-auth.css" />
+</head>
+<body>
+    <noscript>
+        <img height="1" width="1"
+             src="https://www.facebook.com/tr?id=1772218379751100&ev=PageView&noscript=1" />
+    </noscript>
+
+    <div >
+
+
+
+
+
+
+<div class="site-navbar bg-dark py-2 stickyDiv">
+    <div class="search-wrap">
+        <div class="container">
+            <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+            <form action="/search" method="post">
+                <input type="text" name="keyword" class="form-control" placeholder="Nhập sản phẩm cần tìm...">
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+
+            <div class="icons align-items-left" id="leftIconsBar" style="width:0; display:none;">
+                <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-lg-none"><span class="icon-menu"></span></a>
+            </div>
+
+
+
+            <div class="logo" style="width:15%; text-align:left;">
+                <div class="site-logo">
+                        <a href="/" class="js-logo-clone">
+                            <img src="//res.yame.vn/Content/images/yame-f-logo-white.png" alt="Yame.vn" style="width: 66px; margin-left:0%;" />
+                        </a>
+
+                </div>
+            </div>
+
+
+             <div class="main-nav d-none d-lg-block">
+                <nav class="site-navigation text-right text-md-center" role="navigation">
+                    <ul class="site-menu js-clone-nav d-none d-lg-block">
+
+
+				<th:block th:each= "listcategory : ${listcategory}">
+            <li><a th:href = "@{'/Home/danhmuc/'  + ${listcategory.Id_Category}}" th:text="${listcategory.Category_Name}"></a></li>
+            
+            
+                     </th:block>
+<li class="has-children position-static">
+        <a href="javascript:;"><span class="icon-menu"></span></a>
+        <div class="dropdown w-100 dropdown-fullw">
+            <div class="d-flex flex-wrap" style="justify-content: center;">
+            <th:block th:each= "listcategorystatus : ${listcategorystatus}">
+                <div class="p-3">
+                        <a th:href = "@{'/Home/danhmuc/'  + ${listcategorystatus.Id_Category}}" class="text-uppercase" th:text="${listcategorystatus.Category_Name}"></a>
+                    
+                </div>
+                </th:block>
+               
+                
+            </div>
+        </div>
+    </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="icons align-items-right" id="rightIconsBar" style="width:20%;">
+
+                <a href="javascript:;" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+
+
+                    <a class="icons-btn d-inline-block" href="/member/loginbyphone"><span class="icon-user-o"></span></a>
+
+                <a href="/cart/review" class="icons-btn d-inline-block bag">
+                    <span class="icon-shopping-bag"></span>
+                            <span class="number" id="NoOfItemsInCarts">0</span>
+
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="container-fluid mb-4">
+            
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="breadcrumb">
+            <a href="/"><i class="icon fa fa-home"></i></a>
+            <span class="mx-2 mb-0">/</span>
+            <strong class="text-black">Đăng nhập</strong>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2">
+
+    <div class="col-sm-12 text-center">
+        <main id="canhtoptaomk">
+
+        <!-- Section -->
+        <section class="vh-lg-100 mt-5 mt-lg-0 bg-soft d-flex align-items-center">
+            <div class="container">
+                <div class="row justify-content-center form-bg-image">
+                   
+                    <div class="col-12 d-flex align-items-center justify-content-center">
+                        <div class="bg-white shadow border-0 rounded p-4 p-lg-5 w-100 fmxw-500">
+                            <h1 class="h3 mb-4">Đăng Nhập</h1>
+                            <form id="danhnhap">
+                                <!-- Form -->
+                               
+                                <!-- End of Form -->
+                                 <div class="form-group mb-4">
+                                    <label for="email">Số điện thoại</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                                        </span>
+                                        <input type="text" class="form-control" name="tendangnhap" placeholder="+84123456789" id="tendangnhap" autofocus required>
+                                    </div>  
+                                </div>
+                                <!-- Form -->
+                                <div class="form-group mb-4">
+                                    <label for="password">Mật khẩu</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon2">
+                                            <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                                        </span>
+                                        <input type="password" placeholder="Nhập mật khẩu" name ="mk" class="form-control" id="password" required>
+                                    </div>  
+                                </div>
+                           
+                           
+                                <div class="d-grid">
+                                    <button type="button" id="btndangnhap" class="btn btn-gray-800">Đăng nhập</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>   
+    </div>
+    <script type="text/javascript">
+    loandQuantityCart();
+    function loandQuantityCart(){
+ 	   let storagecart =  localStorage.getItem('cart')
+ 	   cartquantity = JSON.parse(storagecart)
+ 	
+ 	   if(  cartquantity == null || cartquantity.length ==0 ){
+ 		   $('#NoOfItemsInCarts').html(0);
+ 		  
+ 	   }else{
+ 	  	 $('#NoOfItemsInCarts').html(cartquantity.length);
+ 	   
+ 	   }
+    }
+    $(document).ready(function() {
+    	$("#btndangnhap").click(function(){
+    		var name = document.getElementById("tendangnhap").value;
+    		var mk = document.getElementById("password").value;
+    		 $.ajax({
+					url:"/Home/DangNhapvao",
+					type: "GET",
+					data:{
+						name:name,
+						mk:mk,
+						
+					},
+					success: function(value){
+					console.log(value);
+					if(value == "m" || value == "thatbai"){
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Số điện thoại hoăc mật khẩu bị sai.'
+			            });
+					}else{
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Đăng nhập thành công.'
+			            });
+					 setTimeout(() => {
+						 var x = location.href="http://localhost:8080/Home/Yame";
+						 x.reload()
+						}, "3000")
+					
+					}
+					}
+				}) 
+    	})
+    	
+    })
+    
+    </script>
+    <div class="col-sm-12">
+      
+        <div>
+           
+        </div>
+        <div style="display:none;">
+            <form method="post" action="/member/doregistered" enctype="multipart/form-data" id="frmDoRegistered">
+                <input name="__RequestVerificationToken" type="hidden" value="2URtpSYYxMKBDfJKym4VKdDQ1jwof-076zLqaNmqb7is6r3Rq3NdaMAPK8anSwdS5ezJZgr_yOox0Z5kiKF9x9aur1K2PzWre8h5yQR2_KY1" />
+                <input type="hidden" name="phone" id="__phone" />
+                <input type="hidden" name="uid" id="__uid" />
+                <input type="hidden" name="password" id="__password" />
+                <input type="hidden" name="emailcredential" id="__emailcredential" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="formCreatePassword" style="margin-top:100px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo mật khẩu đăng nhập</h5>
+            </div>
+            <div class="modal-body">
+                <div id="createAccountAlertPlaceholder"></div>
+                <form>
+                    <p>Vui lòng tạo mật khẩu để đăng nhập lần sau</p>
+                    <div class="mb-3">
+                        
+                        <input type="password" class="form-control required" id="txtPassword" name="txtPassword" placeholder="Mật khẩu">
+                    </div>
+                    <div class="mb-3">
+                        
+                        <input type="password" class="form-control required" id="txtPasswordVerify" name="txtPasswordVerify" placeholder="Xác nhận mật khẩu">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnCreatePassword">Tiếp tục</button>
+                <button type="button" class="btn btn-secondary" id="btnSkip">Bỏ qua</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        </div>
+
+
+
+
+
+        
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-2">
+                <a href="/">
+                    <img src="//res.yame.vn/Content/images/yame-f-logo-white.png" style="height: 70px;" />
+                </a>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12 text-center" id="ThongTinFooter">
+                <p style="margin-bottom: 0;">Đặt hàng và thu tiền tận nơi toàn quốc</p>
+                <h5 class="boxed-content-title">(028) 7307 1441</h5>   
+			<p style="margin-bottom: 0;">
+                            <a href="https://yame.vn/thanphien"
+                               target="_blank">Than phiền/Góp ý</a>
+                        </p>
+             
+                <h4 id="titleThongTin"><a href="javascript:;" style="color:#00ffff !important; text-transform:none !important;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThongTin" aria-expanded="false" aria-controls="collapseThongTin">Xem thêm Thông tin YaMe <span>&nbsp;&nbsp;<i class="fa fa-angle-down"></i></span></a></h4>
+                <div id="collapseThongTin" class="collapse mb-4" aria-labelledby="titleThongTin" data-parent="#ThongTinFooter">
+                    <ul class="list-unstyled">
+                        <li><a href="https://yame.vn/bai-viet/yamevn---gioi-thieu/7c224805-3712-47c5-92f1-e1225e02d54e">Giới thiệu về YaMe.vn</a></li>
+                        <li><a href="/page/tuyen-dung">Tuyển dụng</a></li>
+                        <li>.</li>
+                        <li><a href="/page/quy-che-hoat-dong">Quy chế hoạt động</a></li>
+                        <li><a href="/page/dieu-khoan-mua-ban-hang-hoa">Điều khoản mua bán</a></li>
+                        <li>.</li>
+                        <li><a href="/voucher" class="boxed-content-title">Mã Voucher giảm giá</a></li>
+                    </ul>
+                    <div>
+                        <div>
+                            <br />
+                            <p style="margin-bottom: 0;">Đặt hàng và thu tiền tận nơi toàn quốc</p>
+                            <h5 class="boxed-content-title">(028) 7307 1441</h5>
+                        </div>
+                    </div>
+                    <br />
+                    <h4>FAQ</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/page/van-chuyen">Vận chuyển</a></li>
+                        <li><a href="/page/chinh-sach-doi-tra">Chính sách đổi trả</a></li>
+                        <li><a href="/page/chinh-sach-bao-hanh">Chính sách bảo hành</a></li>
+                        <li><a href="/page/khach-hang-vip">Khách hàng VIP</a></li>
+                        <li><a href="/page/doi-tac-cung-cap">Đối tác cung cấp</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+      
+
+
+       
+    </div>
+</div>
+    </div>
+
+    <script src="https://res.yame.vn/2022/Content/JsFramework.js"></script>
+
+    <script src="https://res.yame.vn/2022/Scripts/OwlCarousel2/owl.carousel.min.js"></script>
+
+    <script src="https://res.yame.vn/14112022/Content/theme1.js"></script>
+
+    <script src="https://res.yame.vn/2022/Scripts/app.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://res.yame.vn/firebasejs/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://res.yame.vn/firebasejs/firebase-auth.js"></script>
+<script src="https://res.yame.vn/firebasejs/firebase-messaging.js"></script>
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyA-Do1DL6kUeFID4A_ejzZpx8kAWgyrfsI",
+        authDomain: "yame-5cf79.firebaseapp.com",
+        databaseURL: "https://yame-5cf79.firebaseio.com",
+        projectId: "yame-5cf79",
+        storageBucket: "yame-5cf79.appspot.com",
+        messagingSenderId: "98846041174",
+        appId: "1:98846041174:web:c253c8e2908bc8b57187f7",
+        measurementId: "G-WDEF6TRRQH"
+        //languageCode: "vn"
+    };
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    //const analytics = firebase.getAnalytics(app);
+
+    // Retrieve an instance of Firebase Messaging so that it can handle background
+    // messages.
+    //const messaging = firebase.messaging();
+
+    //set language
+    firebase.auth().languageCode = 'vi';
+</script>
+    <script>
+        jQuery(function ($) {
+            "use strict";
+
+            //Preloader
+            $(window).on('load', function () {
+
+            });
+        });
+
+        $(document).ready(function () {
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+
+                } else {
+
+                }
+            });
+
+            //footer owlCarousel
+            $('#owl-dsCH').owlCarousel({
+                loop: true,                
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: false
+                    },
+                    600: {
+                        items: 1,
+                        nav: false
+                    },
+                    1000: {
+                        items: 3,
+                        nav: false
+                    }
+                },
+                dots: false,
+                autoHeight: true,
+                autoWidth: true,
+                //center:true
+            });
+
+        });
+
+        function __doLogout() {
+            firebase.auth().signOut();
+            window.location.replace($(location).attr('protocol') + '//' + $(location).attr('host') + "/member/dologout");
+        }
+
+    </script>
+
+    
+    
+
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var createAccountAlertPlaceholder = document.getElementById('createAccountAlertPlaceholder');
+
+            function showAlert(message, type, el) {
+                var wrapper = document.createElement('div')
+                wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert"><div>' + message + '</div><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
+                el.append(wrapper)
+            }
+
+            var uiConfig = {
+                callbacks: {
+                    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+                        var user = authResult.user;
+
+
+                        //window.location.href = "https://yame.vn/";
+
+                        //var credential = authResult.credential;
+                        //var isNewUser = authResult.additionalUserInfo.isNewUser;
+                        //var providerId = authResult.additionalUserInfo.providerId;
+                        //var operationType = authResult.operationType;
+
+                        $('#__phone').val(user.phoneNumber);
+                        $('#__uid').val(user.uid);
+
+                        
+
+                        $('#frmDoRegistered').submit();
+
+                        return false;
+                    },
+                    signInFailure: function (error) {
+                        console.log(error);
+                        return handleUIError(error);
+                    },
+                    uiShown: function () {
+                        // The widget is rendered.
+
+                    }
+                },
+                signInOptions: [
+                    {
+                        provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+                        // Invisible reCAPTCHA with image challenge and bottom left badge.
+                        recaptchaParameters: {
+                            type: 'image',
+                            size: 'normal',
+                            badge: 'bottomleft'
+                        },
+                        defaultCountry: 'VN'
+                    }
+                ]
+            };
+
+            // Initialize the FirebaseUI Widget using Firebase.
+            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+            firebase.auth().settings.appVerificationDisabledForTesting = false;
+
+            ui.start('#firebaseui-auth-container', uiConfig);
+
+
+            $('#btnCreatePassword').click(function () {
+                var password = $('#txtPassword').val();
+                var verify = $('#txtPasswordVerify').val();
+
+                if (password != verify || password == '') {
+                    showAlert('Vui lòng nhập mật khẩu và xác nhận mật khẩu hợp lệ.', 'danger', createAccountAlertPlaceholder);
+                } else {
+                    const user = firebase.auth().currentUser;
+                    if (user) {
+                        //Create account
+                        firebase.auth().createUserWithEmailAndPassword(user.uid + '@yame.vn', password)
+                            .then((userCredential) => {
+                                $('#__password').val(password);
+                                $('#__emailcredential').val(userCredential.user.uid);
+
+                                //console.log(password);
+                                //console.log(userCredential.user.uid);
+
+                                $('#formCreatePassword').modal('hide');
+
+                                $('#frmDoRegistered').submit();
+                            })
+                            .catch((error) => {
+                                var errorCode = error.code;
+                                var errorMessage = error.message;
+                                showAlert(errorCode + ': ' + errorMessage, 'danger', createAccountAlertPlaceholder);
+                            });
+                    } else {
+
+                    }
+
+                }
+            });
+
+            $('#btnSkip').click(function () {
+                $('#formCreatePassword').modal('hide');
+
+                $('#frmDoRegistered').submit();                
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+	
+	
+<head>
+<meta charset="UTF-8">
+<title>Phiếu trả hàng</title>
+
+
+
+<style type="text/css">
+tr#addproductdeltai {
+    display: none;
+}
+.buttons_added {
+    opacity:1;
+    display:inline-block;
+    display:-ms-inline-flexbox;
+    display:inline-flex;
+    white-space:nowrap;
+    vertical-align:top;
+}
+.is-form {
+    overflow:hidden;
+    position:relative;
+    background-color:#f9f9f9;
+    height:2.2rem;
+    width:1.9rem;
+        margin-top: -7px;
+    padding:0;
+    text-shadow:1px 1px 1px #fff;
+    border:1px solid #ddd;
+}
+.is-form:focus,.input-text:focus {
+    outline:none;
+}
+.is-form.minus {
+    border-radius:4px 0 0 4px;
+}
+.is-form.plus {
+    border-radius:0 4px 4px 0;
+}
+.input-qty {
+    background-color:#fff;
+    height:2.2rem;
+    text-align:center;
+    font-size:1rem;
+    display:inline-block;
+    vertical-align:top;
+    margin:0;
+        margin-top: -7px;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    border-left:0;
+    border-right:0;
+    padding:0;
+}
+.input-qty::-webkit-outer-spin-button,.input-qty::-webkit-inner-spin-button {
+    -webkit-appearance:none;
+    margin:0;
+}
+</style>
+</head>
+<body>
+	  <div  class="row"layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            
+                            <li class="breadcrumb-item active" aria-current="page">Trả hàng</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Tạo phiếu trả hàng</h2>
+                   
+                </div>
+              <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  id="idproductdetauls" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        Thêm sản phẩm trả hàng
+                    </button>
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+          
+
+   <div  class="col-12 col-xl-8 ">
+                    <div id="Hightseting" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+			  <th >Mã hàng</th>
+            <th >Tên hàng</th>
+            <th >Màu sắc</th>
+            <th >kích thước</th>
+           
+          <th > Số lượng</th>
+            <th > Giá nhập</th>
+              <th > Giá trả lại</th>
+         <th > Thành tiền</th>
+           
+              var gianhap = $(this).closest("tr").find(".gianhap").attr("value");
+        </tr>
+        </thead>
+        <tbody id="caigido">
+        
+ 		<tr class="categorys" th:each = "list : ${coupon_Details}">
+         <td class="id_Poroduct">
+				<a  onclick="removectsp(this)" class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+				<a  class="idproductdetai" th:value="${list.product_details.Id_Product_Details}" >[[${list.product_details.product.Id_Poroduct}]]    </a>   </td>
+				<td class="product_Name" id="khangcogi1"> [[${list.product_details.product.Product_Name}]]  </td>
+		<td class="color_Name" id="khangcogi"> [[${list.product_details.product_Color.Color_Name}]]  </td>
+		<td class="size_Name" id="khangcogi"> [[${list.product_details.size.Size_Name}]] </td>
+		<td  class="canhsoluong">   <input class="minus is-form trudi"  type="button" value="-">
+		 <input aria-label="quantity" class="input-qty demoInput quantitys" max="10" min="1" name="" type="number" th:value="${list.Quanlity}">
+		<input   class="plus is-form congthem" type="button" value="+">
+		</td>
+		
+		<td  id="khangcogi" th:text="${#numbers.formatDecimal(list.product_details.product.import_Price, 0, 'COMMA', 0, 'POINT')}">  </td>
+		<td class="" id="khangcogi">  <input type="number" class="form-control3 gianhap" id="price1" name="gianhap" th:value = "${list.product_details.product.import_Price}" > </td>
+       <td class="thanhtien" id="khangcogi" th:text="${#numbers.formatDecimal(list.thanhtien, 0, 'COMMA', 0, 'POINT')}">  </td>
+        </tr>
+    
+        </tbody>
+        
+      
+         
+    </table>
+      		<div class="modal fade" id="thaydoigai" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+			<form id="">
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Mã SP</label> 
+           <input type="text"  class="form-control3" id="idsp" name="fabric_material" aria-describedby="cartInputAddress1" readonly="readonly"></div></div>
+              <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Tên SP</label> 
+           <input type="text"  class="form-control3" id="tensp" name="fabric_material" aria-describedby="cartInputAddress1" readonly="readonly"></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Giá hiện tại</label> 
+           <input type="text"  class="form-control1" id="giahientai" name="fabric_material" aria-describedby="cartInputAddress1" readonly="readonly"></div></div>
+          
+          
+          <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Giá mới</label> 
+           <input type="number"  class="form-control1" id="giaupdate" name="fabric_material" aria-describedby="cartInputAddress1"></div></div>
+          	 
+          	 
+<div class="col-12 col-lg-6"><div class="form-group mb-4">
+         
+     <fieldset id="canhchinh">
+    <div class="form-check " >
+        <input class="form-check-input option" type="radio" checked name="options" id="exampleRadios1" value="1" >
+        <label class="form-check-label canhngang" for="exampleRadios1">
+          VND
+        </label>
+        </div>
+        <div class="form-check">
+        <input class="form-check-input option" type="radio" name="options" id="exampleRadios1" value="2">
+        <label class="form-check-label canhngang" for="exampleRadios1">
+            %
+        </label>
+        </div>
+        
+    <!-- End of Radio -->
+</fieldset>
+         
+         </div></div>
+          	 
+
+           
+           </form>
+           
+            </div>
+
+<div id="kiemtrachekc">
+<div class="form-check" >
+    <input class="form-check-input" type="checkbox" value="10" id="defaultCheck10">
+    <label class="form-check-label" for="defaultCheck10">
+        Áp dụng cho tất cả sản phẩm 
+    </label>
+</div>
+</div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a id="btnupdatprice" 
+               		 
+                   type="button" class="btn btn-secondary">Cập nhật</a>
+            </div>
+           
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+    
+/*     function tongtienhang(data){
+	    let sum = 0;
+	    for (let i = 0; i < data.length; i++){
+	        sum += data.gia_nHAP *  data.soluong;
+	    }
+	  var k =  format2(sum,'');
+	    return k;
+	}
+ function tongsoluong(data){
+	    let sum = 0;
+	    for (let i = 0; i < data.length; i++){
+	        sum +=  data[i].soluong;
+	    }
+	
+	    return sum;
+	} */
+    $(document).ready(function () {
+        $('select').selectize({
+            sortField: 'text'
+        });
+    });
+    function xoatr(el){
+    	jQuery(el).closest("tr").remove();
+    	$(this).closest("tr").remove();
+    	var sumttl = 0
+		var tongtienncc = 0
+		 $("input.quantitys").each(function(){
+			 var soluong = $(this).closest("tr").find(".quantitys").val();
+			 
+			if(soluong == 0 || soluong == ""){
+				soluong = 0
+				sumttl += parseInt(soluong)
+				$(this).closest("tr").find(".thanhtien").html(0)
+			}else{
+				sumttl += parseInt(soluong)
+				var gianhap = $(this).closest("tr").find(".gianhap").val();
+				var thamhtiem = soluong * gianhap;
+				tongtienncc += soluong * gianhap;
+				
+				$(this).closest("tr").find(".thanhtien").html(thamhtiem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+			}
+			
+		 })
+		$("#tsl").html(sumttl);
+		$("#tth").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		$("#ncc").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		
+    }
+    function pke(praram){
+    	var idsp = praram.value;
+    	
+    	var l = $(this).closest("td").find(".changetongtien").attr("value");
+    	alert(l)
+    }
+    
+    $("#idproductcheck-selectized").on("click", function(){
+    	var idsp = this.value;
+    	alert("a")
+		 $.ajax({
+				url:"/admin/import_coupon/showprice",
+				type: "GET",
+				data:{
+					idsp:idsp,
+	
+					},
+				success: function(data){
+					//self.closest("tr").remove();
+					
+					console.log(data)
+					$(this).closest("tr").find(".changetongtien").val(data.import_Price);
+				}
+			}) 
+    })
+    
+    </script>
+    
+    
+   
+    
+          
+                  </div>
+                  
+                </div>
+  </div>
+      <div class="ol-12 col-xl-4">
+      <div class="row">
+      <div class="col-12 mb-4">
+      
+      <div class="card card-body border-0 shadow mb-4">
+     
+      <form id="formproducts">
+      <div class="row">
+      <div class="col-md-6 mb-3">
+      <span id="user"><i class="fa-solid fa-user"></i></span>
+      
+      <div ><input class="form-control1" id="first_name" type="text" placeholder="Người nhập" readonly="readonly" name="nguoitao" ></div></div>
+      <div class="col-md-6 mb-3"><div><input class="form-control1"   name="thoigian"  th:value="${import_coupon.Data_Founded}" type="text" ><span ></span></div></div></div>
+      <div class="row align-items-center"><div ><select class="form-control4 mb-0" id="idncc" name="ncc" aria-label="Gender select example" required="required" >
+      <option selected="selected"   th:value="${import_coupon.supplier.Id_Supplier}"  th:text="${import_coupon.supplier.Supplier_Name}"></option>
+      <option th:each="item : ${listsupplier} " th:value="${item.Id_Supplier}" 
+                                  th:text="${item.Supplier_Name}"  ></option>
+      </select><span id="addncc"><i class="far fa-plus"></i></span>
+      </div></div>
+   
+      <div class="row"><div class="col-md-6 mb-3"><div ><label for="email" id="canhtop">Mã phiếu nhập</label> </div></div>
+      <div class="col-md-6 mb-3"><div class="form-group"> <input class="form-control1" id="phone" name="id" type="text" th:value="${import_coupon.Id_Coupon}" placeholder="Mã phiếu tự động" readonly="readonly"></div></div></div>
+  
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address"> Tổng tiền hàng</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number" id="tth" th:text="${#numbers.formatDecimal(import_coupon.total_MoneyInteger, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></label> </div></div></div>
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address">Tổng số lượng</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number" id="tsl" th:text="${import_coupon.sumquantity}">0</label> </div></div></div>
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address" id="canhtop">Giảm giá(%)</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><input class="form-control1" id="giamgia" type="number" th:value="${import_coupon.giamgia}  "name="giamgia" placeholder="% giảm giá" > </div></div></div>
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address" id="canhtop">Số tiền được giảm</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><input class="form-control1" id="sotiendcgiam" type="text" th:value="${#numbers.formatDecimal((import_coupon.total_MoneyInteger)*import_coupon.giamgia / 100, 0, 'COMMA', 0, 'POINT')}" name="sotiendcgiam"  > </div></div></div>
+      
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address">Cần trả nhà cung cấp</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number"id="ncc" th:text="${#numbers.formatDecimal((import_coupon.total_MoneyInteger)-(import_coupon.giamgia), 0, 'COMMA', 0, 'POINT')}">0</label> </div></div></div>
+      <div class="row align-items-center"><div ><input class="form-control1" id="first_name" th:value="${import_coupon.ghichu} " name="ghichu" type="text" placeholder="Ghi chú" ></div></div>
+    
+      <div class="row">
+</div><div class="mt-3">
+<button class="btn btn-success mt-2 animate-up-2" id="btnsavexecll" type="button"><i class="fa-solid fa-check"></i> Cập nhật</button>
+</div></form></div>
+   
+     </div>
+     </div>
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+    
+
+<div class="modal fade" id="modal-default100" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               Do you want to delete  id ="<span id="id123"></span>" name="<span id="sizeName1"></span>"   ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-contentss">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Danh sách sản phẩm</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            
+           <form id="formproduct" action="#" method="post" class="card border-0 shadow">
+           <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+             <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" oninput="searchByName(this)"  placeholder="Tìm theo tên sản phảm"></div>
+             </div>
+                    
+                </div>
+            </div>
+               <div id="okeroiload" class="col-12 ">
+ <div id="loadtable" class="card card-body border-0 shadow mb-4">  
+    <div class="table-responsive py-4">
+    <table class="table table-flush" id="tableproduct">
+        <thead class="thead-light">
+        <tr>
+            
+            <th >Tên SP</th>
+             
+              <th >Tồn kho</th>
+             <th>Giá Nhập</th>
+              <th>Trạng thái</th>
+             <th>Chức năng</th>
+        </tr>
+        </thead>
+        <tbody>
+         <tr class="products" th:each = "list : ${details}">
+        
+            
+            
+            <td class="idproduct" id="khangcogi" >[[${list.product.Product_Name}]], [[${list.product_Color.Color_Name}]], [[${list.size.Size_Name}]]</td>
+            
+               
+                <td class="Fabric_Material" >[[${list.Quantity}]] </td>
+                <td class="Descriptions" th:text="${#numbers.formatDecimal(list.product.import_Price, 0, 'COMMA', 0, 'POINT')}" ></td>
+                
+ 
+            	<td> <span th:data-id="${list.product.Id_Poroduct}" th:data-name="${list.product.status}"
+            	onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" badge bg-secondary activeCategory" th:if="${list.product.status == 0}"  th:value=${list.status}>Hoạt động</span>
+            			<span	th:data-id="${list.product.Id_Poroduct}" th:data-name="${list.product.status}"
+            			onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" badge bg-danger activeCategory" th:if="${list.product.status == 1}"  th:value=${list.status}>Ngừng kinh doanh</span>
+            			
+            	</td>
+          		<td>
+
+   <span   th:data-id="${list.Id_Product_Details}"
+   			onclick="addproductdetails(this.getAttribute('data-id'))"
+   th:if="${list.product.status == 0}">
+   <button type="button" id="btnaddproductdetails"  class="badge btn-gray-800 ms-lg-3 animate-up-2" > <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>    
+   </span>   
+      <span th:if="${list.product.status == 1}">
+   <button type="button" id="btnaddproductdetails" class="badge bg-danger ms-lg-3 animate-up-2" > <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg> </button>    
+   </span>		
+   	
+          		</td>
+        </tr>
+       
+        </tbody>
+        
+    </table>
+    </div>
+    	<div class="dataTable-bottom"><div class="dataTable-info">Hiển thị 1 tới <span id="showtheo">15</span> trên [[${sumproductcolor}]] mục</div><nav aria-label="Page navigation example">
+  	 <nav aria-label="Page navigation example">
+    	<ul class="pagination mb-0">
+       	 <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        	</li>
+        	<th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+        	 </th:block>
+       	 <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+		
+                    </div>
+                  
+                </div>
+            
+ 				   <div class="modal-footer">
+              
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+            </div></div></div>
+            </form>
+           
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		$("#btnchonsp").click(function(){
+			json = {};
+			arraryDetails = [];
+			$("#tableproduct input:checked").each(function(){
+				objectDetails = {};
+				var idcssp = $(this).val()
+				
+				var id = $(this).closest("tr").find(".idproduct").text();
+				alert(id)
+				objectDetails["idproductdetails"] = idcssp;
+				objectDetails["idproduct"] = id;
+				arraryDetails.push(objectDetails);
+			})
+			json["productdetails"] = arraryDetails;
+			
+			$.ajax({
+				url:"/admin/import_coupon/laydsctsp",
+				type: "GET",
+				data: {
+					dataJson:JSON.stringify(json),
+				},
+				success: function(data){
+				//	$('#modalSubscribe').modal('hide');
+					console.log(data)
+					 var tablecategory =$("#tablecategory").find("tbody");
+					tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data.product.id_Poroduct  +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data.product.product_Name  +' </td>'
+			
+			
+			+"</tr>")
+				}
+			}) 
+		})
+	})	
+	 var sumquantitys = 0;
+	var giaca = 0;
+	function addproductdetails(id){
+		sumquantitys += 1;
+		console.log(sumquantitys)
+		
+		$.ajax({
+			url:"/admin/import_coupon/laydsctsp",
+			type: "GET",
+			data: {
+				id:id,
+			},
+			success: function(data){
+			//	$('#modalSubscribe').modal('hide');
+		 /* $("#tsl").html(sumquantitys);
+		 giaca += data.product.import_Price
+		 $("#tth").html(giaca.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') );
+		 $("#ncc").html(giaca.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +  "<span> VNĐ </span>"); */
+			var tomgtien = data.product.import_Price;
+			var format = tomgtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+				console.log(data)
+				 var tablecategory =$("#tablecategory").find("tbody");
+				tablecategory.append('<tr class="categorys">'
+		
+		+ '<td class="id_Poroduct"> '
+		+'		<a  onclick="removectsp(this)"  '
+		+'		 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>'
+		+'		<a  class="idproductdetai" value = '+ data.id_Product_Details + '> ' +  data.product.id_Poroduct +'   </a> </td>'
+		+'<td class="product_Name" id="khangcogi"> ' + data.product.product_Name  +' </td>'
+		+'<td class="color_Name" id="khangcogi"> ' + data.product_Color.color_Name  +' </td>'
+		+'<td class="size_Name" id="khangcogi"> ' + data.size.size_Name  +' </td>'
+		+'<td  class="canhsoluong">   <input class="minus is-form trudi"  type="button" value="-">'
+		+' <input aria-label="quantity" class="input-qty demoInput quantitys" max="10" min="1" name="" type="number" value="1">'
+		+'<input   class="plus is-form congthem" type="button" value="+">'
+		+'</td>'
+		+'<td class="size_Name" id="khangcogi"> ' + data.product.import_Price  +' </td>'
+		+'<td class="" id="khangcogi">  <input type="number" class="form-control3 gianhap"   id="price1" name="gianhap" value = '+ data.product.import_Price +' > </td>'
+		+'<td class="thanhtien" id="khangcogi"> ' + format  +' </td>'
+		+"</tr>")
+		
+		 	var sumttl = 0
+			var tongtienncc = 0
+		  $("input.quantitys").each(function(){
+				 var soluong = $(this).closest("tr").find(".quantitys").val();
+				 
+					sumttl += parseInt(soluong)
+					var gianhap = $(this).closest("tr").find(".gianhap").val();
+					var thamhtiem = soluong * gianhap;
+					tongtienncc += soluong * gianhap;
+					
+					$(this).closest("tr").find(".thanhtien").html(thamhtiem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+				
+				
+			 })
+			 $("#tsl").html(sumttl);
+			$("#tth").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+			$("#ncc").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+	
+			}
+		}) 
+	}
+	   
+	  
+	  $("body").on("click", ".congthem" , function(){
+		  var gianhap = $(this).closest("tr").find(".demoInput").val();
+		 var l = parseInt(gianhap) + 1
+		
+		 $(this).closest("tr").find(".demoInput").val(l);
+		 
+		 
+		  var sumttl = 0
+			var tongtienncc = 0
+		  $("input.quantitys").each(function(){
+				 var soluong = $(this).closest("tr").find(".quantitys").val();
+				 
+					
+					var gianhap = $(this).closest("tr").find(".gianhap").val();
+					var thamhtiem = soluong * gianhap;
+					tongtienncc += soluong * gianhap;
+					
+					$(this).closest("tr").find(".thanhtien").html(thamhtiem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+				
+				
+			 })
+			 $("#tsl").html(l);
+			$("#tth").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+			$("#ncc").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+
+		 
+		 
+			/* var thanhtien = gianhap * l
+			var format = thanhtien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+			 $(this).closest("tr").find(".thanhtien").html(format)
+			 var tongtienoniput =thanhtien
+			 giaca += parseInt(gianhap)
+			 sumquantitys += 1
+			 console.log(sumquantitys)
+			 $("#tsl").html(sumquantitys);
+			$("#tth").html(giaca.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+			 $("#ncc").html(giaca.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>"); */
+	  })
+	  $("body").on("click", ".trudi" , function(){
+		  var gianhap = $(this).closest("tr").find(".demoInput").val();
+		 var l = parseInt(gianhap) - 1
+		 $(this).closest("tr").find(".demoInput").val(l);
+		 if(l < 0){
+			 $(this).closest("tr").find(".demoInput").val(0);
+		 }
+		 else{
+		 
+			 
+			 var sumttl = 0
+				var tongtienncc = 0
+			  $("input.quantitys").each(function(){
+					 var soluong = $(this).closest("tr").find(".quantitys").val();
+					 
+						
+						var gianhap = $(this).closest("tr").find(".gianhap").val();
+						var thamhtiem = soluong * gianhap;
+						tongtienncc += soluong * gianhap;
+						
+						$(this).closest("tr").find(".thanhtien").html(thamhtiem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+					
+					
+				 })
+				 $("#tsl").html(l);
+				$("#tth").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+				$("#ncc").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+
+
+		 }
+	  })
+	  
+	$("body").on("input", ".quantitys", function(){
+		
+		//var soluong = $(".quantitys").val();
+		var sumttl = 0
+		var tongtienncc = 0
+		 $("input.quantitys").each(function(){
+			 var soluong = $(this).closest("tr").find(".quantitys").val();
+			 
+			if(soluong == 0 || soluong == ""){
+				soluong = 0
+				sumttl += parseInt(soluong)
+				$(this).closest("tr").find(".thanhtien").html(0)
+			}else{
+				sumttl += parseInt(soluong)
+				var gianhap = $(this).closest("tr").find(".gianhap").val();
+				var thamhtiem = soluong * gianhap;
+				tongtienncc += soluong * gianhap;
+				
+				$(this).closest("tr").find(".thanhtien").html(thamhtiem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+			}
+			
+		 })
+		$("#tsl").html(sumttl);
+		$("#tth").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		$("#ncc").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		
+	})
+	$("body").on("input", ".gianhap", function(){
+		var sumttl = 0
+		var tongtienncc = 0
+		 $("input.quantitys").each(function(){
+			 var soluong = $(this).closest("tr").find(".quantitys").val();
+			 
+			if(soluong == 0 || soluong == ""){
+				soluong = 0
+				sumttl += parseInt(soluong)
+				$(this).closest("tr").find(".thanhtien").html(0)
+			}else{
+				sumttl += parseInt(soluong)
+				var gianhap = $(this).closest("tr").find(".gianhap").val();
+				var thamhtiem = soluong * gianhap;
+				tongtienncc += soluong * gianhap;
+				
+				$(this).closest("tr").find(".thanhtien").html(thamhtiem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+			}
+			
+		 })
+		$("#tsl").html(sumttl);
+		$("#tth").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		$("#ncc").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		
+	})
+	$("body").on("input", "#giamgia", function(){
+	
+		var l = $(this).val();
+		var sumttl = 0
+		var tongtienncc = 0
+		 $("input.quantitys").each(function(){
+			 var soluong = $(this).closest("tr").find(".quantitys").val();
+			 
+			if(soluong == 0 || soluong == ""){
+			/* 	soluong = 0
+				sumttl += parseInt(soluong)
+				$(this).closest("tr").find(".thanhtien").html(0) */
+			}else{
+				var gianhap = $(this).closest("tr").find(".gianhap").val();
+				tongtienncc += soluong * gianhap;
+				
+			}
+			
+		 })
+		 if( l <= 0 || l == ""){
+			 $("#ncc").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		 }else{
+			 var giasukhigiam = tongtienncc - ((tongtienncc * l) / 100)
+			 $("#sotiendcgiam").val(((tongtienncc * l) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+			 $("#ncc").html(giasukhigiam.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		 }
+		 
+		/* $("#tth").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>"); */
+		
+		/* var t = 	document.getElementById("tth").innerHTML;
+		var g = (parseFloat(t) * l )/ 100;
+		
+		var tong = parseFloat(t) - g;
+		console.log(tong)
+		if( l == 0 || l == ""){
+			$("#ncc").html(giaca.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		}
+		else{
+			var giamgiane = giaca - ((giaca * l) / 100)
+			
+			$("#ncc").html(giamgiane.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+		} */
+		
+	})
+	function removectsp(el){
+	//jQuery(el).closest("tr").remove();
+		
+	}
+	  $("body").on("click", ".btnDelete", function(){
+		  $(this).closest("tr").remove();
+		  var sumttl = 0
+			var tongtienncc = 0
+		  $("input.quantitys").each(function(){
+				 var soluong = $(this).closest("tr").find(".quantitys").val();
+				 
+					sumttl += parseInt(soluong)
+					var gianhap = $(this).closest("tr").find(".gianhap").val();
+					var thamhtiem = soluong * gianhap;
+					tongtienncc += soluong * gianhap;
+					
+					$(this).closest("tr").find(".thanhtien").html(thamhtiem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+				
+				
+			 })
+			 $("#tsl").html(sumttl);
+			$("#tth").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+			$("#ncc").html(tongtienncc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')  + "<span> VNĐ </span>");
+	  })
+	  
+	$("#btnsavexecll").click(function(){
+		var formsize = $("#formproducts").serializeArray();
+		json = {};
+		arraryDetails = [];
+		$.each(formsize, function(i, field){
+    		json[field.name] = field.value;	
+});		
+		console.log(formsize)
+		$(".idproductdetai").each(function(){
+			
+			var giatien1 = $(this).attr("value");
+			
+			objectDetails = {};
+			idproductdetails = $(this).closest("tr").find(".idproductdetai").attr("value");
+			 idctpn = $(this).closest("tr").find(".btnDelete").attr("value");
+		    soluong = $(this).closest("tr").find(".quantitys").val();
+			gianhap = $(this).closest("tr").find(".gianhap").val()
+			
+			objectDetails["idproductdetails"] = idproductdetails;
+			objectDetails["soluong"] = soluong;
+			objectDetails["gianhap"] = gianhap;
+			objectDetails["idctpn"] = idctpn;
+			arraryDetails.push(objectDetails);
+		})
+		json["productdetails"] = arraryDetails;
+			console.log(json)
+			 $.ajax({
+					url:"/admin/updatephieutrahang",
+					type: "POST",
+					data:{
+						dataJson:JSON.stringify(json),
+		
+						},
+					success: function(data){
+						//self.closest("tr").remove();
+						
+						console.log(data)
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Delete succees.'
+			            });
+					}
+				}) 
+		})
+		
+	function searchByName(praram){
+		var txtseach = praram.value;
+		
+		 
+		$.ajax({
+			url:"/admin/import_coupon/searchByName",
+			type: "GET",
+			data:{
+				name:txtseach,
+				
+			},
+			success: function(data){
+				//self.closest("tr").remove();
+			console.log(data)
+			 var tablecategory =$("#tableproduct").find("tbody");
+			tablecategory.empty();
+			for(var i = 0; i<data.length; i++){
+				tablecategory.append('<tr class="categorys">'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].product.product_Name +' </td>'
+			+'<td class="color_Name" id="khangcogi"> ' + data[i].product_Color.color_Name  +' </td>'
+			+'<td class="size_Name" id="khangcogi"> ' + data[i].size.size_Name  +' </td>'
+			+'<td class="fabric_Material"> ' + data[i].quantity +' </td>'
+			+'<td class="Price"> ' +  data[i].product.import_Price  +' </td>'
+			
+			
+			+"<td> <span class=\" btn badge bg-secondary\" >  Hoạt động</span> </td>\r\n"
+			
+			+'<td> <span data-id= ' + data.id_Product_Details  + ' onclick="addproductdetails(this.getAttribute("data-id"))"> '
+			 +'  <button type="button" id="btnaddproductdetails" class="badge btn-gray-800 ms-lg-3 animate-up-2"> <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg> Add product details</button>  '  
+			 +' </span>  </td>'
+			+"</tr>")
+			}
+			}
+		}) 
+	}
+	</script>
+             
+              
+            </div>
+           
+        </div>
+        
+    </div>
+
+
+<div class="modal fade" id="modal-default2" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Nhập nhà cung cấp từ file excel</h2>
+               
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             
+            </div>
+           <div class="bd-bt-poup ng-binding">(Tải về file mẫu: <a  title="Download" class="ng-binding">Excel file</a>):</div>
+            <div class="modal-body">
+            
+              <div class="mb-3">
+  <label for="formFile" class="form-label">Chon file excel</label>
+  <input class="form-control" type="file" id="formFile" name="imageFile">
+</div>
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a  type="button" class="btn btn-secondary" id="uploadfile">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-content">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Add Supplier</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form id="formsupplier" action="#" method="post" class="card border-0 shadow">
+            <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+            
+            <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Mã nhà cung cấp</label>
+            <input type="email" class="form-control" placeholder="Mã mặc định" id="idsupplier" name="idproduct" aria-describedby="cartInputEmail1" required=""></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Supplier name *</label>
+            <input type="email" class="form-control" placeholder="Enter your product name" id="supplierName" name="supplierName" aria-describedby="cartInputEmail1" required=""></div></div>
+                <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Phone *</label> <div class="input-group">
+                  
+           <input type="number" class="form-control" id="phonenumnber" name="Phonenumnber" placeholder="+84 123456789"></div></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Email</label>
+            <input type="email" class="form-control" placeholder="name@gmail.com" id="Gamil" name="Gamil" aria-describedby="cartInputEmail1" required=""></div></div>
+            
+ <div class="form-group mb-4"><label for="textarea">Address</label>
+<textarea class="form-control" placeholder="Enter your address..." id="Address" name="Address" rows="2"></textarea></div>
+<div class="col-12 col-lg-6"> 
+           		<label for="country">Khu vực</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			<div class="col-12 col-lg-6"> 
+           		<label for="country">Phường xã</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			<div class="form-group mb-4"><label for="textarea">Ghi chú</label>
+<textarea class="form-control" placeholder="Enter your address..." id="descriptions" name="descriptions" rows="4"></textarea></div>
+        <div class="modal-footer">
+                <button type="button" id="btnsave" class="btn btn-secondary">Save</button>
+                 <button type="button" id="btnupdate" class="btn btn-secondary">Update</button>
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+            </div>
+    </div>
+       </div>
+            </form>
+             
+           
+           
+        </div>
+        
+    </div>
+   
+</div>
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+    
+    
+
+function nhanjson(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+	 
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		if(data[i].status == 0){
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].product.id_Poroduct  +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].product.product_Name  +' </td>'
+			+'<td class="image"> ' + data[i].dvt +' </td>'
+			+'<td class="brand_Name"> ' + data[i].quanlity  +' </td>'
+			+'<td class="Category_Name"> ' + data[i].don_Gia  +' </td>'
+			+'<td class="Category_Name"> ' + data[i].don_Gia *  data[i].quanlity +' </td>'
+			
+			+"</tr>")
+		
+			}
+			
+		
+	}
+}
+
+$(document).ready(function() {
+	$("body").on("click", "#btnaddproductdetails", function(){
+		var productdetailclone = $("#addproductdeltai").clone().removeAttr("id");
+		
+		$("#containerptoductdetail").append(productdetailclone);
+	})
+	$("body").on("click", ".closeproductdetail", function(){
+		//var productdetailclone = $("#addproductdeltai").clone().attr("id");
+	//	$("#containerptoductdetail").empty(productdetailclone);
+		//var k = $(".khangco");
+		//k.empty();
+	
+	})
+	
+	
+	$("#idproductdetauls").click(function(){
+		 $('#modalSubscribe').modal('show');
+		 
+	})
+	
+	
+	
+	
+	
+		
+		 /* var idncc = $("#idncc").val();
+		 var giamgia = $("#giamgia").val();
+		 
+		console.log(giamgia)
+		if(idncc == 0){
+			const notyf = new Notyf({
+                position: {
+                    x: 'right',
+                    y: 'top',
+                },
+                types: [
+                    {
+                        type: 'error',
+                        background: '#FA5252',
+                        icon: {
+                            className: 'fas fa-times',
+                            tagName: 'span',
+                            color: '#fff'
+                        },
+                        dismissible: false
+                    }
+                ]
+            });	
+		 notyf.open({
+                type: 'error',
+                message:'Phiếu hàng đang trống !'
+                
+            });
+		}
+		
+		
+		 else{ */
+			/*  $.ajax({
+					url:"/admin/coupon/excel/savexcelphieunhaphang",
+					type: "POST",
+					data:{
+						dataJson:JSON.stringify(json),
+						image:image,
+						idncc:idncc,
+						giamgia:giamgia,
+						},
+					success: function(data){
+						//self.closest("tr").remove();
+						
+						console.log(data)
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Delete succees.'
+			            });
+					}
+				}) 
+		// }
+	}) */
+})
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+
+         var today = new Date();
+         var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+         var dateTime = date+' '+time;
+       console.log(dateTime);
+       	document.getElementById("ngaygio").innerHTML = dateTime;
+        $("#ngaygio").val(dateTime);
+       	
+       	
+   	 var files = []
+     var image = "";
+     $("#formFile").change(function(event){
+		
+		files = event.target.files;
+		image = files[0].name;
+		forms = new FormData();
+		forms.append("file", files[0]);
+     })	
+     function format2(n, currency) {
+  	return currency + n.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+}
+     
+     function sumArray(data){
+    	    let sum = 0;
+    	    for (let i = 0; i < data.length; i++){
+    	        sum += data[i].gia_nHAP *  data[i].soluong;
+    	    }
+    	  var k =  format2(sum,'');
+    	    return k;
+    	}
+     function sumquantity(data){
+ 	    let sum = 0;
+ 	    for (let i = 0; i < data.length; i++){
+ 	        sum +=  data[i].soluong;
+ 	    }
+ 	
+ 	    return sum;
+ 	}
+  
+	$("#uploadfiles").click(function(){
+		 
+		$.ajax({
+			url:"/admin/coupon/excel/savexcel",
+			type: "POST",
+			data:{
+				
+				image:image,
+									},
+			success: function(data){
+				//self.closest("tr").remove();
+				
+				console.log(data)
+				var tablecategory =$("#tablecategory").find("tbody");
+				 
+				
+			for(var i = 0; i<data.length; i++){
+				
+					tablecategory.append('<tr class="categorys">'
+					 + '<td class="IdCategory1"> '+ data[i].idproductl  +' </td>'
+					+'	<td class="categoryName" id="khangcogi"> '+ data[i].name  +' </td>'
+					
+					+'<td class="image"> ' + data[i].mamau+' </td>'
+					+'<td class="image"> ' + data[i].masize +' </td>'
+					+'<td class="image"> ' + data[i].gia_nHAP +' </td>'
+					+'<td class="brand_Name"> ' + data[i].soluong  +' </td>'
+					+'<td class="Category_Name"> ' + format2(data[i].gia_nHAP , '')  +' <span> VNĐ </span>  </td>'
+					
+					+'<td class="Category_Name"> ' + format2(data[i].gia_nHAP *  data[i].soluong, '') +' <span> VNĐ </span> </td>'
+					
+					+"</tr>")
+				
+				
+					
+				
+			}
+			$("#tth").html(sumArray(data) );
+			$("#tsl").html(sumquantity(data));
+			$("#ncc").html(sumArray(data) +  "<span> VNĐ </span>");
+			console.log(sumArray(data));
+			
+				
+				
+
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your product name.'
+		              
+		            });
+			}
+		}) 
+	})
+    </script>    
+ 
+ 
+                    </div>
+       
+ 
+
+
+</body>
+</html>

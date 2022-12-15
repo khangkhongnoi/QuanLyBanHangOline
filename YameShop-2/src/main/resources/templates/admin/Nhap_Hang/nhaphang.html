@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+	
+<head>
+<meta charset="UTF-8">
+<title>Nhập hàng</title>
+
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            
+                            <li class="breadcrumb-item active" aria-current="page">Nhập hàng</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Tất cả phiếu nhập hàng</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a  th:href = "@{'/admin/import_coupon/phieunhaphang'}"  class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                     
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                     Tạo phiếu nhập hàng
+                    </a>
+                   
+                      
+                </div>
+            </div>
+            <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"  placeholder="Tìm kiếm theo tên nhà cung cấp"></div>
+               
+               <select id="metlamroi" class="form-select fmxw-200 d-none d-md-inline"  aria-label="Message select example 2">
+	               <option  value="2" selected="selected" >Tất cả</option>
+	               <option  value="0">Đã nhập</option>
+	               <option value="1">Đã huỷ</option>
+               </select></div>
+                   
+                </div>
+            </div>
+
+   <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+            <th >Mã nhập hàng</th>
+            
+            <th >Nhà cung cấp</th>
+            <th >Cần trả NCC</th>
+           <th >Thời gian</th>
+            
+             <th>Trang thái</th>
+             <th>Chức năng</th>
+             
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        <tr class="categorys" th:each = "list : ${listimport}">
+          <td class="categoryName" th:value="${list.Id_Coupon}" th:text=${list.Id_Coupon}></td>
+            <td class="IdCategory1" id="idne" >[[${list.supplier.Supplier_Name}]]</td>
+           <td class="categoryName" th:text="${#numbers.formatDecimal(list.total_MoneyInteger, 0, 'COMMA', 0, 'POINT')}"></td>
+            <td class="categoryName" id="khangcogi" th:text="${#dates.format(list.Data_Founded, 'dd-MM-yyyy HH:ss')}"></td>
+             
+            	<td> <span
+            		th:data-id="${list.Id_Coupon}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" badge bg-secondary activeCategory" th:if="${list.status == 1}"  th:value=${list.status}>Đã nhập hàng</span>
+            			<span
+            		th:data-id="${list.Id_Coupon}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" badge bg-danger" th:if="${list.status == 2}"  th:value=${list.status}>Đã huỷ</span>
+            	</td>
+          		<td><a 
+          				th:href = "@{'/admin/import_coupon/CTNH/' + ${list.Id_Coupon}}" 
+          		class="btn-sm btn-outline-info" ><i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.Id_Coupon}"
+          			
+          				onclick="showmodal(this.getAttribute('data-id'))"
+						 class="btn-sm btn-outline-danger btnDelete" th:if="${list.status == 1}"><i class="fa fa-trash"></i></a>
+          		</td>
+        </tr>
+       
+        </tbody>
+    </table>
+    
+    </div>
+   
+		<div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to <span id="showtheo">15</span> of [[${listsupplier}]] entries</div><nav aria-label="Page navigation example">
+   <nav aria-label="Page navigation example">
+    <ul class="pagination mb-0">
+        <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        </li>
+        <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+         </th:block>
+        <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+                    </div>
+                  
+                </div>
+
+        
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bạn có muốn xóa phiếu nhập mã ="<span id="id123"></span>"  ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Huỷ bỏ</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-default2" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Nhập nhà cung cấp từ file excel</h2>
+               
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             
+            </div>
+           <div class="bd-bt-poup ng-binding">(Tải về file mẫu: <a  title="Download" class="ng-binding">Excel file</a>):</div>
+            <div class="modal-body">
+            
+              <div class="mb-3">
+  <label for="formFile" class="form-label">Chon file excel</label>
+  <input class="form-control" type="file" id="formFile" name="imageFile">
+</div>
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a  type="button" class="btn btn-secondary" id="uploadfile">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-content">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Add Supplier</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form id="formsupplier" action="#" method="post" class="card border-0 shadow">
+            <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+            
+            <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Mã nhà cung cấp</label>
+            <input type="email" class="form-control" placeholder="Mã mặc định" id="idsupplier" name="idproduct" aria-describedby="cartInputEmail1" required=""></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Supplier name *</label>
+            <input type="email" class="form-control" placeholder="Enter your product name" id="supplierName" name="supplierName" aria-describedby="cartInputEmail1" required=""></div></div>
+                <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Phone *</label> <div class="input-group">
+                  
+           <input type="number" class="form-control" id="phonenumnber" name="Phonenumnber" placeholder="+84 123456789"></div></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Email</label>
+            <input type="email" class="form-control" placeholder="name@gmail.com" id="Gamil" name="Gamil" aria-describedby="cartInputEmail1" required=""></div></div>
+            
+ <div class="form-group mb-4"><label for="textarea">Address</label>
+<textarea class="form-control" placeholder="Enter your address..." id="Address" name="Address" rows="2"></textarea></div>
+<div class="col-12 col-lg-6"> 
+           		<label for="country">Khu vực</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			<div class="col-12 col-lg-6"> 
+           		<label for="country">Phường xã</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			<div class="form-group mb-4"><label for="textarea">Ghi chú</label>
+<textarea class="form-control" placeholder="Enter your address..." id="descriptions" name="descriptions" rows="4"></textarea></div>
+        <div class="modal-footer">
+                <button type="button" id="btnsave" class="btn btn-secondary">Save</button>
+                 <button type="button" id="btnupdate" class="btn btn-secondary">Update</button>
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+            </div>
+    </div>
+       </div>
+            </form>
+             
+           
+           
+        </div>
+        
+    </div>
+   
+</div>
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+         //function yesOption(id){
+        	 
+        //	 console.log(id)
+	//}
+         
+       function activeCategory1(){
+    	   alert("oke")
+       }
+
+       function showactive(){
+    	   alert("oke")
+       }
+
+    </script>    
+ 
+ <script>
+ function fid(data){
+		var res = "";
+		for(var i = 0; i<data.length; i++){
+			res += data[i].id_Category+ "<br>";
+			
+		}
+		document.getElementById("myP").innerHTML = res;
+	}
+ function trahtml(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+		
+		for(var i = 0; i<data.length; i++){
+		
+	tablecategory.append('<tr class="categorys">'
+	+ '<td class="IdCategory1"> '+ data[i].id_Coupon  +' </td>'
+	+'<td class="categoryName" id="khangcogi"> ' + data[i].supplier_Name  +' </td>'
+	+'<td  id="phone"> ' + data[i].phone  +' </td>'
+	+'<td " id="address"> ' + data[i].address  +' </td>'
+	+'<td  id="descriptions"> ' + data[i].descriptions +' </td>'
+	+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Supplier +" data-name= " + data[i].status +"  " 
+	
+	+ "  onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Active</span>\r\n"
+	
+	+ "            	</td>"
+		
+	 +"<td><a  data-id= " + data[i].id_Supplier +"\r\n"
+		+ "	data-name=" + data[i].supplier_Name +"\r\n"
+		+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+		+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+		
+		+ "          		\r\n"
+		+ "          			<a data-id= " + data[i].id_Supplier+"\r\n"
+		+ "          				data-name=" + data[i].supplier_Name +"\r\n"
+		+ "          				onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+		+ "						 class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a>\r\n"
+		+ "          		</td>"
+		
+			+"</tr>")
+		}
+ }
+ 
+
+  $(document).ready(function(){
+	  $("body").on("change", "#metlamroi", function(){
+		  var number=document.getElementById("metlamroi").value;  
+		  var sotrang=document.getElementById("showme").value;  
+		
+		  $.ajax({
+				url:"/admin/category/showstatus",
+				type: "GET",
+				data:{
+					number:number,
+					sotrang:sotrang,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					trahtml(value);	
+
+				}
+			}) 
+		 
+	  })
+	  
+	
+	  
+	  $("body").on("change", "#showme", function(){
+		  var sotrang=document.getElementById("showme").value;  
+		  var number=document.getElementById("metlamroi").value; 
+		 
+		  $.ajax({
+				url:"/admin/category/showCategory",
+				type: "GET",
+				data:{
+					sotrang:sotrang,
+					number:number,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+						
+						trahtml(value);
+						//tablecategory.append(value);	
+						$("#showtheo").html(sotrang);
+				}
+			}) 
+	  })
+	 // phan trang
+	  
+	  $("body").on("click", ".page-item", function(){
+		  $(".page-item").removeClass("active");
+		  $(this).addClass("active");
+		  var status=document.getElementById("metlamroi").value;  
+		  var solimit=document.getElementById("showme").value; 
+		  
+
+		  var sotrang = $(this).text();
+		  var spbatdau = (sotrang -1)*solimit;
+		  $.ajax({
+				url:"/admin/category/pagingcategory",
+				type: "GET",
+				data:{
+					spbatdau:spbatdau,
+					status:status,
+					solimit:solimit,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					trahtml(value);
+
+				}
+			}) 
+	  })
+
+
+	  // xoa
+	  $("#yesOption").click(function(){
+		var id = document.getElementById("id123").innerHTML;
+		 $.ajax({
+				url:"/admin/deletetrahang",
+				type: "POST",
+				data:{
+					id:id,
+					
+				},
+				success: function(value){
+						$('#modal-default').modal('hide');
+					
+						
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Xoá thành công.'
+			            });
+					 setTimeout(() => {
+						 location.reload()
+						}, "2000")
+				}
+			}) 
+	  })
+	  
+	  
+	  
+	  $("#showadd").click(function() {
+		  
+		  $.ajax({
+				url:"/admin/import_coupon/phieunhaphang",
+				type: "GET",
+		
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+					window.history.pushState({urlPath:'/admin/import_coupon/phieunhaphang'},"", '/admin/import_coupon/phieunhaphang');
+					$("#khongthenao").load("/admin/import_coupon/phieunhaphang");
+				}
+			}) 
+		 
+		});
+ 
+		
+
+	  // reset form
+	  $("#btnreset").click(function(){
+		  $("#btnSaveCategory").show();
+		  $("#btnupdate").hide();
+	  })
+	  // bingding
+    
+  })
+   function activeCategory(id,name){
+		//  var id = $(this).closest("tr").find(".IdCategory1").attr("value");
+		//  var  status = $(this).closest("tr").find(".activeCategory").text();
+		 var solimit=document.getElementById("showme").value; 
+		  var status1=document.getElementById("metlamroi").value;  
+		  var self = $(this);
+		  $.ajax({
+				url:"/admin/category/updatestatus",
+				type: "POST",
+				data:{
+					id:id,
+					status:name,
+					solimit:solimit,
+					status1:status1,
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+					if(value){
+						//self.removeClass( "btn badge bg-secondary" ).addClass( "btn badge bg-primary" );
+						//self.html("Disable");
+						trahtml(value);
+						
+					}
+					if(value === "1")
+					{
+						self.removeClass( "btn badge bg-primary" ).addClass( "btn badge bg-secondary " );
+						self.html("Active");
+					}
+					
+				}
+			}) 
+	  }
+   function btninfoaize(id,name){
+    	console.log(id)
+     $('#modalSubscribe').modal('show');
+    	  $("#btnupdatesize").show();
+    	  $("#btnsavesize").hide();
+    	  $("div").removeClass("anoinput");
+         
+    	$("#categoryName").val(name);
+     	$("#IdCategory").val(id);
+  			$("#addzise").html("Update supplier")
+      }
+             $(document).ready(function(){
+            	 
+            	 $("#import").click(function(){
+            		 
+            		 $('#modal-default2').modal('show');
+            	 })
+            	 
+            	
+              $("#close").click(function(){
+            	
+            	  $("#formsize").trigger("reset");
+              })
+	 var files = []
+              var image = "";
+              $("#formFile").change(function(event){
+				
+				files = event.target.files;
+				image = files[0].name;
+				forms = new FormData();
+				forms.append("file", files[0]);
+              })	
+			$("#uploadfile").click(function(){
+				var status=document.getElementById("metlamroi").value;  
+				var solimit=document.getElementById("showme").value; 
+				$.ajax({
+					url:"/admin/excel/savexcel",
+					type: "POST",
+					data:{
+						status:status,
+						solimit:solimit,
+						image:image,
+											},
+					success: function(value){
+						//self.closest("tr").remove();
+						 $('#modal-default2').modal('hide');
+						console.log(value)
+						nhanjson(value);
+						 const notyf = new Notyf({
+				                position: {
+				                    x: 'right',
+				                    y: 'top',
+				                },
+				                types: [
+				                    {
+				                        type: 'warning',
+				                        background: '#F5B759',
+				                        icon: {
+				                            className: 'fas fa-exclamation-triangle',
+				                            tagName: 'span',
+				                            color: '#fff'
+				                        },
+				                        dismissible: false
+				                    }
+				                ]
+				            });
+						 notyf.open({
+				                type: 'warning',
+				                message: 'Please enter your product name.'
+				              
+				            });
+					}
+				}) 
+			})
+	
+			
+								
+})
+
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

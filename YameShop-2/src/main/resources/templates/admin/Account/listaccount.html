@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+
+<head>
+<meta charset="UTF-8">
+<title>Tài khoản</title>
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a th:href = "@{'/admin/dashboard'}">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            
+                            <li class="breadcrumb-item active" aria-current="page">Tài khoản</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Danh sách tài khoản</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  id="showadd" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                       Tạo tài khoản
+                    </button>
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+            <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput" oninput="searchByName(this)" placeholder="Tìm theo tên hoặc sđt"></div>
+               
+               <select id="metlamroi" class="form-select fmxw-200 d-none d-md-inline"  aria-label="Message select example 2">
+	               <option  value="2" selected="selected" >Tất cả</option>
+	               <option  value="0">Hoạt động</option>
+	               <option value="1">Đã nghĩ</option>
+               </select></div>
+                    
+                </div>
+            </div>
+
+   <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+           
+            <th >Tên đăng nhập</th>
+             <th>Tên người dùng</th>
+              <th>Điện thoại</th>
+            
+                <th>Trạng thái</th>
+                <th>Chức năng</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        <tr class="categorys" th:each = "list : ${appUsers}">
+          
+            <td class="categoryName" id="khangcogi" th:text=${list.userName}></td>
+             <td  id="khangcogi" th:text=${list.tenngguoidung}></td>
+            <td class="categoryName"  th:text=${list.Sdt}></td>
+            
+            	<td> <span
+            		th:data-id="${list.userid}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" btn badge bg-secondary activeCategory" th:if="${list.status == 0}"  th:value=${list.status}>Hoạt động</span>
+            			<span
+            			th:data-id="${list.userid}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" btn badge bg-primary activeCategory" th:if="${list.status == 1}"  th:value=${list.status}>Đã nghĩ</span>
+            	</td>
+          		<td><a  th:data-id="${list.userid}"
+          				th:data-name="${list.tenngguoidung}"
+          				th:data-name1="${list.userName}"
+          				th:data-sdt="${list.Sdt}"
+          				
+          				onclick="btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'),this.getAttribute('data-sdt'),this.getAttribute('data-name1'),
+          				)"
+          				
+          		class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.userid}"
+          				th:data-name="${list.tenngguoidung}"
+          				onclick="showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+        </tr>
+       
+        </tbody>
+    </table>
+    
+    </div>
+   
+		<div class="dataTable-bottom"><div class="dataTable-info">Hiển thị 1 đến <span id="showtheo">15</span> trên  mục</div><nav aria-label="Page navigation example">
+   <nav aria-label="Page navigation example">
+    <ul class="pagination mb-0">
+        <li class="page-item">
+            <a class="page-link" href="#">‹</a>
+        </li>
+        <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+        <li class="page-item active">
+            <a class="page-link " href="#" th:if="${i == 1}">[[${i}]]</a>
+             
+        </li>
+         <li class="page-item">
+            <a class="page-link " href="#" th:if="${i > 1}">[[${i}]]</a>
+             
+        </li>
+         </th:block>
+        <li class="page-item">
+            <a class="page-link" href="#">›</a>
+        </li>
+       
+    </ul>
+</nav></div>
+                    </div>
+                  
+                </div>
+
+  		
+               
+        
+          
+        
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Xoá tài khoản</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+           
+               Bạn có muốn xóa người dùng "<span id="id123"></span>" tên ="<span id="sizeName1"></span>"   
+            <span>nhưng vẫn giữ giao dịch lịch sử nếu có. Bạn có chắc chắn muốn xóa?</span>
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Hủy bỏ</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Đồng ý</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-contentss">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Thêm người dùng</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+           <form id="formsize"  method="post" class="card border-0 shadow">
+           <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Tên người dùng</label> 
+           <input type="text"  class="form-control1"  id="tennguoidung" name="tennguoidung" aria-describedby="cartInputAddress1"></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Tên đăng nhập</label> 
+           <input type="text"  class="form-control1"  id="tendangnhap" name="tendangnhap" aria-describedby="cartInputAddress1"></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Mật khẩu</label> 
+            
+           <input  type="password" class="form-control1"   id="matkhau" name="matkhau" aria-describedby="cartInputAddress1"></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Gõ lại mật khẩu</label> 
+           <input  type="password"  class="form-control1"  id="golaimatkhau" name="golaimatkhau" aria-describedby="cartInputAddress1"></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Điện thoại</label> 
+           <input type="text"  class="form-control1"  id="phone" name="phone" aria-describedby="cartInputAddress1"></div></div>
+            <div class="col-12 col-lg-6"> 
+           		<label for="country">Vai trò</label> 
+           			
+           			<select class="form-control1 mb-4" id="vaitro" name="idrole" aria-label="Country select example">
+           			<option  value="">Choose...</option>
+           				 <option th:each="item : ${approle} " th:value="${item.Role_Id}"
+                                  th:text="${item.RoleName}"  ></option>
+           			</select> </div>
+
+ 				   <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <button 
+               		 
+                   type="button" id="btnsave"  class="btn btn-info "><i class="fas fa-save"></i> Save</button>
+                    <button type="button"  id="btnupdate" class="btn btn-warning"><i class="fa-regular fa-floppy-disk-pen"></i> Update</button>
+            </div></div></div>
+           
+            </form>
+            
+              
+            </div>
+           
+        </div>
+        
+    </div>
+   
+
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+    
+    
+    function nhanjson(data){
+   	 var tablecategory =$("#tablecategory").find("tbody");
+   		tablecategory.empty();
+   	for(var i = 0; i<data.length; i++){
+   		if(data[i].status == 0){
+   			tablecategory.append('<tr class="categorys">'
+   			+ '<td class="IdCategory1"> '+ data[i].id +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].fullName  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].sdt  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].email  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].date_Of_Birth  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].gender  +' </td>'
+   			+'<td class="categoryName" id="khangcogi"> ' + data[i].cmnd  +' </td>'
+   			+'<td class="categoryName" id="khangcogi1"> ' + data[i].address  +' </td>'
+
+   			
+   			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id +" data-name= " + data[i].status +"  " 
+   			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Hoạt động </span> </td>\r\n"
+   			+"<td><a  data-id= " + data[i].id +"\r\n"
+   			+ "	data-name=" + data[i].fullName +"\r\n"
+   			+" data-sdt=" + data[i].sdt+ "\n"
+  			+"data-email=" + data[i].email + "\r\n"
+  			+"data-ngaysinh=" +data[i].date_Of_Birth + "\r\n"
+  			+"data-gt=" + data[i].gender  + "\r\n"
+  			+"data-cnnd= " +data[i].cmnd  + "\r\n"
+  			+"data-dd= " + data[i].address  + ""
+   			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name') ,this.getAttribute('data-sdt') ,this.getAttribute('data-email'),this.getAttribute('data-ngaysinh'),this.getAttribute('data-gt'),this.getAttribute('data-cnnd'),this.getAttribute('data-dd'))\"\r\n"
+   			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+   			+ "<a data-id= " + data[i].id+"\r\n"
+   			+ "data-name=" + data[i].fullName +"\r\n"
+   			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+   			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+   			+"</tr>")
+   		}
+   		else{
+   			tablecategory.append('<tr class="categorys">'
+   					+ '<td class="IdCategory1"> '+ data[i].id +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].fullName  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].sdt  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].email  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].date_Of_Birth  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].gender  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi"> ' + data[i].cmnd  +' </td>'
+   		   			+'<td class="categoryName" id="khangcogi1"> ' + data[i].address  +' </td>'
+
+   		   			
+   		   			+"<td> <span class=\" btn badge bg-primary\" data-id= " + data[i].id +" data-name= " + data[i].status +"  " 
+   		   			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Đã nghĩ </span> </td>\r\n"
+   		   			+"<td><a  data-id= " + data[i].id +"\r\n"
+   		   			+ "	data-name=" + data[i].fullName +"\r\n"
+   		   			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+   		   			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+   		   			+ "<a data-id= " + data[i].id+"\r\n"
+   		   			+ "data-name=" + data[i].fullName +"\r\n"
+   		   			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+   		   			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+   		   			+"</tr>")
+   		}
+   	}
+   }    
+    
+
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+
+
+       $("#showadd").click(function() {
+    	 
+ 		  $('#modalSubscribe').modal('show');
+ 		  $("#btnupdate").hide();
+ 		  $("#btnsave").show();
+ 		  document.getElementById("formsize").reset()
+ 		 
+ 		});
+	
+
+
+	  function btninfoaize(id, ten, sdt, email, ngaysinh, gioitinh, cmnd , diachi, image){
+		  $('#modalSubscribe').modal('show');
+		  $("#formsize").trigger("reset");
+		  $("#btnsave").hide();
+		  console.log(image)
+		  var id = $("#idnv").val(id);
+		  $("#fullname").val(ten);
+		  $("#SDT").val(sdt);
+		  $("#datepicker").val(ngaysinh)
+		  $("#Email").val(email)
+		  $("#CMND").val(cmnd)
+		  $("#Address").val(diachi);
+			$("#addzise").html("Câph nhật người dùng")
+		  const images = document.createElement('img')
+		  images.src  = '/view/images/'+ image;
+		  
+		  document.querySelector('#images').appendChild(images)
+		  $("#addzise").html("Cập nhật nhân viên")
+		  $("#btnsave").hide();
+		  $("#btnupdate").show();
+		 /*  var reader = new FileReader();
+          reader.onload = function(e){
+              $('#image').attr('src"/view/images/"',  + image);
+          }
+          reader.readAsDataURL(); */
+		//  $("#Namvalue").checked;
+		if(gioitinh == "Nam"){
+		  $("#Namvalue").prop("checked", true);
+		}
+		if(gioitinh == "Nữ"){
+			$("#nuvalue").prop("checked", true);
+		}
+	  }
+	function searchByName(praram){
+		var txtseach = praram.value;
+		$.ajax({
+			url:"/admin/nhanvien/search",
+			type: "GET",
+			data:{
+				name:txtseach,
+			},
+			success: function(value){
+				//self.closest("tr").remove();
+				nhanjson(value)
+console.log(value)
+			}
+		}) 
+	}
+	
+	function activeCategory(id,name){
+		 var solimit=document.getElementById("showme").value; 
+		  var status1=document.getElementById("metlamroi").value;  
+		  $.ajax({
+				url:"/admin/nhanvien/updatestatus",
+				type: "POST",
+				data:{
+					id:id,
+					status:name,
+					solimit:solimit,
+					status1:status1,
+				},
+				success: function(value){
+					nhanjson(value);
+					
+				}
+			}) 
+	  }
+	  
+	  $(document).ready(function() {
+		  $("#yesOption").click(function(){
+				var id = document.getElementById("id123").innerHTML;
+				var status=document.getElementById("metlamroi").value;  
+				  var solimit=document.getElementById("showme").value; 
+				
+				 $.ajax({
+						url:"/admin/nhanvien/deletenhanvien",
+						type: "POST",
+						data:{
+							id:id,
+							status:status,
+							solimit:solimit,
+						},
+						success: function(value){
+							$('#modal-default').modal('hide');
+							nhanjson(value)
+								
+								const notyf = new Notyf({
+					                position: {
+					                    x: 'right',
+					                    y: 'top',
+					                },
+					                types: [
+					                    {
+					                        type: 'info',
+					                        background: '#2361ce',
+					                        icon: {
+					                            className: 'fas fa-check',
+					                            tagName: 'span',
+					                            color: '#fff'
+					                        },
+					                        dismissible: false
+					                    }
+					                ]
+					            });
+							 notyf.open({
+					                type: 'info',
+					                message: 'Delete succees.'
+					            });
+							
+						}
+					}) 
+			  })
+			  
+
+		// phan trang
+		  
+		  $("body").on("click", ".page-item", function(){
+			  $(".page-item").removeClass("active");
+			  $(this).addClass("active");
+			  var status=document.getElementById("metlamroi").value;  
+			  var solimit=document.getElementById("showme").value; 
+			  
+
+			  var sotrang = $(this).text();
+			  var spbatdau = (sotrang -1)*solimit;
+			  $.ajax({
+					url:"/admin/nhanvien/pagingcategory/" +spbatdau + "/" + status + "/"  + solimit,
+					type: "GET",
+					
+					success: function(value){
+						//self.closest("tr").remove();
+						window.history.pushState("/admin/nhanvien/pagingcategory/" +spbatdau + "/" + status + "/"  + solimit, '', "/admin/nhanvien/pagingcategory/" +spbatdau + "/" + status + "/"  + solimit)
+					nhanjson(value);
+					}
+				}) 
+		  })
+		  
+
+				    	
+					$("#btnsave").click(function(){
+					
+					 var status=document.getElementById("metlamroi").value;  
+					  var solimit=document.getElementById("showme").value; 
+					var formsize = $("#formsize").serializeArray();
+					json = {}
+				      $.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});	
+				           
+						console.log(formsize)
+		var tennguoidung = $("#tennguoidung").val();
+		var tendangnhap = $("#tendangnhap").val();
+		var matkhau = $("#matkhau").val();
+		var golaimatkhau = $("#golaimatkhau").val();
+		var vaitro = $("#vaitro").val();
+		if(tennguoidung == "" && tendangnhap == "" && matkhau == "" && golaimatkhau =="" ){
+			const notyf = new Notyf({
+                position: {
+                    x: 'right',
+                    y: 'top',
+                },
+                types: [
+                    {
+                        type: 'warning',
+                        background: '#F5B759',
+                        icon: {
+                            className: 'fas fa-exclamation-triangle',
+                            tagName: 'span',
+                            color: '#fff'
+                        },
+                        dismissible: false
+                    }
+                ]
+            });
+		 notyf.open({
+                type: 'warning',
+                message: 'Tên người dùng ,tên đăng nhập , mật khẩu và gõ lại mật khẩu , vai trò không được để trống !'
+            });
+
+		}
+		else{
+			$.ajax({
+				url:"/admin/account/save",
+				type: "POST",
+				data:{
+					
+					dataJson:JSON.stringify(json),
+					
+					
+				},
+				success: function(value){
+					console.log(value)
+					for(var i = 0; i<value.length; i++)
+				
+						if(data[i].userName === null){
+							 const notyf = new Notyf({
+					                position: {
+					                    x: 'right',
+					                    y: 'top',
+					                },
+					                types: [
+					                    {
+					                        type: 'error',
+					                        background: '#FA5252',
+					                        icon: {
+					                            className: 'fas fa-times',
+					                            tagName: 'span',
+					                            color: '#fff'
+					                        },
+					                        dismissible: false
+					                    }
+					                ]
+					            });	
+							 notyf.open({
+					                type: 'error',
+					                message:'Size name is duplicate !'
+					                
+					            });
+						
+						}
+						
+						else{
+							$('#modalSubscribe').modal('hide');
+							nhanjson(value);
+							 const notyf = new Notyf({
+					                position: {
+					                    x: 'left',
+					                    y: 'top',
+					                },
+					                types: [
+					                    {
+					                        type: 'info',
+					                        background: '#0948B3',
+					                        icon: {
+					                            className: 'fas fa-check',
+					                            tagName: 'span',
+					                            color: '#fff'
+					                        },
+					                        dismissible: false
+					                    }
+					                ]
+					            });
+					            notyf.open({
+					                type: 'info',
+					                message: 'Thêm nhân viên thành công.'
+					            });
+						}
+
+				}
+			}) 
+		}
+		
+		
+		
+		
+				      
+				})
+		  
+		  
+		  
+		  
+		  
+				$("#btnupdate").click(function(evt){
+					 evt.preventDefault();
+					 var status=document.getElementById("metlamroi").value;  
+					  var solimit=document.getElementById("showme").value; 
+					var formsize = $("#formsize").serializeArray();
+					 var files = []
+				      var image = "";
+				      $("#formFile").change(function(event){
+						
+						files = event.target.files;
+						image = files[0].name;
+						forms = new FormData();
+						forms.append("file", files[0]);
+					
+				      })
+				      
+		 json = {};
+				      $.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});	
+				      var checkbox = document.getElementsByName("Gender");
+		                for (var i = 0; i < checkbox.length; i++){
+		                    if (checkbox[i].checked === false){
+		                    	const notyf = new Notyf({
+		                            position: {
+		                                x: 'right',
+		                                y: 'top',
+		                            },
+		                            types: [
+		                                {
+		                                    type: 'warning',
+		                                    background: '#F5B759',
+		                                    icon: {
+		                                        className: 'fas fa-exclamation-triangle',
+		                                        tagName: 'span',
+		                                        color: '#fff'
+		                                    },
+		                                    dismissible: false
+		                                }
+		                            ]
+		                        });
+		            		 notyf.open({
+		                            type: 'warning',
+		                            message: 'Vui lòng chọn giới tính !'
+		                        });
+		                    }
+		                }	     
+				      
+		var tennv = $("#fullname").val();
+		if(tennv == ""){
+			const notyf = new Notyf({
+                position: {
+                    x: 'right',
+                    y: 'top',
+                },
+                types: [
+                    {
+                        type: 'warning',
+                        background: '#F5B759',
+                        icon: {
+                            className: 'fas fa-exclamation-triangle',
+                            tagName: 'span',
+                            color: '#fff'
+                        },
+                        dismissible: false
+                    }
+                ]
+            });
+		 notyf.open({
+                type: 'warning',
+                message: 'Tên nhân viên không được để trống !'
+            });
+		}else{
+			$.ajax({
+				url:"/admin/nhanvien/ajaxupdate",
+				type: "POST",
+				data:{
+					
+					dataJson:JSON.stringify(json),
+					 image:image,
+					 status:status,
+					 solimit:solimit,
+					
+				},
+				success: function(value){
+				if(value == "false"){
+					 const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'error',
+			                        background: '#FA5252',
+			                        icon: {
+			                            className: 'fas fa-times',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });	
+					 notyf.open({
+			                type: 'error',
+			                message:'Số điện thoại bị trùng lặp !'
+			                
+			            });
+				}else{
+					$('#modalSubscribe').modal('hide');
+					nhanjson(value);
+					 const notyf = new Notyf({
+			                position: {
+			                    x: 'left',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#0948B3',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+			            notyf.open({
+			                type: 'info',
+			                message: 'Cập nhật thành công '
+			            });
+			            
+				}
+				}
+			}) 
+		}
+		
+		
+		
+		
+				      
+				})
+				
+	  });
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

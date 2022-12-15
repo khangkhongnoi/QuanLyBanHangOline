@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+	
+<head>
+<meta charset="UTF-8">
+<title>Kích thước</title>
+
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            
+                            <li class="breadcrumb-item active" aria-current="page">Kích thước</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Danh sách kích thước</h2>
+                   
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button  id="showadd" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                       Thêm kích thước
+                    </button>
+                <!--    <div class="btn-group ms-2 ms-lg-3">
+                       ="button" class="btn btn-sm btn-outline-gray-600">Share</button> <button type
+                        <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+                    </div>
+                    -->  
+                </div>
+            </div>
+            <!-- <div class="table-settings mb-4">
+                <div class="row align-items-center justify-content-between">
+               <div class="col-9 col-lg-8 d-md-flex"><div class="input-group me-2 me-lg-3 fmxw-300"><span class="input-group-text"><svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> </span>
+               <input type="text" class="form-control" id="myInput"   placeholder="Search size name"></div>
+              </div>
+                   
+                </div>
+            </div>
+ -->
+   <div id="okeroiload" class="col-12 ">
+                    <div id="loadtable" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+             <th >Mã kích thước</th>
+            <th >Tên kích thước</th>
+            <th >Chiều bắt đầu</th>
+            <th>Chiều cao kết thúc</th>
+            <th>Cân nặng bắt đầu</th>
+             <th>Cân nặng kết thúc</th>
+             <th>Trạng thái</th>
+             <th>Chức năng</th>
+             
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        <tr class="categorys" id="reovetr" th:each = "list : ${listsize}">
+            <td class="idsize"  th:value=${list.Id_Size}>[[${list.Id_Size}]]</td>
+            <td class="sizeName" id="khangcogi" th:text=${list.Size_Name}></td>
+            <td class="startHieght" th:value="${list.Start_Hieght}">[[${list.Start_Hieght}]] <span>cm</span></td>
+              <td class="endHieght" th:value="${list.End_Hieght}">[[${list.End_Hieght}]] <span>cm</span></td>
+               <td class="startWeigh" th:value="${list.Start_Weigh}">[[${list.Start_Weigh}]] <span>kg</span></td>
+                <td class="endWeigh" th:value="${list.End_Hieght}">[[${list.End_Weigh}]] <span>kg</span></td>
+            	<td> <span
+            		th:data-id="${list.Id_Size}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            	 class=" btn badge bg-secondary activeCategory" th:if="${list.status == 0}"  th:value=${list.status}>Hoạt động</span>
+            			<span
+            			th:data-id="${list.Id_Size}"
+          				th:data-name="${list.status}"
+          				onclick="activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+            			 class=" btn badge bg-primary activeCategory" th:if="${list.status == 1}"  th:value=${list.status}>Ngưng hoạt động</span>
+            	</td>
+          		<td><a  th:data-id="${list.Id_Size}"
+          				th:data-name="${list.Size_Name}"
+          				th:data-starthight="${list.Start_Hieght}"
+          				th:data-endhight="${list.End_Hieght}"
+          				th:data-startwigh="${list.Start_Weigh}"
+          				th:data-endwigh="${list.End_Weigh}"
+          				onclick="btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'), this.getAttribute('data-starthight'), this.getAttribute('data-endhight'), this.getAttribute('data-startwigh'), this.getAttribute('data-endwigh'))"
+          		
+          		class="btn-sm btn-outline-info btninfoaize"><i class="fas fa-edit"></i></a>
+          		
+          			<a th:data-id="${list.Id_Size}"
+          				th:data-name="${list.Size_Name}"
+          				onclick="showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+						 class="btn-sm btn-outline-danger btnDelete"><i class="fa fa-trash"></i></a>
+          		</td>
+        			</tr>
+       
+       			 </tbody>
+   			 </table>
+    
+   		 </div>
+     </div>             
+ </div>
+
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               Bạn có muốn xóa  id ="<span id="id123"></span>" tên ="<span id="sizeName1"></span>"   ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Content -->
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-content">
+          <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Thêm kích thước</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form action="#" method="post" id="formsize" class="card border-0 shadow">
+          <div class="card-body p-0 p-md-4">
+          	<div class="row justify-content-center">
+          	
+                   
+          <div class="col-md-6 mb-3">
+           <div class="anoinput">
+                            <label for="first_name">Mã kích thước</label>
+                            <input class="form-control " id="idsize" name="id" type="text" placeholder="Id" readonly>
+                        </div>
+                        <div>
+                            <label for="first_name">Tên kích thước</label>
+                            <input class="form-control" id="sizeName" name="sizeName" type="text"  autocomplete>
+                        </div>
+                        
+                    </div>
+  
+                <h4 class="heightcentent">Chiều Cao</h4>
+                <div class="row align-items-center">
+                 
+                  <div class="col-md-6 mb-3">
+                  <label for="phone">Chiều cao bắt đầu</label>
+                  <div class="input-group">
+                  
+                                      <input type="number" class="form-control" id="startHieght" name="startHieght" placeholder="1m5 = 150cm">
+                                         <span class="input-group-text" id="basic-addon2">
+                                               cm
+                                          </span>
+ 					  </div>
+                    
+                </div>
+                <div class="col-md-6 mb-3">
+                <label for="phone">Chiều cao kết thúc</label>
+                  <div class="input-group">
+                  
+                                      <input type="number" class="form-control" id="endHieght" name="endHieght" placeholder="1m7 = 170cm">
+                                         <span class="input-group-text" id="basic-addon2">
+                                               cm
+                                          </span>
+ 					  </div>
+                  
+              		</div>
+                </div>
+                    
+                
+                    <h4 class="heightcentent">Cân Nặng</h4>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                  <label for="phone">Cân nặng bắt đầu</label>
+                  <div class="input-group">
+                  
+                                      <input type="number" class="form-control" id="startWeigh" name="startWeigh" >
+                                         <span class="input-group-text" id="basic-addon2">
+                                               kg
+                                          </span>
+ 					  </div>
+                    
+                </div>
+                <div class="col-md-6 mb-3">
+                   <label for="phone">Cân nặng kết thúc</label>
+                  <div class="input-group">
+                  
+                                      <input type="number" class="form-control" id="endWeigh" name="endWeigh">
+                                         <span class="input-group-text" id="basic-addon2">
+                                               kg
+                                          </span>
+ 					  </div>
+                
+           		 </div>
+            
+               </div>
+            
+              
+               
+                
+                   <div class="modal-footer">
+                <button type="button" id="btnsavesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Lưu</button>
+                <button type="button" id="btnupdatesize" class="btn btn-gray-800 ms-lg-3 animate-up-2" >Cập nhật</button>
+            		</div>
+                 </div>
+                </div>
+                </form>
+             
+           
+        </div>
+        
+    </div>
+   
+</div>
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+ 	function nhanjson(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+			if(data[i].status == 0){
+				tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Size+' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].size_Name  +' </td>'
+			+" <td class=\"categoryName\" id=\"khangcogi\"> "+  data[i].start_Hieght +" <span>cm</span> </td>"
+			+"<td class=\"categoryName\" id=\"khangcogi\"> "+  data[i].end_Hieght +" <span>cm</span> </td>"
+			+"<td class=\"categoryName\" id=\"khangcogi\"> "+  data[i].start_Weigh +" <span>kg</span> </td>"
+			+" <td class=\"categoryName\" id=\"khangcogi\"> "+  data[i].end_Weigh +" <span>kg</span> </td>"
+			+"<td> <span class=\" btn badge bg-secondary\" data-id= " + data[i].id_Size +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Hoạt động</span> </td>\r\n"
+			+"<td><a  data-id= " + data[i].id_Size +"\r\n"
+			+ "	data-name=" + data[i].size_Name +"\r\n"
+			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Size+"\r\n"
+			+ "data-name=" + data[i].size_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+			}
+			else{
+					tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].id_Size+' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].size_Name  +' </td>'
+			+" <td class=\"categoryName\" id=\"khangcogi\"> "+  data[i].start_Hieght +" <span>cm</span> </td>"
+			+"<td class=\"categoryName\" id=\"khangcogi\"> "+  data[i].end_Hieght +" <span>cm</span> </td>"
+			+"<td class=\"categoryName\" id=\"khangcogi\"> "+  data[i].start_Weigh +" <span>kg</span> </td>"
+			+" <td class=\"categoryName\" id=\"khangcogi\"> "+  data[i].end_Weigh +" <span>kg</span> </td>"
+			+"<td> <span class=\" btn badge bg-primary\" data-id= " + data[i].id_Size +" data-name= " + data[i].status +"  " 
+			+ "onclick=\"activeCategory(this.getAttribute('data-id'), this.getAttribute('data-name'))\"  value = "+ data[i].status +" >  Ngưng hoạt động</span> </td>\r\n"
+			+"<td><a  data-id= " + data[i].id_Size +"\r\n"
+			+ "	data-name=" + data[i].size_Name +"\r\n"
+			+ " onclick=\"btninfoaize(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "        class=\"btn-sm btn-outline-info \" ><i class=\"fas fa-edit\"></i></a>\r\n"
+			+ "<a data-id= " + data[i].id_Size+"\r\n"
+			+ "data-name=" + data[i].size_Name +"\r\n"
+			+ "onclick=\"showmodal(this.getAttribute('data-id'), this.getAttribute('data-name'))\"\r\n"
+			+ "class=\"btn-sm btn-outline-danger btnDelete\"><i class=\"fa fa-trash\"></i></a> </td>\r\n"
+			+"</tr>")
+			}
+	}
+}
+    	
+        function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+         
+  function activeCategory(id, status){
+			console.log(status);
+    		  $.ajax({
+    				url:"/admin/size/updatestatus",
+    				type: "POST",
+    				data:{
+    					id:id,
+    					status:status,
+    					
+    				},
+    				success: function(value){
+    					//self.closest("tr").remove();			
+    					nhanjson(value)
+    				}
+    			}) 
+}
+
+    </script>    
+ 
+ <script>
+ 
+ 
+ $(document).ready(function() {
+	   $('#myInput').on('keyup', function(event) {
+	      event.preventDefault();
+	      /* Act on the event */
+	      var tukhoa = $(this).val().toLowerCase();
+	      $('#myTable tr').filter(function() {
+	         $(this).toggle($(this).text().toLowerCase().indexOf(tukhoa)>-1);
+	      });
+	   });
+	});
+
+ 
+	  // xoa
+	  $("#yesOption").click(function(){
+		var id = document.getElementById("id123").innerHTML;
+		 $.ajax({
+				url:"/admin/size/deletesize",
+				type: "POST",
+				data:{
+					id:id,
+					
+				},
+				success: function(value){
+	
+					$('#modal-default').modal('hide');
+						nhanjson(value);
+						const notyf = new Notyf({
+			                position: {
+			                    x: 'right',
+			                    y: 'top',
+			                },
+			                types: [
+			                    {
+			                        type: 'info',
+			                        background: '#2361ce',
+			                        icon: {
+			                            className: 'fas fa-check',
+			                            tagName: 'span',
+			                            color: '#fff'
+			                        },
+			                        dismissible: false
+			                    }
+			                ]
+			            });
+					 notyf.open({
+			                type: 'info',
+			                message: 'Xóa thành công.'
+			            });
+				}
+			}) 
+	  })
+	  
+	  
+	  
+	  $("#showadd").click(function() {
+		 
+		  $('#modalSubscribe').modal('show');
+		  $("#btnupdatesize").hide();
+		  $("#btnsavesize").show();
+		  $("#addzise").html("Add size");
+		  
+		  $("#formsize").trigger("reset");
+		  document.getElementById("formsize").reset()
+		 
+		});
+ 
+		$("#yesOption1").click(function(){
+			  var idsize = $(this).closest("div").find(".idsize").attr("value");
+			  
+			 alert(idsize)
+			  var self = $(this);
+			  $.ajax({
+					url:"/admin/size/ajaxdelete",
+					type: "POST",
+					data:{
+						id:idsize,
+											},
+					success: function(value){
+						//self.closest("tr").remove();
+						console.log(value)
+			
+						
+					}
+				}) 
+			
+		})
+	  
+
+	  // reset form
+	  $("#btnreset").click(function(){
+		  $("#btnSaveCategory").show();
+		  $("#btnupdate").hide();
+	  })
+	  // bingding
+    
+/* 
+   function activeCategory(id,name){
+		//  var id = $(this).closest("tr").find(".IdCategory1").attr("value");
+		//  var  status = $(this).closest("tr").find(".activeCategory").text();
+		  var self = $(this);
+		  $.ajax({
+				url:"/admin/size/updatestatus",
+				type: "POST",
+				data:{
+					id:id,
+					status:name,
+					
+				},
+				success: function(value){
+					//self.closest("tr").remove();
+					console.log(value)
+					if(value === 1){
+						self.removeClass( "btn badge bg-secondary" ).addClass( "btn badge bg-primary" );
+						self.html("Disable");
+						
+						
+					}
+					if(value === 0)
+					{
+						self.removeClass( "btn badge bg-primary" ).addClass( "btn badge bg-secondary " );
+						self.html("Active");
+					}
+					
+				}
+			}) 
+	  } */
+   function btninfoaize(id,name,starthight, endhight , startwigh, endwigh){
+    	console.log(starthight,endhight,startwigh,  endwigh )
+     	 $('#modalSubscribe').modal('show');
+    	$("#idsize").val(id);
+    	$("#sizeName").val(name);
+    	$("#startHieght").val(starthight);
+    	$("#endHieght").val(endhight);
+    	$("#startWeigh").val(startwigh);
+    	$("#endWeigh").val(endwigh);
+    	 $("#btnupdatesize").show();
+    	 $("#btnsavesize").hide();
+    	 $("div").removeClass("anoinput");
+    	 $("#addzise").html("Update size");
+    	 /*  $("#btnupdatesize").show();
+    	  $("#btnsavesize").hide();
+    	  $("div").removeClass("anoinput");
+         
+    	$("#sizeName").val(name);
+     	$("#IdCategory").val(id);
+  			$("#addzise").html("Update size") */
+      }
+             $(document).ready(function(){
+              $("#close").click(function(){
+            	  $("div").addClass("anoinput");
+            	  $("#formsize").trigger("reset");
+              })
+	 
+					// save 
+					$("#btnsavesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						
+						const sizeName = document.getElementById("sizeName").value;
+						
+						console.log(formsize);
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(sizeName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Vui lòng nhập tên kích thước.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/size/ajaxsavesize",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+
+									},
+
+							}).done(function(data){
+								console.log(data);
+				
+								for(var i = 0; i<data.length; i++)
+								if(data[i].size_Name === null ){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Tên kích thước đã tồn tại !'
+							                
+							            });
+									 
+								}else{
+									if(data){
+									$('#modalSubscribe').modal('hide');
+									nhanjson(data);
+								     const notyf = new Notyf({
+							                position: {
+							                    x: 'left',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'info',
+							                        background: '#0948B3',
+							                        icon: {
+							                            className: 'fas fa-check',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });
+							            notyf.open({
+							                type: 'info',
+							                message: 'Kích thước đã được lưu '
+							            });
+							        
+										
+								//		 $(".swal2-container").show();
+								//		 setTimeout(() =>{
+					        	//		 $(".swal2-container").hide();
+								//		},2500);
+								//		 $('#modal-defaults').modal('hide');
+								//	setTimeout(() =>{
+								//			$("#taongcuch").load("http://localhost:8080/admin/category/add");
+								//			},2500);
+										
+									}
+									/* else{
+										const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Duplicate input date with size name ' + data + ' existing'
+							                
+							            });
+									} */
+								}
+						
+							})
+						}
+			
+					   
+		})
+			
+								// update 
+					$("#btnupdatesize").click(function(){
+						var formsize = $("#formsize").serializeArray();
+						 
+						const sizeName = document.getElementById("sizeName").value;
+						json = {};
+						$.each(formsize, function(i, field){
+				    		json[field.name] = field.value;	
+			});		
+			if(sizeName === "" ){
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Vui lòng nhập tên kích thước.'
+		            });
+				 
+					return false;
+						} else{
+							 $.ajax({
+									url:"/admin/size/ajaxupdatesize",
+									type: "POST",
+									data:{
+										dataJson:JSON.stringify(json),
+										
+									},
+
+							}).done(function(data){
+								
+								
+								 
+							if(data === "false"){
+									 const notyf = new Notyf({
+							                position: {
+							                    x: 'right',
+							                    y: 'top',
+							                },
+							                types: [
+							                    {
+							                        type: 'error',
+							                        background: '#FA5252',
+							                        icon: {
+							                            className: 'fas fa-times',
+							                            tagName: 'span',
+							                            color: '#fff'
+							                        },
+							                        dismissible: false
+							                    }
+							                ]
+							            });	
+									 notyf.open({
+							                type: 'error',
+							                message:'Size name is duplicate !'
+							                
+							            });
+								}else{
+									if(data){
+										$('#modalSubscribe').modal('hide');
+										console.log(data)	
+										nhanjson(data)
+										 const notyf = new Notyf({
+								                position: {
+								                    x: 'left',
+								                    y: 'top',
+								                },
+								                types: [
+								                    {
+								                        type: 'info',
+								                        background: '#0948B3',
+								                        icon: {
+								                            className: 'fas fa-check',
+								                            tagName: 'span',
+								                            color: '#fff'
+								                        },
+								                        dismissible: false
+								                    }
+								                ]
+								            });
+								            notyf.open({
+								                type: 'info',
+								                message: 'Kích thước đã được cập nhật '
+								            });
+									//	 $(".swal2-container").show();
+									//	 setTimeout(() =>{
+					        		//	 $(".swal2-container").hide();
+									//	},2500);
+									//	 $('#modal-defaults').modal('hide');
+									//	setTimeout(() =>{
+									//		$("#taongcuch").load("http://localhost:8080/admin/category/add");
+									//		},2400);
+										
+									}
+									
+								} 
+						
+							})
+						}
+			
+					   
+		})
+})
+
+</script>
+                    </div>
+       
+ 
+
+
+</body>
+</html>

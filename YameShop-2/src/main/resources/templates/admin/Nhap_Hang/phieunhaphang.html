@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/dashboardLayout.html}">
+	
+<head>
+<meta charset="UTF-8">
+<title>Phiếu nhập hàng</title>
+
+</head>
+<body>
+	  <div  class="row" layout:fragment="content">
+	            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-block mb-4 mb-md-0">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">Nhập hàng</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tạo phiếu nhập</li>
+                        </ol>
+                    </nav>
+                    <h2 class="h4">Vui lòng sử dụng file excel để tạo phiếu nhập</h2>
+                   
+                </div>
+              
+            </div>
+           
+
+   <div  class="col-12 col-xl-8 ">
+                    <div id="Hightseting" class="card card-body border-0 shadow mb-4">
+                       
+                  
+    <div class="table-responsive py-4">
+    <table class="table table-flush " id="tablecategory">
+        <thead class="thead-light">
+        <tr>
+            <th >Mã hàng</th>
+            <th >Tên hàng</th>
+            <th >ĐVT</th>
+            <th >Số lượng</th>
+             <th > Đơn giá</th>
+          
+             <th>Giảm giá</th>
+             <th>Thành tiền</th>
+             
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        
+        
+       
+        </tbody>
+        
+    </table>
+    <div class="upload-custom" id="removese"><div class="upload-wrapper"><h4 class="ng-binding">Thêm sản phẩm từ file excel</h4><p class="ng-binding">(Tải về file mẫu: <a href="/Template/MauFileNhapHang.xlsx" title="Download"><font color="#006fa9" class="ng-binding">Excel file</font></a>)</p></div><div class="upload-footer form-custom-import"> <div class="import-error ng-binding" ng-bind-html="ImportError"></div></div>
+    </div>
+    <div class="mb-3">
+  <label for="formFile" class="form-label">Chon file excel</label>
+  <input class="form-control" type="file" id="formFile" name="imageFile">
+</div>
+            <a  type="button" class="btn btn-secondary" id="uploadfiles">Accept</a>         </div>
+                  
+                </div>
+  </div>
+      <div class="ol-12 col-xl-4">
+      <div class="row">
+      <div class="col-12 mb-4">
+      
+      <div class="card card-body border-0 shadow mb-4">
+     
+      <form>
+      <div class="row">
+      <div class="col-md-6 mb-3">
+      <div><input class="form-control1" id="first_name" type="text" placeholder="Người nhập" required=""></div></div>
+      <div class="col-md-6 mb-3"><div><input class="form-control1" id="ngaygio" type="text"  required=""></div></div></div>
+      <div class="row align-items-center"><div ><select class="form-control1 mb-0" id="gender" aria-label="Gender select example" ><option selected="selected">Chọn nhà cung cấp</option><option value="1">Female</option><option value="2">Male</option></select></div></div>
+      <div class="row"><div class="col-md-6 mb-3"><div ><label for="email">Mã phiếu nhập</label> </div></div>
+      <div class="col-md-6 mb-3"><div class="form-group"> <input class="form-control1" id="phone" type="text" placeholder="Mã phiếu tự động" required=""></div></div></div>
+      <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address">Trạng thái</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number">Phiếu tạm</label> </div></div></div>
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address"> Tổng tiền hàng</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number" >0</label> </div></div></div>
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address">Giảm giá</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number"id="oke">0</label> </div></div></div>
+       <div class="row"><div class="col-sm-6 mb-3"><div class="form-group"><label for="address">Cần trả nhà cung cấp</label></div></div>
+      <div class="col-sm-6 mb-3"><div class="form-group"><label for="number"id="ncc">0</label> </div></div></div>
+      <div class="row align-items-center"><div ><input class="form-control1" id="first_name" type="text" placeholder="Ghi chú" required=""></div></div>
+      <div class="row">
+</div><div class="mt-3"><button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Lưu tạm</button>
+<button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Hoàn thành</button>
+</div></form></div>
+   
+     </div>
+     </div>
+       <div class="swal2-container swal2-center swal2-backdrop-show" style="overflow-y: auto; display: none;"><div aria-labelledby="swal2-title" aria-describedby="swal2-html-container" class="swal2-popup swal2-modal swal2-icon-success swal2-show" tabindex="-1" role="dialog" aria-live="assertive" aria-modal="true" style="display: grid;"><button type="button" class="swal2-close" aria-label="Close this dialog" style="display: none;">×</button><ul class="swal2-progress-steps" style="display: none;"></ul><div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+      <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+    </div><img class="swal2-image" style="display: none;"><h2 class="swal2-title" id="swal2-title" style="display: block;">Success</h2><div class="swal2-html-container" id="swal2-html-container" style="display: block;">Your category name has been saved </div><input class="swal2-input" style="display: none;"><input type="file" class="swal2-file" style="display: none;"><div class="swal2-range" style="display: none;"><input type="range"><output></output></div><select class="swal2-select" style="display: none;"></select><div class="swal2-radio" style="display: none;"></div><label for="swal2-checkbox" class="swal2-checkbox" style="display: none;"><input type="checkbox"><span class="swal2-label"></span></label><textarea class="swal2-textarea" style="display: none;"></textarea><div class="swal2-validation-message" id="swal2-validation-message" style="display: none;"></div><div class="swal2-actions" style="display: flex;"><div class="swal2-loader"></div><button type="button" class="swal2-deny" aria-label="" style="display: none;">No</button><button type="button" class="swal2-cancel btn btn-gray" aria-label="" style="display: none;">Cancel</button></div><div class="swal2-footer" style="display: none;"></div><div class="swal2-timer-progress-bar-container"><div class="swal2-timer-progress-bar" style="display: none;"></div></div></div></div>
+        
+                  
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Cảnh báo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               Do you want to delete  id ="<span id="id123"></span>" name="<span id="sizeName1"></span>"   ?
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a id="yesOption" 
+               		 
+                   type="button" class="btn btn-secondary">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-default2" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h6 modal-title">Nhập nhà cung cấp từ file excel</h2>
+               
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             
+            </div>
+           <div class="bd-bt-poup ng-binding">(Tải về file mẫu: <a  title="Download" class="ng-binding">Excel file</a>):</div>
+            <div class="modal-body">
+            
+              <div class="mb-3">
+  <label for="formFile" class="form-label">Chon file excel</label>
+  <input class="form-control" type="file" id="formFile" name="imageFile">
+</div>
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+                 <a  type="button" class="btn btn-secondary" id="uploadfile">Accept</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalTitleSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+        <div class="modal-content">
+         <div class="modal-header">
+                <h2 class="h6 modal-title" id="addzise">Add Supplier</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form id="formsupplier" action="#" method="post" class="card border-0 shadow">
+            <div class="card-body p-0 p-md-4"><div class="row justify-content-center">
+            
+            <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Mã nhà cung cấp</label>
+            <input type="email" class="form-control" placeholder="Mã mặc định" id="idsupplier" name="idproduct" aria-describedby="cartInputEmail1" required=""></div></div>
+           <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Supplier name *</label>
+            <input type="email" class="form-control" placeholder="Enter your product name" id="supplierName" name="supplierName" aria-describedby="cartInputEmail1" required=""></div></div>
+                <div class="col-12 col-lg-6"><div class="form-group mb-4"><label for="cartInputAddress1">Phone *</label> <div class="input-group">
+                  
+           <input type="number" class="form-control" id="phonenumnber" name="Phonenumnber" placeholder="+84 123456789"></div></div></div>
+            <div class="col-12 col-lg-6"><div class="form-group mb-4">
+           <label for="cartInputEmail1">Email</label>
+            <input type="email" class="form-control" placeholder="name@gmail.com" id="Gamil" name="Gamil" aria-describedby="cartInputEmail1" required=""></div></div>
+            
+ <div class="form-group mb-4"><label for="textarea">Address</label>
+<textarea class="form-control" placeholder="Enter your address..." id="Address" name="Address" rows="2"></textarea></div>
+<div class="col-12 col-lg-6"> 
+           		<label for="country">Khu vực</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			<div class="col-12 col-lg-6"> 
+           		<label for="country">Phường xã</label> 
+           			<select class="form-select mb-4" id="Id_Category1" name="idcategory" aria-label="Country select example">
+           			<option  value="0">Choose...</option>
+           				 <option th:each="item : ${category} " th:value="${item.Id_Category}"
+                                  th:text="${item.Category_Name}"  ></option>
+           			</select></div>
+           			<div class="form-group mb-4"><label for="textarea">Ghi chú</label>
+<textarea class="form-control" placeholder="Enter your address..." id="descriptions" name="descriptions" rows="4"></textarea></div>
+        <div class="modal-footer">
+                <button type="button" id="btnsave" class="btn btn-secondary">Save</button>
+                 <button type="button" id="btnupdate" class="btn btn-secondary">Update</button>
+                <button type="button" class="btn btn-link text-gray" data-bs-dismiss="modal">Close</button>
+            </div>
+    </div>
+       </div>
+            </form>
+             
+           
+           
+        </div>
+        
+    </div>
+   
+</div>
+<!-- End of Modal Content -->     
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+//    $(document).scroll(function() {
+//  var scroll = $(this).scrollTop();
+//  if (scroll >= 150) {
+//    $("#popUp").css("margin-left", "100%");
+//    $("#plus").css("margin-left", "0px");
+//    $("#popUp").show();
+//  }
+// });
+function nhanjson(data){
+	 var tablecategory =$("#tablecategory").find("tbody");
+	 
+		tablecategory.empty();
+	for(var i = 0; i<data.length; i++){
+		if(data[i].status == 0){
+			tablecategory.append('<tr class="categorys">'
+			+ '<td class="IdCategory1"> '+ data[i].product.id_Poroduct  +' </td>'
+			+'<td class="categoryName" id="khangcogi"> ' + data[i].product.product_Name  +' </td>'
+			+'<td class="image"> ' + data[i].dvt +' </td>'
+			+'<td class="brand_Name"> ' + data[i].quanlity  +' </td>'
+			+'<td class="Category_Name"> ' + data[i].don_Gia  +' </td>'
+			+'<td class="Category_Name"> ' + data[i].don_Gia *  data[i].quanlity +' </td>'
+			
+			+"</tr>")
+		
+			}
+			
+		
+	}
+}
+
+         function showmodal(id,name){
+ 	
+ 	var khang = $('#sizeName1').text(name);
+ 			$("#id123").text(id);
+ 	$('#modal-default').modal('show');
+	
+ 	
+ }
+
+         var today = new Date();
+         var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+         var dateTime = date+' '+time;
+       console.log(dateTime);
+       	document.getElementById("ngaygio").innerHTML = dateTime;
+       	
+       	
+       	
+   	 var files = []
+     var image = "";
+     $("#formFile").change(function(event){
+		
+		files = event.target.files;
+		image = files[0].name;
+		forms = new FormData();
+		forms.append("file", files[0]);
+     })	
+	$("#uploadfiles").click(function(){
+	var nopro =	document.getElementById("removese");
+console.log(nopro)
+		$.ajax({
+			url:"/admin/coupon/excel/savexcel",
+			type: "POST",
+			data:{
+				
+				image:image,
+									},
+			success: function(value){
+				//self.closest("tr").remove();
+				
+				console.log(value)
+				nhanjson(value);
+				 const notyf = new Notyf({
+		                position: {
+		                    x: 'right',
+		                    y: 'top',
+		                },
+		                types: [
+		                    {
+		                        type: 'warning',
+		                        background: '#F5B759',
+		                        icon: {
+		                            className: 'fas fa-exclamation-triangle',
+		                            tagName: 'span',
+		                            color: '#fff'
+		                        },
+		                        dismissible: false
+		                    }
+		                ]
+		            });
+				 notyf.open({
+		                type: 'warning',
+		                message: 'Please enter your product name.'
+		              
+		            });
+			}
+		}) 
+	})
+    </script>    
+ 
+ 
+                    </div>
+       
+ 
+
+
+</body>
+</html>
